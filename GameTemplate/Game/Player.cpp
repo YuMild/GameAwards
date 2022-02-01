@@ -12,7 +12,8 @@ bool Player::Start()
 	m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 	m_charaCon.Init(25.0f, 75.0f, m_position);
 	return true;
-	//“c
+	//toyo
+
 }
 
 void Player::Update()
