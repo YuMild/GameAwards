@@ -3,46 +3,77 @@
 
 bool Player::Start()
 {
-	//アニメーションクリップをロードする。
-	m_animationClipArray[enAnimClip_Idle].Load("Assets/animData/idle.tka");
-	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(true);
-	m_animationClipArray[enAnimClip_Run].Load("Assets/animData/walk.tka");
-	m_animationClipArray[enAnimClip_Run].SetLoopFlag(true);
-	//tkmファイルのファイルパスを指定する。
-	m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
-	m_charaCon.Init(25.0f, 75.0f, m_position);
-	return true;
-	//好
-}
+    m_position.y = 250.0f;
+    //球形のモデルを読み込む。
+    m_modelRender.Init("Assets/modelData/Ball.tkm");
+    m_modelRender.SetScale(Vector3::One * 0.1f);
+    m_modelRender.SetPosition(m_position);
 
+    //コライダーを初期化。
+    m_sphereCollider.Create(30.0f);
+
+    //剛体を初期化。
+    RigidBodyInitData rbInitData;
+    //質量(重さ)を設定する。
+    rbInitData.mass = 30.0f;
+    //コライダーを設定する。
+    rbInitData.collider = &m_sphereCollider;
+    //座標を設定する。
+    rbInitData.pos = m_position;
+    //回転のしやすさを設定する。0～1
+    rbInitData.localInteria.Set(
+        0.5f,
+        0.5f,
+        0.5f
+    );
+    //反発力を設定する。
+    //数値を大きくすると、跳ね返りが大きくなる。
+    //PhysicsStaticObjectにも反発力を設定する必要がある(Game.cpp参照)。
+    rbInitData.restitution = 0.8f;
+    //剛体を初期化。
+    m_rigidBody.Init(rbInitData);
+    //摩擦力を設定する。0～10まで。
+    m_rigidBody.SetFriction(10.0f);
+    //線形移動する要素を設定する。
+    //0を指定した軸は移動しない。
+    //例えばyを0に指定すると、y座標は移動しなくなる。
+    m_rigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
+    return true;
+}
 void Player::Update()
 {
-	
-	if (g_pad[0]->IsTrigger(enButtonB))
-	{
-		m_modelRender.PlayAnimation(enAnimClip_Run, 0.1f);
-	}
-	if (g_pad[0]->IsTrigger(enButtonX))
-	{
-		m_modelRender.PlayAnimation(enAnimClip_Idle, 0.1f);
-	}
-	if (g_pad[0]->IsPress(enButtonY))
-	{
-		m_rotation.AddRotationDegY(5.0f);
-		m_modelRender.SetRotation(m_rotation);
-	}
-	Vector3 moveSpeed;
-	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
-	moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
-	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
-	//m_modelRender.SetPosition(m_position);
-	m_modelRender.Update();
-	g_sceneLight.SetPointLightPosition(m_position);
 
+    Vector3 pos;
+    Quaternion rot;
+    //剛体の座標と回転を取得。
+    m_rigidBody.GetPositionAndRotation(pos, rot);
+    //剛体の座標と回転をモデルに反映。
+    m_modelRender.SetPosition(pos);
+    m_modelRender.SetRotation(rot);
+    //剛体に力を加える。
+    Vector3 force;
+    force.y = -10000.0f;
+    //左スティックで動かす。
+    force.x = g_pad[0]->GetLStickXF() * 50000.0f;
+    force.z = g_pad[0]->GetLStickYF() * 50000.0f;
+    //力を加える。
+    //力を加えることにより、剛体が動く。
+    m_rigidBody.AddForce(
+        force,        //力
+        g_vec3Zero    //力を加える剛体の相対位置
+    );
 
+    //モデルの更新処理。
+    m_modelRender.Update();
+
+    //カメラの処理。
+    Vector3 toCamere = g_camera3D->GetPosition() - g_camera3D->GetTarget();
+    g_camera3D->SetTarget(pos);
+    toCamere.y = 100.0f;
+    g_camera3D->SetPosition(pos + toCamere);
 }
-
 void Player::Render(RenderContext& rc)
 {
-	m_modelRender.Draw(rc);
+    //モデルの描画。
+    m_modelRender.Draw(rc);
 }

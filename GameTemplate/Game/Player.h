@@ -1,25 +1,16 @@
 #pragma once
-class Player:public IGameObject
+
+class Player : public IGameObject
 {
 public:
-	Player() {};
-	~Player() {};
-	void Update();
-	void Render(RenderContext& rc);
+    bool Start() override;
+    void Render(RenderContext& rc)override;
+    void Update() override;
 
-	bool Start();
 private:
-	// アニメーションクリップの番号を表す列挙型。
-	enum EnAnimationClip {
-		enAnimClip_Idle,	// 0 : 待機アニメーション、
-		enAnimClip_Run,		// 1 : 走りアニメーション。
-		enAnimClip_Num,		// 2 :アニメーションクリップの数。
-	};
-	ModelRender m_modelRender;
-	Vector3 m_position;
-	Vector3 m_scale;
-	Quaternion m_rotation;
-	AnimationClip m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
-	CharacterController m_charaCon;
+    ModelRender m_modelRender;
+    //以下2つのクラスを使用する。
+    SphereCollider m_sphereCollider;            //円型のコライダー。
+    RigidBody m_rigidBody;                        //剛体。
+    Vector3 m_position;
 };
-
