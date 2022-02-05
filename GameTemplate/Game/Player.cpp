@@ -1,5 +1,14 @@
 #include "stdafx.h"
+
 #include "Player.h"
+
+#include <stdio.h>
+#include <math.h>
+
+namespace
+{
+    float GAUGE_DEFAULT = 1.0f;
+}
 
 bool Player::Start()
 {
@@ -42,7 +51,18 @@ bool Player::Start()
 }
 void Player::Update()
 {
-
+    if (g_pad[0]->IsPress(enButtonA))
+    {
+        m_isPress = true;
+        m_gauge * 2;
+    }
+    else if (m_isPress = true)
+    {
+        m_isPress = false;
+        m_gaugeOld = m_gauge;
+        m_gauge = GAUGE_DEFAULT;
+    }
+ 
     Vector3 pos;
     Quaternion rot;
     //剛体の座標と回転を取得。
@@ -56,6 +76,7 @@ void Player::Update()
     //左スティックで動かす。
     force.x = g_pad[0]->GetLStickXF() * 50000.0f;
     force.z = g_pad[0]->GetLStickYF() * 50000.0f;
+   
     //力を加える。
     //力を加えることにより、剛体が動く。
     m_rigidBody.AddForce(

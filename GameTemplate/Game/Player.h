@@ -13,4 +13,8 @@ private:
     SphereCollider m_sphereCollider;            //円型のコライダー。
     RigidBody m_rigidBody;                        //剛体。
     Vector3 m_position;
+
+    bool m_isPress = false;
+    float m_gauge = GAUGE_DEFAULT;
+    float m_gaugeOld = 0.0f;
 };
