@@ -60,6 +60,7 @@ namespace nsK2EngineLow {
 		for (auto& pad : m_pad) {
 			pad.BeginFrame();
 		}
+		g_sceneLight.SeteyePosition(g_camera3D->GetPosition());
 
 	}
 	void K2EngineLow::EndFrame()

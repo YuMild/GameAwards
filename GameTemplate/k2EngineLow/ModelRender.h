@@ -20,6 +20,7 @@ namespace nsK2EngineLow {
 		/// <param name="numAnimationClips">アニメーションの数</param>
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
+			//bool offScreenRendaring = false,
 			AnimationClip* animationClips=nullptr,
 			int numAnimationClips=0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
@@ -105,6 +106,8 @@ namespace nsK2EngineLow {
 		Quaternion				m_rotation = Quaternion::Identity;		//回転。
 		Vector3					m_scale = Vector3::One;					//拡大率。
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
+
+		bool offScreenRendaring = false;
 		
 		
 		
