@@ -31,9 +31,9 @@ bool Player::Start()
     rbInitData.pos = m_position;
     //回転のしやすさを設定する。0～1
     rbInitData.localInteria.Set(
-        0.5f,
-        0.5f,
-        0.5f
+        1.0f,
+        1.0f,
+        1.0f
     );
     //反発力を設定する。
     //数値を大きくすると、跳ね返りが大きくなる。
@@ -72,11 +72,15 @@ void Player::Update()
     m_modelRender.SetRotation(rot);
     //剛体に力を加える。
     Vector3 force;
-    force.y = -10000.0f;
+    force.y = -50000.0f;
     //左スティックで動かす。
-    force.x = g_pad[0]->GetLStickXF() * 50000.0f;
-    force.z = g_pad[0]->GetLStickYF() * 50000.0f;
-   
+
+    if (g_pad[0]->IsTrigger(enButtonA))
+    {
+        force.x = g_pad[0]->GetLStickXF() * 5000000.0f;
+        force.z = g_pad[0]->GetLStickYF() * 5000000.0f;
+    }
+  
     //力を加える。
     //力を加えることにより、剛体が動く。
     m_rigidBody.AddForce(

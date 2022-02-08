@@ -18,6 +18,16 @@ struct PointLight
     float   range; //影響範囲
 };
 
+//スポットライト
+struct SpotLight
+{
+    float3  position;   //位置
+    float3  color;      //カラー
+    float   range;      //影響範囲
+    float3  direction;  //方向
+    float   angle;      //角度
+};
+
 ////////////////////////////////////////////////
 // 定数バッファ。
 ////////////////////////////////////////////////
@@ -32,6 +42,7 @@ cbuffer LightCb : register(b1)
 {
     DirectionLight directionLight;
     PointLight pointLight;
+    SpotLight spotLight;
     //アンビエントライト。
     float3 ambientLight; //環境光。
     
@@ -58,9 +69,11 @@ struct SVSIn{
 //ピクセルシェーダーへの入力。
 struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
-	float3 normal		: NORMAL;
+	float3 normal		: NORMAL;       //法線。
 	float2 uv 			: TEXCOORD0;	//uv座標。
     float3 worldPos : TEXCOORD1;
+    
+    float3 normalInView : TEXCOORD2;     //カメラ空間の法線
 };
 ///////////////////////////////////////////
 // 関数宣言
@@ -69,6 +82,9 @@ float3 CalcLambertDiffuse(float3 lightDirection, float3 lightColor, float3 norma
 float3 CalcPhongSpecular(float3 lightDirection, float3 lightColor, float3 worldPos, float3 normal);
 float3 CalcLigFromPointLight(SPSIn psIn);
 float3 CalcLigFromDirectionLight(SPSIn psIn);
+float3 CalcLigFromSpotLight(SPSIn psIn);
+float3 CalcRimLight(SPSIn psIn,float3 lightdirection,float3 lightcolor);
+
 
 ////////////////////////////////////////////////
 // グローバル変数。
@@ -113,12 +129,15 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 		m = mWorld;
 	}
 	psIn.pos = mul(m, vsIn.pos);
-    psIn.worldPos = vsIn.pos;
+    psIn.worldPos = psIn.pos;
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
-		// 頂点法線をピクセルシェーダーに渡す。
+	// 頂点法線をピクセルシェーダーに渡す。
 	psIn.normal = mul(m, vsIn.normal); //法線を回転させる。
 	psIn.uv = vsIn.uv;
+    
+    //カメラ空間の法線を求める。
+    psIn.normalInView = mul(mView, psIn.normal);
 
 	return psIn;
 }
@@ -187,7 +206,11 @@ float3 CalcLigFromDirectionLight(SPSIn psIn)
 
     // ディレクションライトによるPhong鏡面反射光を計算する
     float3 specDirection = CalcPhongSpecular(directionLight.direction, directionLight.color, psIn.worldPos, psIn.normal);
-    return diffDirection + specDirection;
+    
+    //ディレクションライトによるリムライトを計算する。
+    float3 rimDirection = CalcRimLight(psIn, directionLight.direction, directionLight.color);
+    
+    return diffDirection + specDirection +rimDirection;
 }
 /// <summary>
 /// ポイントライトによる反射光を計算
@@ -215,6 +238,8 @@ float3 CalcLigFromPointLight(SPSIn psIn)
         psIn.worldPos, // サーフェイズのワールド座標
         psIn.normal     // サーフェイズの法線
     );
+    //減衰なしのリムライトを計算する。
+    float3 rimPoint = CalcRimLight(psIn, ligDir, pointLight.color);
 
     // 距離による影響率を計算する
     // ポイントライトとの距離を計算する
@@ -235,8 +260,97 @@ float3 CalcLigFromPointLight(SPSIn psIn)
     // 拡散反射光と鏡面反射光に減衰率を乗算して影響を弱める
     diffPoint *= affect;
     specPoint *= affect;
+    rimPoint *= affect;
 
-    return diffPoint + specPoint;
+    return diffPoint + specPoint + rimPoint;
+}
+//スポットライトによる反射光を計算。
+float3 CalcLigFromSpotLight(SPSIn psIn)
+{
+     // このサーフェイスに入射しているポイントライトの光の向きを計算する
+    float3 ligDir = psIn.worldPos - spotLight.position;
+
+    // 正規化して大きさ1のベクトルにする
+    ligDir = normalize(ligDir);
+
+    // 減衰なしのLambert拡散反射光を計算する
+    float3 diffPoint = CalcLambertDiffuse(
+        ligDir, // ライトの方向
+        spotLight.color, // ライトのカラー
+        psIn.normal // サーフェイスの法線
+    );
+
+    // 減衰なしのPhong鏡面反射光を計算する
+    float3 specPoint = CalcPhongSpecular(
+        ligDir, // ライトの方向
+        spotLight.color, // ライトのカラー
+        psIn.worldPos, // サーフェイズのワールド座標
+        psIn.normal     // サーフェイズの法線
+    );
+    //減衰なしのリムライトを計算する。
+    float3 rimPoint = CalcRimLight(psIn, spotLight.direction, spotLight.color);
+
+    // 距離による影響率を計算する
+    // ポイントライトとの距離を計算する
+    float3 distance = length(psIn.worldPos - spotLight.position);
+
+    // 影響率は距離に比例して小さくなっていく
+    float affect = 1.0f - 1.0f / spotLight.range * distance;
+
+    // 影響力がマイナスにならないように補正をかける
+    if (affect < 0.0f)
+    {
+        affect = 0.0f;
+    }
+
+    // 影響の仕方を指数関数的にする。今回のサンプルでは3乗している
+    affect = pow(affect, 3.0f);
+
+    // 拡散反射光と鏡面反射光に減衰率を乗算して影響を弱める
+    diffPoint *= affect;
+    specPoint *= affect;
+    rimPoint *= affect;
+    //入射光と射出方向の角度を求める。
+    float angle = dot(ligDir, spotLight.direction);
+    
+    angle = abs(acos(angle));
+    
+    //角度に比例して小さくなっていく影響率を計算
+    affect = 1.0f - 1.0f / spotLight.angle * angle;
+    //影響率がマイナスにならないように補正。
+    if(affect<0.0f)
+    {
+        affect = 0.0f;
+    }
+    
+    //影響の仕方を指数関数的にする。
+    affect = pow(affect, 0.5f);
+    
+    //角度による影響率を反射光に乗算。
+    diffPoint *= affect;
+    specPoint *= affect;
+    rimPoint *= affect;
+    
+    return diffPoint + specPoint + rimPoint;
+    
+}
+//リムライトの計算。
+float3 CalcRimLight(SPSIn psIn, float3 direction,float3 color)
+{
+    //サーフェイスの法線と光の入射方向に依存するリムの強さを求める。
+    float power1 = 1.0f - max(0.0f, dot(direction, psIn.normal));
+    //サーフェイスの法線と視線の方向に依存するリムの強さを求める。
+    float power2 = 1.0f - max(0.0f, psIn.normalInView.z * -1.0f);
+    
+    //最終的なリムの強さを求める。
+    float limpower = power1 * power2;
+    //強さの変化を指数関数的にする。
+    limpower = pow(limpower, 1.3f);
+    //リムライトのカラーを計算する。
+    float3 limcolor = limpower * color;
+    
+    return limcolor;
+
 }
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
@@ -250,10 +364,15 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
     // ポイントライトによるライティングを計算する
     float3 pointLig = CalcLigFromPointLight(psIn);
 
+    //スポットライトによるライティングを計算する。
+    float3 spotLig = CalcLigFromSpotLight(psIn);
+    
+
 	//ライティングの結果をすべて加算する。
-    float3 lig = directionLig
-                +pointLig
-                +ambientLight;
+    float3 lig =  directionLig
+                + pointLig
+                + spotLig
+                + ambientLight;
 	
     
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);

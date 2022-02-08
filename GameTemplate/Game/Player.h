@@ -29,11 +29,14 @@ public:
     }
 
 private:
+
     ModelRender m_modelRender;
-    //以下2つのクラスを使用する。
-    SphereCollider m_sphereCollider;            //円型のコライダー。
-    RigidBody m_rigidBody;                        //剛体。
-    Vector3 m_position;
+    SphereCollider m_sphereCollider;        //円型のコライダー
+    RigidBody m_rigidBody;                  //剛体
+
+    Vector3 m_position;                     //ポジション
+
+    SpriteRender m_gaugeRender;
 
     bool m_isPress = false;
     float m_gauge = 0.0f;
