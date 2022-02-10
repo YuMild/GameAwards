@@ -2,6 +2,7 @@
 
 class BackGround;
 class ChargeGauge;
+class GameCamera;
 class Player;
 
 class Game : public IGameObject
@@ -14,8 +15,9 @@ public:
 
 private:
 
-	ChargeGauge* m_chargeGauge = nullptr;
-	Player* m_player = nullptr;
-	BackGround* m_backGround = nullptr;
+	BackGround* m_backGround;
+	ChargeGauge* m_chargeGauge;
+	GameCamera* m_gameCamera;
+	Player* m_player;
 };
 

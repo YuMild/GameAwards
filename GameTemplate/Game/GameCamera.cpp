@@ -24,8 +24,7 @@ bool GameCamera::Start()
 void GameCamera::Update()
 {
 	m_target = m_player->GetPosition();
-	m_target.y += 100.0f;
-	m_target += g_camera3D->GetForward() * 10.0f;
+	m_target.y += 0.0f;
 
 	Vector3 toCameraPosOld = m_toCameraPos;
 
@@ -52,9 +51,14 @@ void GameCamera::Update()
 	if (toPosDir.y < -0.5f) {
 		m_toCameraPos = toCameraPosOld;							//	ƒJƒƒ‰‚ªã‚ÉŒü‚«‰ß‚¬‚é‚Ì‚ð–h‚®
 	}
-	else if (toPosDir.y > 1.0f) {
+	else if (toPosDir.y > 0.7f) {
 		m_toCameraPos = toCameraPosOld;							//	ƒJƒƒ‰‚ª‰º‚ÉŒü‚«‰ß‚¬‚é‚Ì‚ð–h‚®
 	}
+
 	//	Ž‹“_‚ðŒvŽZ‚·‚é
 	Vector3 pos = m_target + m_toCameraPos;
+
+	g_camera3D->SetPosition(pos);
+	g_camera3D->SetTarget(m_target);
+	g_camera3D->Update();
 }

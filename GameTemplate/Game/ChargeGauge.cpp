@@ -19,3 +19,13 @@ bool ChargeGauge::Start()
 
 	return true;
 }
+
+void ChargeGauge::Update()
+{
+
+}
+
+void ChargeGauge::Render(RenderContext& rc)
+{
+
+}

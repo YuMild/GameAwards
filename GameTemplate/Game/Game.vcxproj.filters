@@ -7,6 +7,9 @@
     <Filter Include="main">
       <UniqueIdentifier>{0fd4c312-10a8-4426-8312-93649af60bcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{a3ed8290-2d11-4983-9240-31cb7316e857}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -17,9 +20,11 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameCamera.cpp" />
-    <ClCompile Include="ChargeGauge.cpp" />
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="ChargeGauge.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +36,8 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="ChargeGauge.h" />
+    <ClInclude Include="ChargeGauge.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
