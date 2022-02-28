@@ -51,7 +51,7 @@ void GameCamera::Update()
 	if (toPosDir.y < -0.5f) {
 		m_toCameraPos = toCameraPosOld;							//	ƒJƒƒ‰‚ªã‚ÉŒü‚«‰ß‚¬‚é‚Ì‚ğ–h‚®
 	}
-	else if (toPosDir.y > 0.7f) {
+	else if (toPosDir.y > 0.85f) {
 		m_toCameraPos = toCameraPosOld;							//	ƒJƒƒ‰‚ª‰º‚ÉŒü‚«‰ß‚¬‚é‚Ì‚ğ–h‚®
 	}
 

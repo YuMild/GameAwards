@@ -13,7 +13,7 @@ namespace
 
 bool Player::Start()
 {
-    m_position.y = 50.0f;
+    m_position.y = 1000.0f;
     //球形のモデルを読み込む。
     m_modelRender.Init("Assets/modelData/Ball.tkm");
     m_modelRender.SetScale(Vector3::One * 0.1f);
@@ -32,9 +32,9 @@ bool Player::Start()
     rbInitData.pos = m_position;
     //回転のしやすさを設定する。0～1
     rbInitData.localInteria.Set(
-        1.0f,
-        1.0f,
-        1.0f
+        0.5f,
+        0.5f,
+        0.5f
     );
     //反発力を設定する。
     //数値を大きくすると、跳ね返りが大きくなる。
@@ -84,13 +84,14 @@ void Player::Move()
 
     Vector3 moveSpeed;
 
-    if (g_pad[0]->IsTrigger(enButtonA))
+    if (g_pad[0]->IsTrigger(enButtonB))
     {
         moveSpeed += g_camera3D->GetForward() * SPEED_DEFAULT;   //前後
     }
 
-    if (g_pad[0]->IsTrigger(enButtonB))
+    if (g_pad[0]->IsPress(enButtonA))
     {
+        moveSpeed = Vector3::One * 10.0f;
     }
    
     //重力
