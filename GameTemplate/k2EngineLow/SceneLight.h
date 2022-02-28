@@ -138,6 +138,10 @@ namespace nsK2EngineLow {
 			{
 				return m_light.spotLight.GetDirection();
 			}
+			void SetDirectionColor(const Vector3& col)
+			{
+				m_light.directionLight.SetColor(col);
+			}
 
 
 		private:

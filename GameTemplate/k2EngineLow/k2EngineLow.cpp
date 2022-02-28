@@ -12,7 +12,7 @@ namespace nsK2EngineLow {
 		// グローバルなアクセスポイントにnullptrを代入。
 		g_graphicsEngine = nullptr;
 		g_gameTime = nullptr;
-		
+	
 	
 		delete m_graphicsEngine;
 		
@@ -25,6 +25,7 @@ namespace nsK2EngineLow {
 	}
 	void K2EngineLow::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeight)
 	{
+		
 		if (hwnd) {
 			//グラフィックエンジンの初期化。
 			m_graphicsEngine = new GraphicsEngine();
@@ -35,9 +36,10 @@ namespace nsK2EngineLow {
 		for (int i = 0; i < GamePad::CONNECT_PAD_MAX; i++) {
 			g_pad[i] = &m_pad[i];
 		}
-		
+	
 		GameObjectManager::CreateInstance();
 		PhysicsWorld::CreateInstance();
+
 		g_soundEngine = new SoundEngine();
 		if (m_graphicsEngine) {
 			//エフェクトエンジンの初期化。

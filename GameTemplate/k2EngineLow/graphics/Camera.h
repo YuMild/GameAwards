@@ -328,6 +328,7 @@ namespace nsK2EngineLow {
 		/// <summary>
 		/// ƒJƒƒ‰‚Ì‰E•ûŒü‚ğæ“¾B
 		/// </summary>
+
 		const Vector3& GetRight() const
 		{
 			return m_right;

@@ -1,9 +1,6 @@
 #include "k2EngineLowPreCompile.h"
 #include "SpriteRender.h"
 
-/// <summary>
-/// スプライトレンダラー
-/// </summary>
 namespace nsK2EngineLow {
 	void SpriteRender::Init(const char* filePath, const float w, const float h, AlphaBlendMode alphaBlendMode)
 	{
@@ -21,12 +18,13 @@ namespace nsK2EngineLow {
 		m_sprite.Init(initData);
 	}
 
-	/// <summary>
-	/// 2D描画パスから呼ばれる処理。
-	/// </summary>
-	/// <param name="rc"></param>
+
 	void SpriteRender::Draw(RenderContext& rc)
 	{
-		m_sprite.Draw(rc);
+		g_renderingEngine.AddRenderObject(this);
+		
 	}
+
+
+
 }
