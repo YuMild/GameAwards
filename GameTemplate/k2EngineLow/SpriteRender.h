@@ -147,6 +147,10 @@ namespace nsK2EngineLow {
 		////////////////////////////////////////////////////////////////////
 		void OnRender2D(RenderContext& rc)
 		{
+			if (m_isInit == false)
+			{
+				return;
+			}
 			m_sprite.Draw(rc);
 		}
 
@@ -156,5 +160,6 @@ namespace nsK2EngineLow {
 		Quaternion		m_rotation = Quaternion::Identity;		//回転。
 		Vector3			m_scale = Vector3::One;					//大きさ。
 		Vector2			m_pivot = Sprite::DEFAULT_PIVOT;		//ピボット。
+		bool m_isInit = false;
 	};
 }

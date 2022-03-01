@@ -16,6 +16,7 @@ namespace nsK2EngineLow {
 		initData.m_colorBufferFormat[0] = DXGI_FORMAT_R16G16B16A16_FLOAT;
 		//Sprite初期化オブジェクトを使用して、Spriteを初期化する。
 		m_sprite.Init(initData);
+		m_isInit = true;
 	}
 
 	void SpriteRender::Draw(RenderContext& rc)

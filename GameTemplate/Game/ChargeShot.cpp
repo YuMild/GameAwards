@@ -52,10 +52,10 @@ void ChargeShot::Cut()
 		m_charge = GAUGE_DEFAULT;
 	}*/
 
-	if (g_pad[0]->IsPress(enButtonA))
+	/*if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		m_gauge2D.SetMulColor({ 0.0f, 0.0f, 0.0f, 0.0f });
-	}
+		m_charge += 1.0f;
+	}*/
 
 	float x = m_charge / 100;
 	m_gauge2D.SetIsDisplayRestrictionRightSide(true);
