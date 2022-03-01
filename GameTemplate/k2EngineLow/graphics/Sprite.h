@@ -120,7 +120,8 @@ namespace nsK2EngineLow {
 		void SetX(const float x)
 		{
 			m_x = x;
-		}void SetY(const float y)
+		}
+		void SetY(const float y)
 		{
 			m_y = y;
 		}

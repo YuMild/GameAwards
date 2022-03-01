@@ -61,17 +61,7 @@ void Player::Update()
 
 void Player::Move()
 {
-    if (g_pad[0]->IsPress(enButtonA))
-    {
-        m_isPress = true;
-        m_gauge * 2;
-    }
-    else if (m_isPress == true)
-    {
-        m_isPress = false;
-        m_gaugeOld = m_gauge;
-        m_gauge = GAUGE_DEFAULT;
-    }
+ 
 
     //剛体の座標と回転を取得。
     m_rigidBody.GetPositionAndRotation(m_position, m_rotation);
@@ -87,11 +77,6 @@ void Player::Move()
     if (g_pad[0]->IsTrigger(enButtonB))
     {
         moveSpeed += g_camera3D->GetForward() * SPEED_DEFAULT;   //前後
-    }
-
-    if (g_pad[0]->IsPress(enButtonA))
-    {
-        moveSpeed = Vector3::One * 10.0f;
     }
    
     //重力

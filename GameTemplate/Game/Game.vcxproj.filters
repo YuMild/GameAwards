@@ -23,7 +23,7 @@
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="ChargeGauge.cpp">
+    <ClCompile Include="ChargeShot.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,7 +36,7 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="ChargeGauge.h">
+    <ClInclude Include="ChargeShot.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

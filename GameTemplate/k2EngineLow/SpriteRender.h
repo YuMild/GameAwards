@@ -1,5 +1,8 @@
 #pragma once
 namespace nsK2EngineLow {
+	/// <summary>
+	/// スプライトレンダラー。
+	/// </summary>
 	class SpriteRender
 	{
 	public:
@@ -13,6 +16,43 @@ namespace nsK2EngineLow {
 		void Init(const char* filePath, const float w, const float h, AlphaBlendMode alphaBlendMode = AlphaBlendMode_Trans);
 
 		void Draw(RenderContext& rc);
+
+		/// <summary>
+		/// 画像を描画する割合。
+		/// </summary>
+		/// <param name="x">描画する割合。1.0fが最大。</param>
+		void SetLimitedX(const float x)
+		{
+			m_sprite.SetX(x);
+		}
+		void SetLimitedY(const float y)
+		{
+			m_sprite.SetY(y);
+		}
+
+		/// <summary>
+		/// 原点を設定。原点を元として引数の分だけ画像を生成する。
+		/// Left 0.5だと左から五割だけ画像が描写される。
+		/// </summary>
+		/// <param name="isLeft">原点。</param>
+		void SetIsDisplayRestrictionLeftSide(const bool isLeft)
+		{
+			m_sprite.SetIsDisplayRestrictionLeftSide(isLeft);
+		}
+		void SetIsDisplayRestrictionRightSide(const bool isRight)
+		{
+			m_sprite.SetIsDisplayRestrictionRightSide(isRight);
+		}
+
+		void SetIsDisplayRestrictionUpSide(const bool isUp)
+		{
+			m_sprite.SetIsDisplayRestrictionUpSide(isUp);
+		}
+		void SetIsDisplayRestrictionDownSide(const bool isDown)
+		{
+			m_sprite.SetIsDisplayRestrictionDownSide(isDown);
+		}
+
 		/// <summary>
 		/// 座標を設定。zは0.0fで。
 		/// </summary>
@@ -110,11 +150,6 @@ namespace nsK2EngineLow {
 			m_sprite.Draw(rc);
 		}
 
-
-
-
-
-
 	private:
 		Sprite			m_sprite;								//スプライト。
 		Vector3			m_position = Vector3::Zero;				//座標。
@@ -122,5 +157,4 @@ namespace nsK2EngineLow {
 		Vector3			m_scale = Vector3::One;					//大きさ。
 		Vector2			m_pivot = Sprite::DEFAULT_PIVOT;		//ピボット。
 	};
-
 }

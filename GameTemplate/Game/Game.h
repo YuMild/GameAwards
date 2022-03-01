@@ -1,7 +1,7 @@
 #pragma once
 
 class BackGround;
-class ChargeGauge;
+class ChargeShot;
 class GameCamera;
 class Player;
 
@@ -16,7 +16,7 @@ public:
 private:
 
 	BackGround* m_backGround;
-	ChargeGauge* m_chargeGauge;
+	ChargeShot* m_chargeShot;
 	GameCamera* m_gameCamera;
 	Player* m_player;
 };
