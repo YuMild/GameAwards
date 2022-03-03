@@ -42,7 +42,6 @@ void ChargeShot::Render(RenderContext& rc)
 
 void ChargeShot::Cut()
 {
-	float x = m_player->GetCharge() / 100;
 	m_gauge2D.SetIsDisplayRestrictionRightSide(true);
-	m_gauge2D.SetLimitedX(x);
+	m_gauge2D.SetLimitedX(m_player->GetCharge());
 }

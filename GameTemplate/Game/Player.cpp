@@ -4,7 +4,7 @@
 namespace
 {
     float SPEED_DEFAULT = 1000000.0f;
-    float CHARGE_DEFAULT = -100.0f;
+    float CHARGE_DEFAULT = 0.0f;
 }
 
 bool Player::Start()
@@ -73,12 +73,6 @@ void Player::Move()
     forward.y = 0.0f;
     forward.Normalize();
 
-    if (g_pad[0]->IsTrigger(enButtonB))
-    {
-        m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
-        m_moveSpeed = forward * SPEED_DEFAULT;   //‘OŒã
-    }
-
     if (g_pad[0]->IsPress(enButtonB))
     {
         m_isPress = true;
@@ -87,7 +81,8 @@ void Player::Move()
     else if (m_isPress == true)
     {
         m_isPress = false;
-        m_chargeOld = m_charge;
+        m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
+        m_moveSpeed = (forward * SPEED_DEFAULT) * m_charge / 100;   //‘OŒã
         m_charge = CHARGE_DEFAULT;
     }
 

@@ -67,6 +67,5 @@ private:
     SpriteRender m_gaugeRender;
 
     bool m_isPress = false;
-    float m_charge = -100.0f;
-    float m_chargeOld = 0.0f;
+    float m_charge = 0.0f;
 };
