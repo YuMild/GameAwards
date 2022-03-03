@@ -6,9 +6,12 @@ public:
 	void Update() override;
 	void Render(RenderContext& rc) override;
 private:
-	ModelRender m_modelRender;					//モデル
-	ModelRender m_modelRender2;
-	PhysicsStaticObject m_physicsStaticObject;	//静的物理オブジェクト・
+
+	//モデル
+	ModelRender m_wall;
+	ModelRender m_ground;
+	PhysicsStaticObject m_wallPSO;	//静的物理オブジェクト・
+	PhysicsStaticObject m_groundPSO;
 	BoxCollider m_boxCollider;
 
 	RigidBody m_rigidBody;

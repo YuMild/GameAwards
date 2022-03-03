@@ -28,6 +28,11 @@ public:
         return m_position;
     }
 
+    void SetMoveSpeed(Vector3& moveSpeed)
+    {
+        m_moveSpeed = moveSpeed;
+    }
+
 private:
 
     /// <summary>
@@ -42,7 +47,7 @@ private:
     Vector3 m_position;                     //ƒ|ƒWƒVƒ‡ƒ“
     Vector3 m_cameraForward;
     Vector3 m_cameraRight;
-    Vector3 moveSpeed;
+    Vector3 m_moveSpeed;
 
     Quaternion m_rotation;                  //‰ñ“]
 

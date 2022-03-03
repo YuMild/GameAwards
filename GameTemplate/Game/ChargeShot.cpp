@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "ChargeShot.h"
 
-/*namespace
+namespace
 {
-	float GAUGE_DEFAULT = 1.0f;
-	float SPEED_DEFAULT = 1000000.0f;
-}*/
+	float GAUGE_DEFAULT = -100.0f;
+}
 
 ChargeShot::ChargeShot()
 {
@@ -40,7 +39,7 @@ void ChargeShot::Render(RenderContext& rc)
 
 void ChargeShot::Cut()
 {
-	/*if (g_pad[0]->IsPress(enButtonA))
+	if (g_pad[0]->IsPress(enButtonA))
 	{
 		m_isPress = true;
 		m_charge += 1.0f;
@@ -50,7 +49,7 @@ void ChargeShot::Cut()
 		m_isPress = false;
 		m_chargeOld = m_charge;
 		m_charge = GAUGE_DEFAULT;
-	}*/
+	}
 
 	/*if (g_pad[0]->IsTrigger(enButtonA))
 	{
@@ -64,9 +63,10 @@ void ChargeShot::Cut()
 
 void ChargeShot::Charge()
 {
-	m_timer += g_gameTime->GetFrameDeltaTime();
+
+	/*m_timer += g_gameTime->GetFrameDeltaTime();
 	if (m_timer >= 1.0f) {
 		m_charge += 1.0f;
 		m_timer = 0.0f;
-	}
+	}*/
 }
