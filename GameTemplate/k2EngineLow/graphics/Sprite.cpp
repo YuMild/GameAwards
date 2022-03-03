@@ -240,6 +240,8 @@ namespace nsK2EngineLow {
         m_world = mPivotTrans * mScale;
         m_world = m_world * mRot;
         m_world = m_world * mTrans;
+        m_position = pos;
+        m_pivot = pivot;
     }
     void Sprite::Draw(RenderContext& renderContext)
     {
@@ -255,7 +257,7 @@ namespace nsK2EngineLow {
         m_constantBufferCPU.screenParam.x = g_camera3D->GetNear();
         m_constantBufferCPU.screenParam.y = g_camera3D->GetFar();
         m_constantBufferCPU.screenParam.z = 1600;
-        m_constantBufferCPU.screenParam.w = 800;
+        m_constantBufferCPU.screenParam.w = 900;
 
         Vector2 pos;
         pos.x = m_position.x - (m_pivot.x * m_size.x);
