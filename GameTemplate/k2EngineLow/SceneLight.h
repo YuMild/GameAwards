@@ -109,35 +109,66 @@ namespace nsK2EngineLow {
 
 		public:
 			SceneLight();
-
+			/// <summary>
+			/// ライト構造体を取得する。
+			/// </summary>
+			/// <returns>ライト。</returns>
 			Light& GetLight()
 			{
 				return m_light;
 			}
+			/// <summary>
+			/// 環境光を設定する。
+			/// </summary>
+			/// <param name="col">カラー。</param>
 			void SetAmbientLight(const Vector3& col)
 			{
 				m_light.ambientLight = col;
 			}
+			/// <summary>
+			/// 視点のポジションを設定する。
+			/// </summary>
+			/// <param name="pos">カメラのポジション。</param>
 			void SeteyePosition(const Vector3& pos)
 			{
 				m_light.eyePos = pos;
 			}
+			/// <summary>
+			/// ポイントライトのポジションを設定する。
+			/// </summary>
+			/// <param name="pos">座標。</param>
 			void SetPointLightPosition(const Vector3& pos)
 			{
 				m_light.pointLight.SetPosition(pos);
 			}
+			/// <summary>
+			/// ポイントライトのポジションを取得する。
+			/// </summary>
+			/// <returns>ポイントライトの座標。</returns>
 			const Vector3 GetPointLightPosition()const 
 			{
 				return m_light.pointLight.GetPosition();
 			}
+			/// <summary>
+			/// スポットライトに回転を加算する。
+			/// </summary>
+			/// <param name="rot">ローテーション。</param>
 			void ApplySpotLightRotation(const Quaternion& rot)
 			{
 				m_light.spotLight.ApplyRotation(rot);
 			}
+			/// <summary>
+			/// スポットライトの方向を取得する。
+			/// </summary>
+			/// <returns>方向。</returns>
 			const Vector3& GetSpotLightDirection()const
 			{
 				return m_light.spotLight.GetDirection();
 			}
+			/// <summary>
+			/// ディレクションライトの色を設定する。
+			/// </summary>
+			/// <param name="col">カラー。</param>
 			void SetDirectionColor(const Vector3& col)
 			{
 				m_light.directionLight.SetColor(col);
