@@ -28,9 +28,22 @@ public:
         return m_position;
     }
 
+    /// <summary>
+    /// プレイヤーの移動速度を取得
+    /// </summary>
+    /// <param name="moveSpeed"></param>
     void SetMoveSpeed(Vector3& moveSpeed)
     {
         m_moveSpeed = moveSpeed;
+    }
+
+    /// <summary>
+    /// チャージ量を取得
+    /// </summary>
+    /// <returns></returns>
+    float GetCharge() const
+    {
+        return m_charge;
     }
 
 private:
@@ -54,6 +67,6 @@ private:
     SpriteRender m_gaugeRender;
 
     bool m_isPress = false;
-    float m_gauge = 0.0f;
-    float m_gaugeOld = 0.0f;
+    float m_charge = -100.0f;
+    float m_chargeOld = 0.0f;
 };

@@ -8,10 +8,8 @@ public:
 private:
 
 	//モデル
-	ModelRender m_wall;
-	ModelRender m_ground;
-	PhysicsStaticObject m_wallPSO;	//静的物理オブジェクト・
-	PhysicsStaticObject m_groundPSO;
+	ModelRender m_stage;
+	PhysicsStaticObject m_stagePSO;
 	BoxCollider m_boxCollider;
 
 	RigidBody m_rigidBody;

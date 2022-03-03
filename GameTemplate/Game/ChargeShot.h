@@ -1,5 +1,6 @@
 #pragma once
 
+class Player;
 /// <summary>
 /// チャージゲージ
 /// </summary>
@@ -19,10 +20,6 @@ private:
 	/// バーの表示を管理
 	/// </summary>
 	void Cut();
-	/// <summary>
-	/// チャージの状態を管理
-	/// </summary>
-	void Charge();
 
 	SpriteRender m_gauge2D;
 	SpriteRender m_frame2D;
@@ -32,4 +29,6 @@ private:
 	float m_timer = 0.0f;
 	float m_charge = -100.0f;
 	float m_chargeOld = 0.0f;
+
+	Player* m_player;
 };

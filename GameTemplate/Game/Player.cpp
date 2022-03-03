@@ -1,13 +1,10 @@
 #include "stdafx.h"
-
 #include "Player.h"
-
-#include <stdio.h>
-#include <math.h>
 
 namespace
 {
     float SPEED_DEFAULT = 1000000.0f;
+    float CHARGE_DEFAULT = -100.0f;
 }
 
 bool Player::Start()
@@ -38,7 +35,7 @@ bool Player::Start()
     //反発力を設定する。
     //数値を大きくすると、跳ね返りが大きくなる。
     //PhysicsStaticObjectにも反発力を設定する必要がある(Game.cpp参照)。
-    rbInitData.restitution = 1.0f;
+    rbInitData.restitution = 0.0f;
     //剛体を初期化。
     m_rigidBody.Init(rbInitData);
     //摩擦力を設定する。0～10まで。
@@ -49,13 +46,17 @@ bool Player::Start()
     m_rigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
     return true;
 }
-
 void Player::Update()
 {
     Move();
-
     //モデルの更新処理。
     m_modelRender.Update();
+}
+
+void Player::Render(RenderContext& rc)
+{
+    //モデルの描画。
+    m_modelRender.Draw(rc);
 }
 
 void Player::Move()
@@ -66,30 +67,44 @@ void Player::Move()
     m_modelRender.SetPosition(m_position);
     m_modelRender.SetRotation(m_rotation);
 
-    float lStickX = g_pad[0]->GetLStickXF();
-    float lStickY = g_pad[0]->GetLStickYF();
+    //剛体に力を加える。
+    Vector3 force;
+    Vector3 forward = g_camera3D->GetForward();
+    forward.y = 0.0f;
+    forward.Normalize();
 
     if (g_pad[0]->IsTrigger(enButtonB))
     {
-        m_moveSpeed += g_camera3D->GetForward() * SPEED_DEFAULT;   //前後
+        m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
+        m_moveSpeed = forward * SPEED_DEFAULT;   //前後
     }
-   
-    //重力
+
+    if (g_pad[0]->IsPress(enButtonB))
+    {
+        m_isPress = true;
+        m_charge += 5.0f;
+    }
+    else if (m_isPress == true)
+    {
+        m_isPress = false;
+        m_chargeOld = m_charge;
+        m_charge = CHARGE_DEFAULT;
+    }
+
     m_moveSpeed.y = -10000.0f;
 
     //力を加える。
     //力を加えることにより、剛体が動く。
     m_rigidBody.AddForce(
-        m_moveSpeed,                    //力
-        g_vec3Zero                      //力を加える剛体の相対位置
+        m_moveSpeed,        //力
+        g_vec3Zero          //力を加える剛体の相対位置
     );
+
+    if (m_rigidBody.GetLinearVelocity().Length() >= 1000.0f)
+    {
+        m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * 1000.0f);
+    }
 
     m_moveSpeed.x = 0.0f;               //スピードの初期化
     m_moveSpeed.z = 0.0f;
-}
-
-void Player::Render(RenderContext& rc)
-{
-    //モデルの描画。
-    m_modelRender.Draw(rc);
 }
