@@ -3,20 +3,31 @@
 
 namespace
 {
-    float SPEED_DEFAULT = 1000000.0f;
-    float CHARGE_DEFAULT = 0.0f;
+    //プレイヤー
+    float PLAYER_FIRST_Y_POSITION = 100.0f;             //初期のY座標
+    float PLAYER_MODEL_SCALE = 1.0f;                          //サイズ
+    float PLAYER_COLLISION_SCALE = 10.0f;               //当たり判定のサイズ
+    float PLAYER_GRAVITY = 30.0f;                       //重力
+    float PLAYER_ROLL = 0.5f;                           //転がりやすさ
+    float PLAYER_FRICTION = 5.0f;
+    float PLAYER_SPEED_DEFAULT = 1500000.0f;            //スピードデフォルト
+    float PLAYER_SPEED_MAX = 1500.0f;                   //スピード上限値
+
+    //チャージ
+    float CHARGE_DEFAULT = 0.0f;                        //チャージリセット値
+    float CHARGE_ADD = 0.05f;                           //1f毎にチャージされる値
 }
 
 bool Player::Start()
 {
-    m_position.y = 100.0f;
+    m_position.y = PLAYER_FIRST_Y_POSITION;
     //球形のモデルを読み込む。
     m_modelRender.Init("Assets/modelData/Ball.tkm");
-    m_modelRender.SetScale(Vector3::One * 1.0f);
+    m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 
     //コライダーを初期化。
-    m_sphereCollider.Create(10.0f);
+    m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
 
     //剛体を初期化。
     RigidBodyInitData rbInitData;
@@ -39,7 +50,7 @@ bool Player::Start()
     //剛体を初期化。
     m_rigidBody.Init(rbInitData);
     //摩擦力を設定する。0～10まで。
-    m_rigidBody.SetFriction(3.0f);
+    m_rigidBody.SetFriction(PLAYER_FRICTION);
     //線形移動する要素を設定する。
     //0を指定した軸は移動しない。
     //例えばyを0に指定すると、y座標は移動しなくなる。
@@ -73,16 +84,18 @@ void Player::Move()
     forward.y = 0.0f;
     forward.Normalize();
 
-    if (g_pad[0]->IsPress(enButtonB))
+    if (g_pad[0]->IsPress(enButtonLB2))
     {
+        //g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
         m_isPress = true;
-        m_charge += 5.0f;
+        m_charge += CHARGE_ADD;
     }
     else if (m_isPress == true)
     {
+        g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 60.0f);
         m_isPress = false;
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
-        m_moveSpeed = (forward * SPEED_DEFAULT) * m_charge / 100;   //前後
+        m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;   //前後
         m_charge = CHARGE_DEFAULT;
     }
 
@@ -95,9 +108,9 @@ void Player::Move()
         g_vec3Zero          //力を加える剛体の相対位置
     );
 
-    if (m_rigidBody.GetLinearVelocity().Length() >= 1000.0f)
+    if (m_rigidBody.GetLinearXZVelocity().Length() >= PLAYER_SPEED_MAX)
     {
-        m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * 1000.0f);
+        m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * PLAYER_SPEED_MAX);
     }
 
     m_moveSpeed.x = 0.0f;               //スピードの初期化

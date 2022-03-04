@@ -100,6 +100,17 @@ namespace nsK2EngineLow {
 			return vel;
 		}
 		/// <summary>
+		/// Œ»İ‚ÌXZ•½–Ê‚Ì‘¬“x‚ğæ“¾
+		/// </summary>
+		/// <returns></returns>
+		Vector3 GetLinearXZVelocity() const
+		{
+			Vector3 vel;
+			vel = GetLinearVelocity();
+			vel.y = 0.0f;
+			return vel;
+		}
+		/// <summary>
 		/// –€C—Í‚ğİ’è‚·‚éB
 		/// </summary>
 		/// <param name="friction"></param>

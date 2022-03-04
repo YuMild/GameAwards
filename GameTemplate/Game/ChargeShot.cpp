@@ -21,7 +21,7 @@ ChargeShot::~ChargeShot()
 bool ChargeShot::Start()
 {
 	m_gauge2D.Init("Assets/sprite/MPbar.dds", 1000.0f, 1000.0f);
-	m_gauge2D.SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	m_gauge2D.SetPosition(Vector3(-300.0f, -300.0f, 0.0f));
 	m_gauge2D.Update();
 
 	m_player = FindGO<Player>("player");

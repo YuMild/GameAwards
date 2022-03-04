@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameCamera.h"
 
+
 #include "Player.h"
 
 GameCamera::GameCamera()
@@ -19,6 +20,13 @@ bool GameCamera::Start()
 	m_toCameraPos.Set(0.0f, 100.0f, 100.0f);
 
 	g_camera3D->SetFar(10000.0f);
+
+	m_springCamera.Init(
+		*g_camera3D,			//	ばねカメラの処理を行うカメラを指定する
+		1000000.0f					//	カメラの移動速度の最大値
+	);
+
+	m_springCamera.SetDampingRate(0.5f);
 
 	return true;
 }
@@ -60,7 +68,7 @@ void GameCamera::Update()
 	//	視点を計算する
 	Vector3 pos = m_target + m_toCameraPos;
 
-	g_camera3D->SetPosition(pos);
-	g_camera3D->SetTarget(m_target);
-	g_camera3D->Update();
+	m_springCamera.SetPosition(pos);
+	m_springCamera.SetTarget(m_target);
+	m_springCamera.Update();
 }
