@@ -3,7 +3,7 @@
 
 bool BackGround::Start()
 {
-	m_stage.Init("Assets/modelData/stage3.tkm");
+	m_stage.Init("Assets/modelData/stage4.tkm");
 	// 静的物理オブジェクトを作成。
 	m_stagePSO.CreateFromModel(m_stage.GetModel(), m_stage.GetModel().GetWorldMatrix());
 
