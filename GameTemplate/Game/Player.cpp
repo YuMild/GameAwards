@@ -5,12 +5,13 @@ namespace
 {
     //プレイヤー
     float PLAYER_FIRST_Y_POSITION = 100.0f;             //初期のY座標
-    float PLAYER_MODEL_SCALE = 1.0f;                          //サイズ
+    float PLAYER_MODEL_SCALE = 1.0f;                    //サイズ
     float PLAYER_COLLISION_SCALE = 10.0f;               //当たり判定のサイズ
     float PLAYER_GRAVITY = 30.0f;                       //重力
     float PLAYER_ROLL = 0.5f;                           //転がりやすさ
-    float PLAYER_FRICTION = 5.0f;
-    float PLAYER_SPEED_DEFAULT = 1500000.0f;            //スピードデフォルト
+    float PLAYER_FRICTION = 5.0f;                       //摩擦力
+    //float PLAYER_
+    float PLAYER_SPEED_DEFAULT = 1200000.0f;            //スピードデフォルト
     float PLAYER_SPEED_MAX = 1500.0f;                   //スピード上限値
 
     //チャージ

@@ -21,8 +21,8 @@ private:
 	/// </summary>
 	void Cut();
 
-	SpriteRender m_gauge2D;
-	SpriteRender m_frame2D;
+	SpriteRender m_charge2D;
+	SpriteRender m_chargeInside2D;
 
 	bool m_isPress = false;
 
