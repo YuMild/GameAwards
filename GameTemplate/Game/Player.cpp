@@ -87,7 +87,7 @@ void Player::Move()
 
     if (g_pad[0]->IsPress(enButtonLB2))
     {
-        //g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
+        g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
         m_isPress = true;
         m_charge += CHARGE_ADD;
     }
