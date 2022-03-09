@@ -61,7 +61,18 @@ namespace nsK2EngineLow {
 		{
 			SetScale({ x,y,z });
 		}
-
+		/// <summary>
+		/// 座標、回転、拡大率を設定。
+		/// </summary>
+		/// <param name="pos">座標。</param>
+		/// <param name="rotation">回転。</param>
+		/// <param name="scale">拡大率。</param>
+		void SetTRS(const Vector3& pos, const Quaternion& rotation, const Vector3& scale)
+		{
+			SetPosition(pos);
+			SetRotation(rotation);
+			SetScale(scale);
+		}
 		/// <summary>
 		/// アニメーション再生。
 		/// </summary>

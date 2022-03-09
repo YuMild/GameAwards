@@ -17,10 +17,11 @@ namespace nsK2EngineLow
 
 		void SpriteRenderDraw(RenderContext& rc);
 
+		
 
 	private:
 		std::vector<SpriteRender*> m_Spriterenders;
-
+	
 		
 	};
 

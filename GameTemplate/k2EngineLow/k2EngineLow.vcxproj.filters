@@ -233,6 +233,12 @@
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="SpringCamera.cpp" />
+    <ClCompile Include="Level2DRender.cpp">
+      <Filter>level2D</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMapRender.cpp" />
+    <ClCompile Include="MapChipRender.cpp" />
+    <ClCompile Include="LevelRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -377,9 +383,6 @@
     <ClInclude Include="gameObject\GameObjectManager.h">
       <Filter>gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="HID\GamePad.h">
-      <Filter>HID</Filter>
-    </ClInclude>
     <ClInclude Include="level2D\MapChip2D.h">
       <Filter>level2D</Filter>
     </ClInclude>
@@ -515,6 +518,15 @@
     <ClInclude Include="Bloom.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="SpringCamera.h" />
+    <ClInclude Include="Level2DRender.h">
+      <Filter>level2D</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMapRender.h" />
+    <ClInclude Include="HID\GamePad.h">
+      <Filter>HID</Filter>
+    </ClInclude>
+    <ClInclude Include="MapChipRender.h" />
+    <ClInclude Include="LevelRender.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
