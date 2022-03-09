@@ -9,7 +9,7 @@ namespace nsK2EngineLow {
 		Vector3 localInteria;
 		ICollider* collider = nullptr;	//コライダー。
 		float mass = 0;					//質量。
-		float restitution = 0.0f;		//反発力、(数値を上げれば、物体が跳ね返るようになる)。
+		float restitution = 1.0f;		//反発力、(数値を上げれば、物体が跳ね返るようになる)。
 	};
 
 	/// <summary>

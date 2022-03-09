@@ -8,8 +8,10 @@ public:
 private:
 
 	//ƒ‚ƒfƒ‹
-	ModelRender m_stage;
-	PhysicsStaticObject m_stagePSO;
+	ModelRender m_stage_Ground;
+	ModelRender m_stage_Wall;
+	PhysicsStaticObject m_stage_Ground_PSO;
+	PhysicsStaticObject m_stage_Wall_PSO;
 	BoxCollider m_boxCollider;
 
 	RigidBody m_rigidBody;

@@ -47,7 +47,7 @@ bool Player::Start()
     //反発力を設定する。
     //数値を大きくすると、跳ね返りが大きくなる。
     //PhysicsStaticObjectにも反発力を設定する必要がある(Game.cpp参照)。
-    rbInitData.restitution = 0.0f;
+    rbInitData.restitution = 1.0f;
     //剛体を初期化。
     m_rigidBody.Init(rbInitData);
     //摩擦力を設定する。0～10まで。
