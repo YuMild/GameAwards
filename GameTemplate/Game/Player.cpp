@@ -23,7 +23,7 @@ bool Player::Start()
 {
     m_position.y = PLAYER_FIRST_Y_POSITION;
     //‹…Œ`‚Ìƒ‚ƒfƒ‹‚ğ“Ç‚İ‚ŞB
-    m_modelRender.Init("Assets/modelData/Ball.tkm");
+    m_modelRender.Init("Assets/modelData/Stage1/Ball.tkm");
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 
