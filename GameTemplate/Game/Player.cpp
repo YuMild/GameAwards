@@ -10,8 +10,8 @@ namespace
     float PLAYER_GRAVITY = 30.0f;                               //重力
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
     float PLAYER_FRICTION = 100.0f;                             //摩擦力
-    float PLAYER_SPEED_DEFAULT = 2500000.0f;                     //スピードデフォルト
-    float PLAYER_SPEED_MAX = 15000.0f;                           //スピード上限値
+    float PLAYER_SPEED_DEFAULT = 1000000.0f;                     //スピードデフォルト
+    float PLAYER_SPEED_MAX = 1500.0f;                           //スピード上限値
 
     //チャージ
     float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値
