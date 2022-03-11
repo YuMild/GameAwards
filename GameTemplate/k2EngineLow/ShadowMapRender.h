@@ -8,7 +8,7 @@ namespace nsK2EngineLow {
 		void Render(RenderContext& rc, Vector3& ligDirection);
 
 
-		void AddShadowModels(Model& md)
+		void AddShadowModel(Model& md)
 		{
 			m_Shadowmodels.push_back(&md);
 		}

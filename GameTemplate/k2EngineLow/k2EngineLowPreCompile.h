@@ -77,12 +77,14 @@ using namespace Microsoft::WRL;
 #include "ModelRender.h"
 #include "SceneLight.h"
 #include "SpriteRender.h"
+#include "FontRender.h"
 #include "PostEffect.h"
 
 #include "HID/GamePad.h"
 
 #include "graphics/GaussianBlur.h"
 #include "Bloom.h"
+#include "ShadowMapRender.h"
 #include "RenderingEngine.h"
 #include "SpringCamera.h"
 

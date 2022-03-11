@@ -107,7 +107,13 @@ namespace nsK2EngineLow {
 		void InitAnimation(AnimationClip* animationClip,
 			int numAnimationClips,
 			EnModelUpAxis enModelUpAxis);
+
+		void InitShadowModel(
+			const char* tkmFilePath,
+			EnModelUpAxis modelUpAxis);
+
 		Model					m_model;								//モデル。
+		Model					m_shadowmodel;							//シャドウモデル。
 		Animation				m_animation;							//アニメーション。
 		AnimationClip*			m_animationClip = nullptr;				//アニメーションクリップ。
 		int						m_numAnimationClips = 0;				//アニメーションクリップの数。
@@ -118,7 +124,9 @@ namespace nsK2EngineLow {
 		Vector3					m_scale = Vector3::One;					//拡大率。
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
 
-		bool offScreenRendaring = false;
+		
+
+		//bool offScreenRendaring = false;
 		
 		
 		

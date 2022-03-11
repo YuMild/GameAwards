@@ -27,7 +27,7 @@ namespace nsK2EngineLow {
 		dir = { 1.0f,-1.0f,1.0f };
 		m_light.spotLight.SetDirection(dir);
 
-		m_light.spotLight.SetRange(0.0f);
+		m_light.spotLight.SetRange(300.0f);
 
 		m_light.spotLight.SetAngle(Math::DegToRad(25.0f));
 	}

@@ -29,6 +29,7 @@ namespace nsK2EngineLow {
 	void ModelRender::Draw(RenderContext& rc)
 	{
 		m_model.Draw(rc);
+
 	}
 	void ModelRender::Init(const char* filePath,
 		AnimationClip* animationClips,
@@ -90,4 +91,19 @@ namespace nsK2EngineLow {
 
 	}
 
+	void ModelRender::InitShadowModel(const char* tkmFilePath,EnModelUpAxis modelUpAxis)
+	{
+		ModelInitData ShadowModelInitData;
+
+		// シャドウマップ描画用のシェーダーを指定する
+		ShadowModelInitData.m_fxFilePath = "Assets/shader/DrawShadowMap.fx";
+		ShadowModelInitData.m_tkmFilePath = tkmFilePath;
+		if (m_animationClip != nullptr) {
+			//スケルトンを指定する。
+			ShadowModelInitData.m_skeleton = &m_skeleton;
+		}
+		m_shadowmodel.Init(ShadowModelInitData);
+
+		g_renderingEngine.AddShadowRenderModel(m_shadowmodel);
+	}
 }

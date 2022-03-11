@@ -56,6 +56,8 @@ namespace nsK2EngineLow {
         // ‘‚«‚İŠ®—¹‘Ò‚¿
         rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
        
+
+       
     }
 
 
