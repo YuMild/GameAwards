@@ -20,7 +20,7 @@
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="main.cpp">
@@ -42,7 +42,7 @@
       <Filter>system</Filter>
     </ClInclude>
     <ClInclude Include="Game.h" />
-    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="Stage1.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="ChargeShot.h">

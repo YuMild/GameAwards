@@ -4,24 +4,23 @@
 namespace
 {
     //プレイヤー
-    float PLAYER_FIRST_Y_POSITION = 100.0f;             //初期のY座標
-    float PLAYER_MODEL_SCALE = 1.0f;                    //サイズ
-    float PLAYER_COLLISION_SCALE = 10.0f;               //当たり判定のサイズ
-    float PLAYER_GRAVITY = 30.0f;                       //重力
-    float PLAYER_ROLL = 0.5f;                           //転がりやすさ
-    float PLAYER_FRICTION = 5.0f;                       //摩擦力
-    //float PLAYER_
-    float PLAYER_SPEED_DEFAULT = 1200000.0f;            //スピードデフォルト
-    float PLAYER_SPEED_MAX = 1500.0f;                   //スピード上限値
+    Vector3 PLAYER_FIRST_POSITION = { 0.0f,100.0f,0.0f };       //スポーン座標
+    float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
+    float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
+    float PLAYER_GRAVITY = 30.0f;                               //重力
+    float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
+    float PLAYER_FRICTION = 100.0f;                              //摩擦力
+    float PLAYER_SPEED_DEFAULT = 900000.0f;                     //スピードデフォルト
+    float PLAYER_SPEED_MAX = 1500.0f;                           //スピード上限値
 
     //チャージ
-    float CHARGE_DEFAULT = 0.0f;                        //チャージリセット値
-    float CHARGE_ADD = 0.05f;                           //1f毎にチャージされる値
+    float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値
+    float CHARGE_ADD = 0.05f;                                   //1f毎にチャージされる値
 }
 
 bool Player::Start()
 {
-    m_position.y = PLAYER_FIRST_Y_POSITION;
+    m_position = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
     m_modelRender.Init("Assets/modelData/Stage1/Ball.tkm");
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
@@ -61,6 +60,7 @@ bool Player::Start()
 void Player::Update()
 {
     Move();
+    Death();
     //モデルの更新処理。
     m_modelRender.Update();
 }
@@ -87,7 +87,7 @@ void Player::Move()
 
     if (g_pad[0]->IsPress(enButtonLB2))
     {
-        g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
+        //g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
         m_isPress = true;
         m_charge += CHARGE_ADD;
     }
@@ -116,4 +116,8 @@ void Player::Move()
 
     m_moveSpeed.x = 0.0f;               //スピードの初期化
     m_moveSpeed.z = 0.0f;
+}
+
+void Player::Death()
+{
 }

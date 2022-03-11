@@ -53,6 +53,11 @@ private:
     /// </summary>
     void Move();
 
+    /// <summary>
+    /// €–S”»’è‚ğŠÇ—
+    /// </summary>
+    void Death();
+
     ModelRender m_modelRender;
     SphereCollider m_sphereCollider;        //‰~Œ^‚ÌƒRƒ‰ƒCƒ_[
     RigidBody m_rigidBody;                  //„‘Ì

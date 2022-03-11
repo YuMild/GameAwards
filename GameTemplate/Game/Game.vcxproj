@@ -223,7 +223,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="Bound.cpp" />
     <ClCompile Include="ChargeShot.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -239,7 +239,7 @@
     <ClCompile Include="system\system.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="Stage1.h" />
     <ClInclude Include="Bound.h" />
     <ClInclude Include="ChargeShot.h" />
     <ClInclude Include="GameCamera.h" />

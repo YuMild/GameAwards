@@ -14,6 +14,7 @@ namespace nsK2EngineLow {
 		{
 			return shape.get();
 		}
+
 	private:
 		std::unique_ptr<btBoxShape>		shape;
 	};

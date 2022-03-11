@@ -1,6 +1,6 @@
 #pragma once
 
-class BackGround;
+class Stage1;
 class ChargeShot;
 class GameCamera;
 class Player;
@@ -15,7 +15,9 @@ public:
 
 private:
 
-	BackGround* m_backGround;
+	void Death();
+
+	Stage1* m_stage1;
 	ChargeShot* m_chargeShot;
 	GameCamera* m_gameCamera;
 	Player* m_player;

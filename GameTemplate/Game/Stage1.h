@@ -1,5 +1,5 @@
 #pragma once
-class BackGround : public IGameObject
+class Stage1 : public IGameObject
 {
 public:
 	bool Start() override;
