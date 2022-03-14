@@ -74,6 +74,14 @@ namespace nsK2EngineLow {
 			SetScale(scale);
 		}
 		/// <summary>
+		/// 座標を取得。
+		/// </summary>
+		/// <returns></returns>
+		Vector3 GetPosition() const
+		{
+			return m_position;
+		}
+		/// <summary>
 		/// アニメーション再生。
 		/// </summary>
 		/// <param name="animNo">アニメーションクリップの番号。</param>

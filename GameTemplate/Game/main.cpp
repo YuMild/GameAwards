@@ -12,7 +12,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 {
 	// ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
-	
+
 	// k2EngineLowの初期化。
 	g_k2EngineLow = new K2EngineLow();
 	g_k2EngineLow->Init(g_hWnd, FRAME_BUFFER_W, FRAME_BUFFER_H);
@@ -40,7 +40,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	monochromeSprite.Init(spriteInitData);
 
 
-	
+
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
@@ -55,12 +55,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		g_k2EngineLow->ExecuteRender();
 
-		
+
 		//TODO オフスクリーンレンダリングの処理
 		g_postEffect.Render(renderContext);
 
 		//TODO spriteの描画。
 		g_renderingEngine.SpriteRenderDraw(renderContext);
+
+		g_renderingEngine.FontRenderDraw(renderContext);
 
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();
@@ -72,4 +74,3 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	return 0;
 }
-

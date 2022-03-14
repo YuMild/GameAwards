@@ -40,12 +40,16 @@ bool ChargeShot::Start()
 void ChargeShot::Update()
 {
 	Cut();
+	Speed();
 	m_charge2D.Update();
 	m_chargeInside2D.Update();
 }
 
 void ChargeShot::Render(RenderContext& rc)
 {
+	//フォントを描画する。
+	m_fontRender.Draw(rc);
+
 	m_charge2D.Draw(rc);
 	m_chargeInside2D.Draw(rc);
 }
@@ -54,4 +58,22 @@ void ChargeShot::Cut()
 {
 	m_chargeInside2D.SetIsDisplayRestrictionRightSide(true);
 	m_chargeInside2D.SetLimitedX(m_player->GetCharge());
+}
+
+void ChargeShot::Speed()
+{
+	m_speed = m_player->GetPlayerSpeed();
+
+	wchar_t wcsbuf[256];
+	swprintf_s(wcsbuf, 256, L"%d", int(m_speed));
+
+	m_fontRender.SetText(wcsbuf);
+
+	//フォントの位置を設定。
+	m_fontRender.SetPosition(Vector3(-630.0f, -330.0f, 0.0f));
+
+	//フォントの大きさを設定。
+	m_fontRender.SetScale(2.0f);
+	m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f,0.0f });
+	m_fontRender.SetPivot(1.0f, 0.5f);
 }

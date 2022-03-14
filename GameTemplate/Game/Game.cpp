@@ -5,6 +5,7 @@
 #include "ChargeShot.h"
 #include "GameCamera.h"
 #include "Player.h"
+#include "RockOn.h"
 
 bool Game::Start()
 {
@@ -12,6 +13,7 @@ bool Game::Start()
 	m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 	m_player = NewGO<Player>(0, "player");
+	m_rockOn = NewGO<RockOn>(0, "rockOn");
 	return true;
 }
 void Game::Update()
@@ -30,8 +32,10 @@ void Game::Death()
 		DeleteGO(m_player);
 		DeleteGO(m_gameCamera);
 		DeleteGO(m_chargeShot);
+		DeleteGO(m_rockOn);
 		m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
 		m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 		m_player = NewGO<Player>(0, "player");
+		m_rockOn = NewGO<RockOn>(0, "rockOn");
 	}
 }

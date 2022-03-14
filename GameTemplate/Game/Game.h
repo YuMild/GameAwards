@@ -4,6 +4,7 @@ class Stage1;
 class ChargeShot;
 class GameCamera;
 class Player;
+class RockOn;
 
 class Game : public IGameObject
 {
@@ -21,5 +22,6 @@ private:
 	ChargeShot* m_chargeShot;
 	GameCamera* m_gameCamera;
 	Player* m_player;
+	RockOn* m_rockOn;
 };
 

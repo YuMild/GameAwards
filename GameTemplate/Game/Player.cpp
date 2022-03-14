@@ -9,9 +9,9 @@ namespace
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = 30.0f;                               //重力
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
-    float PLAYER_FRICTION = 100.0f;                             //摩擦力
-    float PLAYER_SPEED_DEFAULT = 1000000.0f;                     //スピードデフォルト
-    float PLAYER_SPEED_MAX = 1500.0f;                           //スピード上限値
+    float PLAYER_FRICTION = 10.0f;                              //摩擦力
+    float PLAYER_SPEED_DEFAULT = 900000.0f;                    //スピードデフォルト
+    float PLAYER_SPEED_MAX = 1000.0f;                           //スピード上限値
 
     //チャージ
     float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値

@@ -46,6 +46,17 @@ public:
         return m_charge;
     }
 
+    /// <summary>
+    /// プレーヤーのスピードを取得
+    /// </summary>
+    /// <returns></returns>
+    float GetPlayerSpeed() const
+    {
+        return m_rigidBody.GetLinearVelocity().Length();
+    }
+
+
+
 private:
 
     /// <summary>

@@ -21,7 +21,7 @@ bool Stage1::Start()
 
 	//m_boxCollider.Create({ 100.0f,100.0f,100.0f });
 
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
 	return true;
 }
