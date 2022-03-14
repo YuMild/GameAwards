@@ -54,9 +54,6 @@ public:
     {
         return m_rigidBody.GetLinearVelocity().Length();
     }
-
-
-
 private:
 
     /// <summary>

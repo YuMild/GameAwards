@@ -23,10 +23,10 @@ bool GameCamera::Start()
 
 	m_springCamera.Init(
 		*g_camera3D,			//	ばねカメラの処理を行うカメラを指定する
-		1000000.0f					//	カメラの移動速度の最大値
+		10000.0f				//	カメラの移動速度の最大値
 	);
-
-	m_springCamera.SetDampingRate(0.5f);
+	
+	m_springCamera.SetDampingRate(0.7f);
 
 	return true;
 }

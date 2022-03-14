@@ -70,7 +70,7 @@ void ChargeShot::Speed()
 	m_fontRender.SetText(wcsbuf);
 
 	//フォントの位置を設定。
-	m_fontRender.SetPosition(Vector3(-630.0f, -330.0f, 0.0f));
+	m_fontRender.SetPosition({ -630.0f, -330.0f, 0.0f });
 
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(2.0f);

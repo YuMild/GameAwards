@@ -19,6 +19,9 @@ private:
 	/// </summary>
 	void Judge();
 
+	//ƒtƒHƒ“ƒg
+	FontRender m_fontRender;
+
 	Vector3 m_difference;
 
 	Player* m_player;

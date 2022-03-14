@@ -1,7 +1,5 @@
 #pragma once
 
-#include <FontRender.h>
-
 class Player;
 /// <summary>
 /// チャージゲージ

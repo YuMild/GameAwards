@@ -8,9 +8,9 @@ public:
 	void Update() override;
 	void Render(RenderContext& rc) override;
 
-	Vector3 GetBumperPosition() const
+	Vector3 GetBumperPosition()
 	{
-		return m_stage_Bumpers.GetPosition();
+		return m_stage_Bumpers.GetPosition()
 	}
 
 private:
@@ -24,6 +24,5 @@ private:
 	PhysicsStaticObject m_stage_Ground_PSO;
 	PhysicsStaticObject m_stage_Wall_PSO;
 	PhysicsStaticObject m_stage_Bumpers_PSO;
-	BoxCollider m_boxCollider;
 };
 
