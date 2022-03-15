@@ -1,4 +1,5 @@
 #pragma once
+#include<LevelRender.h>
 
 class Stage1 : public IGameObject
 {
@@ -10,10 +11,12 @@ public:
 
 	Vector3 GetBumperPosition()
 	{
-		return m_stage_Bumpers.GetPosition()
+		return m_stage_Bumpers.GetPosition();
 	}
 
 private:
+
+	LevelRender m_levelRender;
 
 	//ƒ‚ƒfƒ‹
 	ModelRender m_stage_Ground;					//’n–Ê

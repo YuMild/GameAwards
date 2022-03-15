@@ -88,7 +88,13 @@ namespace nsK2EngineLow {
 			m_rigidBody->setLinearVelocity(btVel);
 			m_rigidBody->activate();
 		}
-
+		void SetLinearXZVelocity(const Vector3& vel)
+		{
+			btVector3 btVel;
+			btVel.setValue(vel.x, vel.y, vel.z);
+			m_rigidBody->setLinearVelocity(btVel);
+			m_rigidBody->activate();
+		}
 		/// <summary>
 		/// Œ»İ‚Ì‘¬“x‚ğæ“¾B
 		/// </summary>

@@ -9,9 +9,10 @@ namespace
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = 30.0f;                               //重力
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
-    float PLAYER_FRICTION = 10.0f;                              //摩擦力
-    float PLAYER_SPEED_DEFAULT = 900000.0f;                    //スピードデフォルト
-    float PLAYER_SPEED_MAX = 1000.0f;                           //スピード上限値
+    float PLAYER_FRICTION = 1.0f;                               //摩擦力
+    float PLAYER_SPEED_DECREASE = 0.99;                         //スピードの減衰率
+    float PLAYER_SPEED_DEFAULT = 1200000.0f;                    //スピードデフォルト
+    float PLAYER_SPEED_MAX = 1500.0f;                           //スピード上限値
 
     //チャージ
     float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値
@@ -109,9 +110,16 @@ void Player::Move()
         g_vec3Zero          //力を加える剛体の相対位置
     );
 
+    //スピードの上限を設定。
     if (m_rigidBody.GetLinearXZVelocity().Length() >= PLAYER_SPEED_MAX)
     {
         m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * PLAYER_SPEED_MAX);
+    }
+
+    //スピードを徐々に減衰させる。
+    if (m_rigidBody.GetLinearXZVelocity().Length() >= 0)
+    {
+        m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(0.999, 2));
     }
 
     m_moveSpeed.x = 0.0f;               //スピードの初期化

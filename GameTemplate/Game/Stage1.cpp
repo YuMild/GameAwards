@@ -3,9 +3,13 @@
 
 bool Stage1::Start()
 {
-	m_
+	/*m_levelRender.Init("Assets/modelData/Stage1/Stage_0_.tkl",
+		[&](LevelObjectData& objData)
+		{
 
-	/*m_stage_Ground.Init("Assets/modelData/Stage1/Stage_1_Ground.tkm");
+		}
+	);*/
+	m_stage_Ground.Init("Assets/modelData/Stage1/Stage_1_Ground.tkm");
 	m_stage_Wall.Init("Assets/modelData/Stage1/Stage_1_wall.tkm");
 	m_stage_Bumpers.Init("Assets/modelData/Stage1/Stage_1_bumpers.tkm");
 
@@ -21,7 +25,6 @@ bool Stage1::Start()
 	m_stage_Ground_PSO.CreateFromModel(m_stage_Ground.GetModel(), m_stage_Ground.GetModel().GetWorldMatrix(),0.0f);
 	m_stage_Wall_PSO.CreateFromModel(m_stage_Wall.GetModel(), m_stage_Wall.GetModel().GetWorldMatrix(),0.8f);
 	m_stage_Bumpers_PSO.CreateFromModel(m_stage_Bumpers.GetModel(), m_stage_Bumpers.GetModel().GetWorldMatrix(), 1.2f);
-	*/
 
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
