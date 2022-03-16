@@ -22,14 +22,10 @@ bool ChargeShot::Start()
 {
 	m_charge2D.Init("Assets/sprite/Charge.dds", 700.0f, 700.0f);
 	m_charge2D.SetPosition(Vector3(-400.0f, -250.0f, 0.0f));
-	//m_charge2D.Init("Assets/sprite/Charge2.dds", 600.0f, 600.0f);
-	//m_charge2D.SetPosition(Vector3(-400.0f, -200.0f, 0.0f));
 	m_charge2D.Update();
 
 	m_chargeInside2D.Init("Assets/sprite/ChargeInside.dds", 315.0f, 315.0f);
 	m_chargeInside2D.SetPosition(Vector3(-295.0f, -288.0f, 0.0f));
-	//m_chargeInside2D.Init("Assets/sprite/ChargeInside2.dds", 195.0f, 195.0f);
-	//m_chargeInside2D.SetPosition(Vector3(-253.0f, -222.0f, 0.0f));
 	m_chargeInside2D.Update();
 
 	m_player = FindGO<Player>("player");
@@ -65,7 +61,7 @@ void ChargeShot::Speed()
 	m_speed = m_player->GetPlayerSpeed();
 
 	wchar_t wcsbuf[256];
-	swprintf_s(wcsbuf, 256, L"%d", int(m_speed));
+	swprintf_s(wcsbuf, 256, L"%d", int(m_speed/10));
 
 	m_fontRender.SetText(wcsbuf);
 

@@ -13,6 +13,15 @@
     <Filter Include="Effect">
       <UniqueIdentifier>{df084916-e0f2-461c-b166-d27b66bcb1cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{ec5f84eb-226c-4421-a424-be0b061860d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\Parts">
+      <UniqueIdentifier>{a15a7260-2d6c-4a62-aea3-db5fdd25d9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\Stage_0">
+      <UniqueIdentifier>{6ac483c1-00fc-4041-a5ce-f139a19f550e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -20,7 +29,6 @@
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="main.cpp">
@@ -35,6 +43,21 @@
     <ClCompile Include="RockOn.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
+    <ClCompile Include="JumpBoard.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_0_Ground.cpp">
+      <Filter>Stage\Stage_0</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_0_Wall.cpp">
+      <Filter>Stage\Stage_0</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_0.cpp">
+      <Filter>Stage\Stage_0</Filter>
+    </ClCompile>
+    <ClCompile Include="Bumper.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -42,7 +65,6 @@
       <Filter>system</Filter>
     </ClInclude>
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Stage1.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="ChargeShot.h">
@@ -53,6 +75,21 @@
     </ClInclude>
     <ClInclude Include="RockOn.h">
       <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpBoard.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_0_Ground.h">
+      <Filter>Stage\Stage_0</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_0_Wall.h">
+      <Filter>Stage\Stage_0</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_0.h">
+      <Filter>Stage\Stage_0</Filter>
+    </ClInclude>
+    <ClInclude Include="Bumper.h">
+      <Filter>Stage\Parts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

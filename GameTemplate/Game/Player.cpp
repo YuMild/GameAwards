@@ -11,7 +11,7 @@ namespace
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.99;                         //スピードの減衰率
-    float PLAYER_SPEED_DEFAULT = 1200000.0f;                    //スピードデフォルト
+    float PLAYER_SPEED_DEFAULT = 2000000.0f;                    //スピードデフォルト
     float PLAYER_SPEED_MAX = 1500.0f;                           //スピード上限値
 
     //チャージ
@@ -23,7 +23,7 @@ bool Player::Start()
 {
     m_position = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
-    m_modelRender.Init("Assets/modelData/Stage1/Ball.tkm");
+    m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 
@@ -64,12 +64,20 @@ void Player::Update()
     Death();
     //モデルの更新処理。
     m_modelRender.Update();
+
+    wchar_t wcsbuf[256];
+    swprintf_s(wcsbuf, 256, L"%d", int(m_position.y));
+    m_fontRender.SetText(wcsbuf);
+    m_fontRender.SetPosition({ 500.0f, 300.0f, 0.0f });
 }
 
 void Player::Render(RenderContext& rc)
 {
     //モデルの描画。
     m_modelRender.Draw(rc);
+
+
+    m_fontRender.Draw(rc);
 }
 
 void Player::Move()
@@ -94,12 +102,15 @@ void Player::Move()
     }
     else if (m_isPress == true)
     {
+        m_timer = 0.0f;
         g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 60.0f);
         m_isPress = false;
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
         m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;   //前後
         m_charge = CHARGE_DEFAULT;
     }
+
+    m_timer = g_gameTime->GetFrameDeltaTime();
 
     m_moveSpeed.y = -10000.0f;
 
@@ -111,7 +122,7 @@ void Player::Move()
     );
 
     //スピードの上限を設定。
-    if (m_rigidBody.GetLinearXZVelocity().Length() >= PLAYER_SPEED_MAX)
+    if (m_rigidBody.GetLinearVelocity().Length() >= PLAYER_SPEED_MAX)
     {
         m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * PLAYER_SPEED_MAX);
     }
@@ -119,7 +130,7 @@ void Player::Move()
     //スピードを徐々に減衰させる。
     if (m_rigidBody.GetLinearXZVelocity().Length() >= 0)
     {
-        m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(0.999, 2));
+        m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(0.995, 2));
     }
 
     m_moveSpeed.x = 0.0f;               //スピードの初期化

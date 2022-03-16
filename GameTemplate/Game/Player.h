@@ -29,6 +29,24 @@ public:
     }
 
     /// <summary>
+    /// 大きさを設定。
+    /// </summary>
+    /// <param name="scale">大きさ。</param>
+    void SetScale(const Vector3& scale)
+    {
+        m_scale = scale;
+    }
+
+    /// <summary>
+    /// 回転を設定。
+    /// </summary>
+    /// <param name="rotation">回転。</param>
+    void SetRotation(const Quaternion& rotation)
+    {
+        m_rotation = rotation;
+    }
+
+    /// <summary>
     /// プレイヤーの移動速度を取得
     /// </summary>
     /// <param name="moveSpeed"></param>
@@ -66,11 +84,14 @@ private:
     /// </summary>
     void Death();
 
+    FontRender m_fontRender;
+
     ModelRender m_modelRender;
     SphereCollider m_sphereCollider;        //円型のコライダー
     RigidBody m_rigidBody;                  //剛体
 
     Vector3 m_position;                     //ポジション
+    Vector3 m_scale;
     Vector3 m_cameraForward;
     Vector3 m_cameraRight;
     Vector3 m_moveSpeed;
@@ -81,4 +102,5 @@ private:
 
     bool m_isPress = false;
     float m_charge = 0.0f;
+    float m_timer = 0.0f;
 };

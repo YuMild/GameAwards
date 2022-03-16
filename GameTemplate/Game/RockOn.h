@@ -1,7 +1,7 @@
 #pragma once
 
 class Player;
-class Stage1;
+class Stage_0;
 
 class RockOn : public IGameObject
 {
@@ -25,5 +25,5 @@ private:
 	Vector3 m_difference;
 
 	Player* m_player;
-	Stage1* m_stage1;
+	Stage_0* m_stage_0;
 };

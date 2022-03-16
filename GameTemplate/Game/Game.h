@@ -1,10 +1,10 @@
 #pragma once
 
-class Stage1;
 class ChargeShot;
 class GameCamera;
 class Player;
 class RockOn;
+class Stage_0;
 
 class Game : public IGameObject
 {
@@ -18,10 +18,10 @@ private:
 
 	void Death();
 
-	Stage1* m_stage1;
 	ChargeShot* m_chargeShot;
 	GameCamera* m_gameCamera;
 	Player* m_player;
 	RockOn* m_rockOn;
+	Stage_0* m_stage_0;
 };
 
