@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "RockOn.h"
 
+#include "Bumper.h"
 #include "Player.h"
-#include "Stage_0.h"
 
 RockOn::RockOn()
 {
@@ -16,14 +16,15 @@ RockOn::~RockOn()
 
 bool RockOn::Start()
 {
+	m_bumper = FindGO<Bumper>("bumper");
 	m_player = FindGO<Player>("player");
-	m_stage_0 = FindGO<Stage_0>("stage_0");
+	
 	return true;
 }
 
 void RockOn::Update()
 {
-	//Judge();
+	Judge();
 }
 
 void RockOn::Render(RenderContext& rc)
@@ -34,30 +35,40 @@ void RockOn::Render(RenderContext& rc)
 void RockOn::Judge()
 {
 	//プレイヤーからバンパーに向かうベクトルを求める
-	//m_difference = m_stage_0->GetBumperPosition() - m_player->GetPosition();
+	m_difference = m_bumper->GetPosition() - m_player->GetPosition();
 
-	//プレイヤーに近かったら
-	if (m_difference.Length() <= 1000.0f)
+	//距離が遠過ぎたり近過ぎるとロックオンしない
+	if (m_difference.Length() >= 5000.0f || m_difference.Length() < 100.0f)
 	{
-		//プレイヤーからバンパーに向かうベクトルを正規化
-		m_difference.Normalize();
-		//カメラの正面のベクトルとプレイヤーからバンパーに向かうベクトルの内積を求める
-		float cos = g_camera3D->GetForward().Dot(m_difference);
-		//内積から角度を求める
-		float angle = acosf(cos);
-		//角度が120°より小さかったらロックオンする
-		if (angle <= (Math::PI / 180.0f) * 60.0f);
-		{
-			wchar_t wcsbuf[256];
-			swprintf_s(wcsbuf, 256, L"%d", int(1));
-			m_fontRender.SetText(wcsbuf);
-			m_fontRender.SetPosition({ 100.0f,100.0f,0.0f });
-		}
+		m_isReady = false;
 	}
 	else
 	{
+		m_isReady = true;
+	}
+
+	//正規化
+	m_difference.y = 0.0f;
+	m_difference.Normalize();
+
+	//ロックオン視野角を作成
+	float angle = acosf(g_camera3D->GetForward().Dot(m_difference));
+
+	//距離が適切で且つロックオン視野角にオブジェクトが入っていたら
+	if (angle < (Math::PI / 180.0f) * 30.0f && m_isReady == true)
+	{
+		//ロックオンする
+		m_isRockOn == true;
 		wchar_t wcsbuf[256];
-		swprintf_s(wcsbuf, 256, L"%d", int(2));
+		swprintf_s(wcsbuf, 256, L"RockOn%d", int(1));
+		m_fontRender.SetText(wcsbuf);
+		m_fontRender.SetPosition({ 100.0f,100.0f,0.0f });
+	}
+	else
+	{
+		//ロックオンしない
+		wchar_t wcsbuf[256];
+		swprintf_s(wcsbuf, 256, L"Don't RockOn%d", int(2));
 		m_fontRender.SetText(wcsbuf);
 		m_fontRender.SetPosition({ 100.0f,100.0f,0.0f });
 	}

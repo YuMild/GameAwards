@@ -19,6 +19,14 @@ public:
 		m_position = position;
 	}
 	/// <summary>
+	/// 座標を取得
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetPosition() const
+	{
+		return m_position;
+	}
+	/// <summary>
 	/// サイズを設定。
 	/// </summary>
 	/// <param name="scale"></param>

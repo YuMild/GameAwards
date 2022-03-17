@@ -1,7 +1,7 @@
 #pragma once
 
+class Bumper;
 class Player;
-class Stage_0;
 
 class RockOn : public IGameObject
 {
@@ -13,7 +13,6 @@ public:
 	void Update();
 
 private:
-
 	/// <summary>
 	/// ロックオンするか否かの判定をする。
 	/// </summary>
@@ -24,6 +23,9 @@ private:
 
 	Vector3 m_difference;
 
+	Bumper* m_bumper;
 	Player* m_player;
-	Stage_0* m_stage_0;
+
+	bool m_isReady = false;
+	bool m_isRockOn = false;
 };
