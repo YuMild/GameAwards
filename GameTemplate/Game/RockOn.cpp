@@ -63,6 +63,7 @@ void RockOn::Judge()
 		swprintf_s(wcsbuf, 256, L"RockOn%d", int(1));
 		m_fontRender.SetText(wcsbuf);
 		m_fontRender.SetPosition({ 100.0f,100.0f,0.0f });
+		g_camera3D->SetTarget(m_bumper->GetPosition());
 	}
 	else
 	{

@@ -47,6 +47,8 @@ private:
 
 	ModelRender						m_modelRender;
 	PhysicsStaticObject				m_phyStaticObject;
+	CharacterController				m_boxCollider;
+
 	Vector3							m_position;
 	Vector3							m_scale;
 	Quaternion						m_rotation;

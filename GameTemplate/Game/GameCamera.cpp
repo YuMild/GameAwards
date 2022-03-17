@@ -39,6 +39,7 @@ void GameCamera::Update()
 	Vector3 toCameraPosOld = m_toCameraPos;
 
 	//	パッドの入力を使ってカメラを回す
+	if (m_isMoveTrue);
 	float x = g_pad[0]->GetRStickXF();
 	float y = g_pad[0]->GetRStickYF();
 

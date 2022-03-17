@@ -19,7 +19,7 @@ bool Bumper::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
-	m_phyStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 1.2);
 
 	return true;
 }
