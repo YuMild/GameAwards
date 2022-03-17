@@ -19,7 +19,7 @@ bool GameCamera::Start()
 	m_player = FindGO<Player>("player");
 	m_toCameraPos.Set(0.0f, 100.0f, 100.0f);
 
-	g_camera3D->SetFar(10000.0f);
+	g_camera3D->SetFar(1000000.0f);
 
 	m_springCamera.Init(
 		*g_camera3D,			//	ばねカメラの処理を行うカメラを指定する

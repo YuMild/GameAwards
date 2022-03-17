@@ -18,6 +18,8 @@ bool Game::Start()
 	
 	m_player = FindGO<Player>("player");
 
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
 	return true;
 }
 
