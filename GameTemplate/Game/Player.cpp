@@ -11,8 +11,8 @@ namespace
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.99;                         //スピードの減衰率
-    float PLAYER_SPEED_DEFAULT = 2000000.0f;                    //スピードデフォルト
-    float PLAYER_SPEED_MAX = 1500.0f;                           //スピード上限値
+    float PLAYER_SPEED_DEFAULT = 7000000.0f;                    //スピードデフォルト
+    float PLAYER_SPEED_MAX = 5000.0f;                           //スピード上限値
 
     //チャージ
     float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値

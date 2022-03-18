@@ -12,6 +12,11 @@ public:
 	void Render(RenderContext& rc);
 	void Update();
 
+	bool GetRockOnJudge() const
+	{
+		return m_isRockOn;
+	}
+
 private:
 	/// <summary>
 	/// ロックオンするか否かの判定をする。

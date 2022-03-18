@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "GameCamera.h"
 
-
 #include "Player.h"
+#include "RockOn.h"
 
 GameCamera::GameCamera()
 {
@@ -21,12 +21,14 @@ bool GameCamera::Start()
 
 	g_camera3D->SetFar(1000000.0f);
 
-	m_springCamera.Init(
-		*g_camera3D,			//	ばねカメラの処理を行うカメラを指定する
-		10000.0f				//	カメラの移動速度の最大値
-	);
+	//m_springCamera.Init(
+		//*g_camera3D,			//	ばねカメラの処理を行うカメラを指定する
+		//10000.0f				//	カメラの移動速度の最大値
+	//);
 	
-	m_springCamera.SetDampingRate(0.7f);
+	//m_springCamera.SetDampingRate(0.7f);
+
+	m_rockOn = FindGO<RockOn>("rockOn");
 
 	return true;
 }
@@ -39,20 +41,23 @@ void GameCamera::Update()
 	Vector3 toCameraPosOld = m_toCameraPos;
 
 	//	パッドの入力を使ってカメラを回す
-	if (m_isMoveTrue);
-	float x = g_pad[0]->GetRStickXF();
-	float y = g_pad[0]->GetRStickYF();
-
+	
+	if (m_rockOn->GetRockOnJudge() == false)
+	{
+		m_rotationX = g_pad[0]->GetRStickXF();
+		m_rotationY = g_pad[0]->GetRStickYF();
+	}
+	
 	//	Y軸周りの回転
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, 2.0f * x);
+	qRot.SetRotationDeg(Vector3::AxisY, 2.0f * m_rotationX);
 	qRot.Apply(m_toCameraPos);
 
 	//	X軸周りの回転
 	Vector3 axisX;
 	axisX.Cross(Vector3::AxisY, m_toCameraPos);
 	axisX.Normalize();
-	qRot.SetRotationDeg(axisX, 2.0f * y);
+	qRot.SetRotationDeg(axisX, 2.0f * m_rotationY);
 	qRot.Apply(m_toCameraPos);
 
 	//	カメラの回転の上限をチェックする
@@ -69,7 +74,11 @@ void GameCamera::Update()
 	//	視点を計算する
 	Vector3 pos = m_target + m_toCameraPos;
 
-	m_springCamera.SetPosition(pos);
-	m_springCamera.SetTarget(m_target);
-	m_springCamera.Update();
+	g_camera3D->SetPosition(pos);
+	g_camera3D->SetTarget(m_target);
+	g_camera3D->Update();
+
+	//m_springCamera.SetPosition(pos);
+	//m_springCamera.SetTarget(m_target);
+	//m_springCamera.Update();
 }
