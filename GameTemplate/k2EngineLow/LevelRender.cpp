@@ -15,6 +15,7 @@ namespace nsK2EngineLow {
 	{
 
 	}
+
 	void LevelRender::CreateMapChipRender(const LevelObjectData& objData, const char* filePath)
 	{
 		std::string key = filePath;
@@ -38,6 +39,7 @@ namespace nsK2EngineLow {
 		std::function<bool(LevelObjectData& objData)> hookFunc
 	)
 	{
+		
 		//tklファイルをロードする。
 		m_tklFile.Load(filePath);
 
@@ -100,8 +102,6 @@ namespace nsK2EngineLow {
 				_mbscat_s((unsigned char*)cFilePath, newsize + strConSize, (unsigned char*)strCon);
 
 
-
-
 				//Hookが登録済みならばマップチップは作成不要
 				//false のままなら作成する。
 				bool isHooked = false;
@@ -124,6 +124,10 @@ namespace nsK2EngineLow {
 			//マップチップレンダーを初期化。
 			mapChipRender.second->Init();
 		}
+		/*for (auto& boxObjectData : m_boxobject)
+		{
+			CreateBox(boxObjectData);
+		}*/
 	}
 
 	void LevelRender::MatrixTklToLevel()
@@ -194,5 +198,30 @@ namespace nsK2EngineLow {
 		{
 			mapChipRenderPtr.second->Draw(rc);
 		}
+	}
+	void LevelRender::InitBoxCollider(const LevelObjectData& objData, float const& restitution)
+	{
+		auto boxData = std::make_unique<BoxObjectData>();
+		boxData->position = objData.position;
+		boxData->rotation = objData.rotation;
+		boxData->scale = objData.scale;
+		boxData->restitution = restitution;
+		m_boxobject.swap(boxData);
+		CreateBox(m_boxobject.get());
+		
+	}
+	void LevelRender::ReleaseBoxCollider()
+	{
+		
+		m_collider.clear();
+		m_boxobject.release();
+
+	}
+	void LevelRender::CreateBox(const BoxObjectData* objData)
+	{
+		auto collider = std::make_unique<PhysicsStaticBox>();
+		collider->Create(objData);
+
+		m_collider.push_back(std::move(collider));
 	}
 }

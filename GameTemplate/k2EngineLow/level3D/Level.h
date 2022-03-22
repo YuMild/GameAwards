@@ -10,7 +10,7 @@ namespace nsK2EngineLow {
 	/// <summary>
 	/// レベルオブジェクト。
 	/// </summary>
-	struct LevelObjectData : public Noncopyable {
+	/*struct LevelObjectData : public Noncopyable {
 		Vector3 position;		//座標。
 		Quaternion rotation;	//回転。
 		Vector3 scale;			//拡大率。
@@ -40,7 +40,7 @@ namespace nsK2EngineLow {
 			}
 			return wcsncmp(n, name, len) == 0;
 		}
-	};
+	};*/
 
 	/// <summary>
 	/// レベル。

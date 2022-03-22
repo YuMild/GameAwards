@@ -247,6 +247,7 @@
       <Filter>level3D</Filter>
     </ClCompile>
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="PhysicsStaticBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -543,6 +544,7 @@
       <Filter>level3D</Filter>
     </ClInclude>
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="PhysicsStaticBox.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">

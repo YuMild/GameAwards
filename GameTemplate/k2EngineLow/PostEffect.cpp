@@ -63,7 +63,7 @@ namespace nsK2EngineLow {
 		// レンダリングターゲットをクリア
 		rc.ClearRenderTargetView(g_postEffect.luminnceRenderTarget);
 
-		//g_bloom.LuminanceSpriteDraw(rc);
+		g_bloom.LuminanceSpriteDraw(rc);
 
 		// レンダリングターゲットへの書き込み終了待ち
 		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.luminnceRenderTarget);

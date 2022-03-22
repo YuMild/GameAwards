@@ -23,11 +23,11 @@ namespace nsK2EngineLow {
 
 		m_light.spotLight.SetPosition({ 0.0f,50.0f,100.0f });
 
-		m_light.spotLight.SetColor({ 50.0f,50.0f,50.0f });
+		m_light.spotLight.SetColor({0.0f,0.0f,0.0f });
 		dir = { 1.0f,-1.0f,1.0f };
 		m_light.spotLight.SetDirection(dir);
 
-		m_light.spotLight.SetRange(0.0f);
+		m_light.spotLight.SetRange(300.0f);
 
 		m_light.spotLight.SetAngle(Math::DegToRad(25.0f));
 	}
