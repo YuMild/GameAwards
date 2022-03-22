@@ -60,7 +60,7 @@ void RockOn::Judge()
 		//ロックオンする
 		m_isRockOn == true;
 		wchar_t wcsbuf[256];
-		swprintf_s(wcsbuf, 256, L"RockOn%d", int(1));
+		swprintf_s(wcsbuf, 256, L"RockOn%d", int());
 		m_fontRender.SetText(wcsbuf);
 		m_fontRender.SetPosition({ 100.0f,100.0f,0.0f });
 		//g_camera3D->SetTarget(m_bumper->GetPosition());
@@ -69,7 +69,7 @@ void RockOn::Judge()
 	{
 		//ロックオンしない
 		wchar_t wcsbuf[256];
-		swprintf_s(wcsbuf, 256, L"Don't RockOn%d", int(2));
+		swprintf_s(wcsbuf, 256, L"%d", int());
 		m_fontRender.SetText(wcsbuf);
 		m_fontRender.SetPosition({ 100.0f,100.0f,0.0f });
 	}

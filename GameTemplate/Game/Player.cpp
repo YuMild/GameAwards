@@ -7,11 +7,11 @@ namespace
     Vector3 PLAYER_FIRST_POSITION = { 0.0f,100.0f,0.0f };       //スポーン座標
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
-    float PLAYER_GRAVITY = 30.0f;                               //重力
+    float PLAYER_GRAVITY = -50000.0f;                           //重力
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
-    float PLAYER_SPEED_DECREASE = 0.99;                         //スピードの減衰率
-    float PLAYER_SPEED_DEFAULT = 7000000.0f;                    //スピードデフォルト
+    float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
+    float PLAYER_SPEED_DEFAULT = 25000000.0f;                   //スピードデフォルト
     float PLAYER_SPEED_MAX = 5000.0f;                           //スピード上限値
 
     //チャージ
@@ -96,13 +96,14 @@ void Player::Move()
 
     if (g_pad[0]->IsPress(enButtonLB2))
     {
-        //g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
         m_isPress = true;
-        m_charge += CHARGE_ADD;
+        if (m_charge <= 1.0f)
+        {
+            m_charge += CHARGE_ADD;
+        }
     }
     else if (m_isPress == true)
     {
-        m_timer = 0.0f;
         g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 60.0f);
         m_isPress = false;
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
@@ -110,9 +111,7 @@ void Player::Move()
         m_charge = CHARGE_DEFAULT;
     }
 
-    m_timer = g_gameTime->GetFrameDeltaTime();
-
-    m_moveSpeed.y = -10000.0f;
+    m_moveSpeed.y = PLAYER_GRAVITY;
 
     //力を加える。
     //力を加えることにより、剛体が動く。
@@ -130,7 +129,7 @@ void Player::Move()
     //スピードを徐々に減衰させる。
     if (m_rigidBody.GetLinearXZVelocity().Length() >= 0)
     {
-        m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(0.995, 2));
+        m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(PLAYER_SPEED_DECREASE, 2));
     }
 
     m_moveSpeed.x = 0.0f;               //スピードの初期化

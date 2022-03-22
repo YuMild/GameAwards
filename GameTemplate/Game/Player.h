@@ -84,23 +84,20 @@ private:
     /// </summary>
     void Death();
 
-    FontRender m_fontRender;
-
-    ModelRender m_modelRender;
+    FontRender m_fontRender;                //フォントレンダー
+    SpriteRender m_gaugeRender;             //画像
+    ModelRender m_modelRender;              //モデルレンダー
     SphereCollider m_sphereCollider;        //円型のコライダー
     RigidBody m_rigidBody;                  //剛体
 
     Vector3 m_position;                     //ポジション
-    Vector3 m_scale;
-    Vector3 m_cameraForward;
-    Vector3 m_cameraRight;
-    Vector3 m_moveSpeed;
+    Vector3 m_scale;                        //サイズ
+    Vector3 m_cameraForward;                //カメラの前方向
+    Vector3 m_cameraRight;                  //カメラの左右方向
+    Vector3 m_moveSpeed;                    //プレイヤーの移動速度
 
     Quaternion m_rotation;                  //回転
 
-    SpriteRender m_gaugeRender;
-
-    bool m_isPress = false;
-    float m_charge = 0.0f;
-    float m_timer = 0.0f;
+    bool m_isPress = false;                 //ボタンが押されているか否かの判定
+    float m_charge = 0.0f;                  //チャージ
 };
