@@ -133,11 +133,11 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
 	// 頂点法線をピクセルシェーダーに渡す。
-	psIn.normal = mul(m, vsIn.normal); //法線を回転させる。
+	psIn.normal = normalize(mul(m, vsIn.normal)); //法線を回転させる。
 	psIn.uv = vsIn.uv;
     
     //カメラ空間の法線を求める。
-    psIn.normalInView = mul(mView, psIn.normal);
+    psIn.normalInView = normalize(mul(mView, psIn.normal));
 
 	return psIn;
 }
