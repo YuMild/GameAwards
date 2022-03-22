@@ -20,11 +20,11 @@ ChargeShot::~ChargeShot()
 
 bool ChargeShot::Start()
 {
-	m_charge2D.Init("Assets/sprite/Charge.dds", 700.0f, 700.0f);
+	m_charge2D.Init("Assets/sprite/Charge/Charge.dds", 700.0f, 700.0f);
 	m_charge2D.SetPosition(Vector3(-400.0f, -250.0f, 0.0f));
 	m_charge2D.Update();
 
-	m_chargeInside2D.Init("Assets/sprite/ChargeInside.dds", 315.0f, 315.0f);
+	m_chargeInside2D.Init("Assets/sprite/Charge/ChargeInside.dds", 315.0f, 315.0f);
 	m_chargeInside2D.SetPosition(Vector3(-295.0f, -288.0f, 0.0f));
 	m_chargeInside2D.Update();
 

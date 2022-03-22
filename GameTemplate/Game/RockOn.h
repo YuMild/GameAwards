@@ -23,6 +23,21 @@ private:
 	/// </summary>
 	void Judge();
 
+	/// <summary>
+	/// 画像の描画処理を管理。
+	/// </summary>
+	void Sprite();
+
+	//画像
+	SpriteRender m_rockOn_1;
+	SpriteRender m_rockOn_2;
+	SpriteRender m_rockOn_3;
+	SpriteRender m_rockOn_4;
+	SpriteRender m_rockOn_5;
+	SpriteRender m_rockOn_6;
+	SpriteRender m_rockOn_7;
+	SpriteRender m_rockOn_8;
+
 	//フォント
 	FontRender m_fontRender;
 
