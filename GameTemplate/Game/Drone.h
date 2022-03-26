@@ -1,11 +1,10 @@
 #pragma once
-
-class Bumper : public IGameObject
+class Drone : public IGameObject
 {
 public:
 
-	Bumper();
-	~Bumper();
+	Drone();
+	~Drone();
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);

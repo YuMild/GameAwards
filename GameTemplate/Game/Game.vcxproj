@@ -226,8 +226,10 @@
     <ClCompile Include="Bound.cpp" />
     <ClCompile Include="Bumper.cpp" />
     <ClCompile Include="ChargeShot.cpp" />
+    <ClCompile Include="Drone.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HoneyCombBlock.cpp" />
     <ClCompile Include="JumpBoard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -246,8 +248,10 @@
     <ClInclude Include="Bound.h" />
     <ClInclude Include="Bumper.h" />
     <ClInclude Include="ChargeShot.h" />
+    <ClInclude Include="Drone.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HoneyCombBlock.h" />
     <ClInclude Include="JumpBoard.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RockOn.h" />

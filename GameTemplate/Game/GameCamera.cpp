@@ -41,12 +41,8 @@ void GameCamera::Update()
 	Vector3 toCameraPosOld = m_toCameraPos;
 
 	//	パッドの入力を使ってカメラを回す
-	
-	if (m_rockOn->GetRockOnJudge() == false)
-	{
-		m_rotationX = g_pad[0]->GetRStickXF();
-		m_rotationY = g_pad[0]->GetRStickYF();
-	}
+	m_rotationX = g_pad[0]->GetRStickXF();
+	m_rotationY = g_pad[0]->GetRStickYF();
 	
 	//	Y軸周りの回転
 	Quaternion qRot;

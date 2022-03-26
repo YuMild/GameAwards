@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Player.h"
 
+#include "RockOn.h"
+
 namespace
 {
     //プレイヤー
@@ -9,7 +11,7 @@ namespace
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = -50000.0f;                           //重力
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
-    float PLAYER_FRICTION = 1.0f;                               //摩擦力
+    float PLAYER_FRICTION = 5.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
     float PLAYER_SPEED_DEFAULT = 25000000.0f;                   //スピードデフォルト
     float PLAYER_SPEED_MAX = 5000.0f;                           //スピード上限値
@@ -26,6 +28,9 @@ bool Player::Start()
     m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
+
+    EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/Bound.efk");
+    
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -56,19 +61,30 @@ bool Player::Start()
     //0を指定した軸は移動しない。
     //例えばyを0に指定すると、y座標は移動しなくなる。
     m_rigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
+
+    m_rockOn = FindGO<RockOn>("rockOn");
+
     return true;
 }
+
 void Player::Update()
 {
     Move();
-    Death();
     //モデルの更新処理。
     m_modelRender.Update();
 
-    wchar_t wcsbuf[256];
-    swprintf_s(wcsbuf, 256, L"%d", int(m_position.y));
-    m_fontRender.SetText(wcsbuf);
-    m_fontRender.SetPosition({ 500.0f, 300.0f, 0.0f });
+    wchar_t x[256];
+    swprintf_s(x, 256, L"X=%d", int(m_position.x));
+    m_fontRenderX.SetText(x);
+    m_fontRenderX.SetPosition({ 500.0f, 300.0f, 0.0f });
+    wchar_t y[256];
+    swprintf_s(y, 256, L"Y=%d", int(m_position.y));
+    m_fontRenderY.SetText(y);
+    m_fontRenderY.SetPosition({ 500.0f, 250.0f, 0.0f });
+    wchar_t z[256];
+    swprintf_s(z, 256, L"Z=%d", int(m_position.z));
+    m_fontRenderZ.SetText(z);
+    m_fontRenderZ.SetPosition({ 500.0f, 200.0f, 0.0f });
 }
 
 void Player::Render(RenderContext& rc)
@@ -76,8 +92,9 @@ void Player::Render(RenderContext& rc)
     //モデルの描画。
     m_modelRender.Draw(rc);
 
-
-    m_fontRender.Draw(rc);
+    m_fontRenderX.Draw(rc);
+    m_fontRenderY.Draw(rc);
+    m_fontRenderZ.Draw(rc);
 }
 
 void Player::Move()
@@ -90,11 +107,16 @@ void Player::Move()
 
     //剛体に力を加える。
     Vector3 force;
-    Vector3 forward = g_camera3D->GetForward();
+
+    //プレイヤーが進む方向を決定する。
+    Vector3 forward = g_camera3D->GetForward();         //カメラの前方向
     forward.y = 0.0f;
     forward.Normalize();
 
-    if (g_pad[0]->IsPress(enButtonLB2))
+    Vector3 target = m_rockOn->GetDifference();         //ロックオンしているオブジェクトの方向
+    target.Normalize();
+
+    if (g_pad[0]->IsPress(enButtonLB2))                 //ボタンを押している時
     {
         m_isPress = true;
         if (m_charge <= 1.0f)
@@ -102,12 +124,23 @@ void Player::Move()
             m_charge += CHARGE_ADD;
         }
     }
-    else if (m_isPress == true)
+    else if (m_isPress == true)                         //ボタンが離された時
     {
-        g_k2EngineLow->SetFrameRateMode(K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 60.0f);
         m_isPress = false;
-        m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
-        m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;   //前後
+        m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
+        m_sonicBoom = NewGO<EffectEmitter>(1);
+        m_sonicBoom->Init(1);
+        m_sonicBoom->SetPosition(m_position);
+        m_sonicBoom->SetScale(Vector3::One * 100.0f);
+        m_sonicBoom->Play();
+        if (m_rockOn->GetRockOnJudge() == true)
+        {
+            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * m_charge;           //前後
+        }
+        else if (m_rockOn->GetRockOnJudge() == false)
+        {
+            m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;          //前後
+        }
         m_charge = CHARGE_DEFAULT;
     }
 
@@ -134,8 +167,4 @@ void Player::Move()
 
     m_moveSpeed.x = 0.0f;               //スピードの初期化
     m_moveSpeed.z = 0.0f;
-}
-
-void Player::Death()
-{
 }

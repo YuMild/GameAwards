@@ -2,6 +2,8 @@
 #include "Stage_0.h"
 
 #include "Bumper.h"
+#include "Drone.h"
+#include "HoneyCombBlock.h"
 #include "JumpBoard.h"
 #include "Player.h"
 #include "Stage_0_Ground.h"
@@ -52,6 +54,22 @@ bool Stage_0::Start()
                 bumper->SetPosition(objData.position);                              //座標を設定する。
                 bumper->SetScale(objData.scale);                                    //サイズを設定する。
                 bumper->SetRotation(objData.rotation);                              //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"Drone") == true)
+            {
+                auto drone = NewGO<Drone>(0, "drone");                           //生成する。
+                drone->SetPosition(objData.position);                              //座標を設定する。
+                drone->SetScale(objData.scale);                                    //サイズを設定する。
+                drone->SetRotation(objData.rotation);                              //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"HoneyComb") == true)
+            {
+                auto honeyCombBlock = NewGO<HoneyCombBlock>(0, "honeyCombBlock");                           //生成する。
+                honeyCombBlock->SetPosition(objData.position);                              //座標を設定する。
+                honeyCombBlock->SetScale(objData.scale);                                    //サイズを設定する。
+                honeyCombBlock->SetRotation(objData.rotation);                              //回転を設定する。
                 return true;
             }
         });

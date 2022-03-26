@@ -1,11 +1,10 @@
 #pragma once
-
-class Bumper : public IGameObject
+class HoneyCombBlock : public IGameObject
 {
 public:
 
-	Bumper();
-	~Bumper();
+	HoneyCombBlock();
+	~HoneyCombBlock();
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
