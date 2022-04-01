@@ -58,11 +58,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//TODO オフスクリーンレンダリングの処理
 		g_postEffect.Render(renderContext);
-
+		//仮置き。
+		EffectEngine::GetInstance()->Draw();
 		//TODO spriteの描画。
 		g_renderingEngine.SpriteRenderDraw(renderContext);
 
 		g_renderingEngine.FontRenderDraw(renderContext);
+
 
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();
