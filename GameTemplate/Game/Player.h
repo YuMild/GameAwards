@@ -58,6 +58,15 @@ public:
     }
 
     /// <summary>
+    /// ロックオン時に発射されたか
+    /// </summary>
+    /// <param name="judge"></param>
+    void SetIsRockOnFire(const bool& judge)
+    {
+        m_isRockOnFire = judge;
+    }
+
+    /// <summary>
     /// チャージ量を取得
     /// </summary>
     /// <returns></returns>
@@ -81,7 +90,6 @@ private:
     /// </summary>
     void Move();
 
-    EffectEmitter*      m_sonicBoom;
     FontRender          m_fontRenderX;              //フォントレンダー
     FontRender          m_fontRenderY;              //フォントレンダー
     FontRender          m_fontRenderZ;              //フォントレンダー
@@ -99,7 +107,9 @@ private:
     Quaternion          m_rotation;                 //回転
 
     bool                m_isPress = false;          //ボタンが押されているか否かの判定
+    bool                m_isRockOnFire = false;     //ロックオン時に発射されたか否かの判定
     float               m_charge = 0.0f;            //チャージ
+    float               m_delay = 0.0f;             //ディレイ
 
     RockOn*             m_rockOn;
 };

@@ -30,7 +30,6 @@ bool Player::Start()
     m_modelRender.SetPosition(m_position);
 
     EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/Bound.efk");
-    
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -73,6 +72,7 @@ void Player::Update()
     //モデルの更新処理。
     m_modelRender.Update();
 
+    //デバッグ用
     wchar_t x[256];
     swprintf_s(x, 256, L"X=%d", int(m_position.x));
     m_fontRenderX.SetText(x);
@@ -105,56 +105,58 @@ void Player::Move()
     m_modelRender.SetPosition(m_position);
     m_modelRender.SetRotation(m_rotation);
 
-    //剛体に力を加える。
-    Vector3 force;
-
     //プレイヤーが進む方向を決定する。
-    Vector3 forward = g_camera3D->GetForward();         //カメラの前方向
+    
+    Vector3 forward = g_camera3D->GetForward();                                 //カメラの前方向
     forward.y = 0.0f;
     forward.Normalize();
+    
+    Vector3 target = m_rockOn->GetDifference();                                 //ロックオンしているオブジェクトの方向
 
-    Vector3 target = m_rockOn->GetDifference();         //ロックオンしているオブジェクトの方向
-    target.Normalize();
+    m_moveSpeed.y = PLAYER_GRAVITY;
 
-    if (g_pad[0]->IsPress(enButtonLB2))                 //ボタンを押している時
+    if (g_pad[0]->IsPress(enButtonLB2))                                         //ボタンを押している時
     {
         m_isPress = true;
-        if (m_charge <= 1.0f)
+        if (m_charge < 1.0f)
         {
             m_charge += CHARGE_ADD;
         }
     }
-    else if (m_isPress == true)                         //ボタンが離された時
+    else if (m_isPress == true && m_rockOn->GetRockOnJudge() == false)          //ボタンが離されて且つロックオンがオフの時
     {
         m_isPress = false;
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
-        m_sonicBoom = NewGO<EffectEmitter>(1);
-        m_sonicBoom->Init(1);
-        m_sonicBoom->SetPosition(m_position);
-        m_sonicBoom->SetScale(Vector3::One * 100.0f);
-        m_sonicBoom->Play();
-        if (m_rockOn->GetRockOnJudge() == true)
-        {
-            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * m_charge;           //前後
-        }
-        else if (m_rockOn->GetRockOnJudge() == false)
-        {
-            m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;          //前後
-        }
+        m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;              //前後
         m_charge = CHARGE_DEFAULT;
     }
+    else if (m_isPress == true && m_rockOn->GetRockOnJudge() == true)           //ボタンが離されて且つロックオンがオンの時
+    {
+        m_delay += 0.1;
+        m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
+        if (m_delay > 1.0f)
+        {
+            m_isRockOnFire = true;
+            m_isPress = false;
+            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * (m_charge * 3.0f);  //前後
+            m_charge = CHARGE_DEFAULT;
+            m_delay = 0.0f;
+        }
+    }
 
-    m_moveSpeed.y = PLAYER_GRAVITY;
+    if (m_isRockOnFire == false)                                                //ロックオンしてない時
+    {
+        m_moveSpeed.y = PLAYER_GRAVITY;                                         //重力が掛かる
+    }
 
-    //力を加える。
-    //力を加えることにより、剛体が動く。
-    m_rigidBody.AddForce(
-        m_moveSpeed,        //力
-        g_vec3Zero          //力を加える剛体の相対位置
+    m_rigidBody.AddForce
+    (
+        m_moveSpeed,                                                            //力
+        g_vec3Zero                                                              //力を加える剛体の相対位置
     );
 
     //スピードの上限を設定。
-    if (m_rigidBody.GetLinearVelocity().Length() >= PLAYER_SPEED_MAX)
+    if (m_isRockOnFire == false && m_rigidBody.GetLinearVelocity().Length() >= PLAYER_SPEED_MAX)
     {
         m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * PLAYER_SPEED_MAX);
     }
@@ -165,6 +167,7 @@ void Player::Move()
         m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(PLAYER_SPEED_DECREASE, 2));
     }
 
-    m_moveSpeed.x = 0.0f;               //スピードの初期化
-    m_moveSpeed.z = 0.0f;
+    m_moveSpeed.x = 0.0f;                                                       //スピードの初期化
+    m_moveSpeed.y = 0.0f;                                                       //スピードの初期化
+    m_moveSpeed.z = 0.0f;                                                       //スピードの初期化
 }

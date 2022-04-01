@@ -77,7 +77,12 @@ void RockOn::Sprite()
 {
 	if (m_isRockOn == true)
 	{
-		m_rotation_Num1 += 0.5f;
+		g_camera3D->CalcScreenPositionFromWorldPosition(m_2DPosition, m_bumper->GetPosition());
+		m_position.x = m_2DPosition.x;
+		m_position.y = m_2DPosition.y;
+		m_position.z = 0.0f;
+
+		m_rotation_Num1 += 0.7f;
 		m_rotation_Num2 += 1.2f;
 		m_rotation_Num3 += 1.3f;
 		m_rotation_Num4 += 1.4f;
@@ -114,7 +119,7 @@ void RockOn::Sprite()
 
 		if (m_rockOnSize_1 >= 0.5)
 		{
-			m_rockOnSize_1 -= 0.03;
+			m_rockOnSize_1 -= 0.05;
 			m_rockOn_1.SetScale(Vector3{ m_rockOnSize_1,m_rockOnSize_1,0.0f });
 			m_rockOn_1.Update();
 			m_rockOn_2.SetScale(Vector3{ m_rockOnSize_1,m_rockOnSize_1,0.0f });
@@ -122,7 +127,7 @@ void RockOn::Sprite()
 		}
 		if (m_rockOnSize_2 >= 0.5)
 		{
-			m_rockOnSize_2 -= 0.035;
+			m_rockOnSize_2 -= 0.055;
 			m_rockOn_3.SetScale(Vector3{ m_rockOnSize_2,m_rockOnSize_2,0.0f });
 			m_rockOn_3.Update();
 			m_rockOn_4.SetScale(Vector3{ m_rockOnSize_2,m_rockOnSize_2,0.0f });
@@ -130,7 +135,7 @@ void RockOn::Sprite()
 		}
 		if (m_rockOnSize_3 >= 0.5)
 		{
-			m_rockOnSize_3 -= 0.04;
+			m_rockOnSize_3 -= 0.06;
 			m_rockOn_5.SetScale(Vector3{ m_rockOnSize_3,m_rockOnSize_3,0.0f });
 			m_rockOn_5.Update();
 			m_rockOn_6.SetScale(Vector3{ m_rockOnSize_3,m_rockOnSize_3,0.0f });
@@ -138,13 +143,22 @@ void RockOn::Sprite()
 		}
 		if (m_rockOnSize_4 >= 0.5)
 		{
-			m_rockOnSize_4 -= 0.045;
+			m_rockOnSize_4 -= 0.065;
 			m_rockOn_7.SetScale(Vector3{ m_rockOnSize_4,m_rockOnSize_4,0.0f });
 			m_rockOn_7.Update();
 			m_rockOn_8.SetScale(Vector3{ m_rockOnSize_4,m_rockOnSize_4,0.0f });
 			m_rockOn_8.Update();
 		}
 	}
+	
+	m_rockOn_1.SetPosition(m_position);
+	m_rockOn_2.SetPosition(m_position);
+	m_rockOn_3.SetPosition(m_position);
+	m_rockOn_4.SetPosition(m_position);
+	m_rockOn_5.SetPosition(m_position);
+	m_rockOn_6.SetPosition(m_position);
+	m_rockOn_7.SetPosition(m_position);
+	m_rockOn_8.SetPosition(m_position);
 }
 
 void RockOn::Judge()
@@ -163,7 +177,6 @@ void RockOn::Judge()
 	}
 
 	//正規化
-	m_difference.y = 0.0f;
 	m_difference.Normalize();
 
 	//ロックオン視野角を作成
@@ -179,6 +192,7 @@ void RockOn::Judge()
 	{
 		//ロックオンしない
 		m_isRockOn = false;
+		m_player->SetIsRockOnFire(false);
 		m_rockOnSize_1 = 1.0f;
 		m_rockOnSize_2 = 1.0f;
 		m_rockOnSize_3 = 1.0f;

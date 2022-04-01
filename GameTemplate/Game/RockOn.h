@@ -61,6 +61,8 @@ private:
 	Quaternion m_rotation_7;
 	Quaternion m_rotation_8;
 
+	Vector2 m_2DPosition;
+	Vector3 m_position;
 	Vector3 m_difference;
 
 	Bumper* m_bumper;

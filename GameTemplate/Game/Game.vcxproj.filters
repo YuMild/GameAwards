@@ -64,6 +64,7 @@
     <ClCompile Include="Drone.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -103,5 +104,6 @@
     <ClInclude Include="Drone.h">
       <Filter>Stage\Parts</Filter>
     </ClInclude>
+    <ClInclude Include="Title.h" />
   </ItemGroup>
 </Project>
