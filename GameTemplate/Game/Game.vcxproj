@@ -232,8 +232,13 @@
     <ClCompile Include="HoneyCombBlock.cpp" />
     <ClCompile Include="JumpBoard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Nut.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PowerCharge.cpp" />
     <ClCompile Include="RockOn.cpp" />
+    <ClCompile Include="Setting.cpp" />
+    <ClCompile Include="SignBoard.cpp" />
+    <ClCompile Include="SonicBoom.cpp" />
     <ClCompile Include="Stage_0.cpp" />
     <ClCompile Include="Stage_0_Ground.cpp" />
     <ClCompile Include="Stage_0_Wall.cpp" />
@@ -244,6 +249,7 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="Volt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bound.h" />
@@ -254,14 +260,20 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="HoneyCombBlock.h" />
     <ClInclude Include="JumpBoard.h" />
+    <ClInclude Include="Nut.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerCharge.h" />
     <ClInclude Include="RockOn.h" />
+    <ClInclude Include="Setting.h" />
+    <ClInclude Include="SignBoard.h" />
+    <ClInclude Include="SonicBoom.h" />
     <ClInclude Include="Stage_0.h" />
     <ClInclude Include="Stage_0_Ground.h" />
     <ClInclude Include="Stage_0_Wall.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Title.h" />
+    <ClInclude Include="Volt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

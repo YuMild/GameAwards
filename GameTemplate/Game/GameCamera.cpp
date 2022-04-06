@@ -21,13 +21,6 @@ bool GameCamera::Start()
 
 	g_camera3D->SetFar(1000000.0f);
 
-	//m_springCamera.Init(
-		//*g_camera3D,			//	ばねカメラの処理を行うカメラを指定する
-		//10000.0f				//	カメラの移動速度の最大値
-	//);
-	
-	//m_springCamera.SetDampingRate(0.7f);
-
 	m_rockOn = FindGO<RockOn>("rockOn");
 
 	return true;
@@ -60,10 +53,10 @@ void GameCamera::Update()
 	//	注視点から視点までのベクトルを正規化する
 	Vector3 toPosDir = m_toCameraPos;
 	toPosDir.Normalize();
-	if (toPosDir.y < -0.5f) {
+	if (toPosDir.y < -0.4f) {
 		m_toCameraPos = toCameraPosOld;							//	カメラが上に向き過ぎるのを防ぐ
 	}
-	else if (toPosDir.y > 0.9f) {
+	else if (toPosDir.y > 0.7f) {
 		m_toCameraPos = toCameraPosOld;							//	カメラが下に向き過ぎるのを防ぐ
 	}
 

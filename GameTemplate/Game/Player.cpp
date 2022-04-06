@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Player.h"
 
+#include "PowerCharge.h"
 #include "RockOn.h"
+#include "SonicBoom.h"
 
 namespace
 {
@@ -11,7 +13,7 @@ namespace
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = -50000.0f;                           //重力
     float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
-    float PLAYER_FRICTION = 5.0f;                               //摩擦力
+    float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
     float PLAYER_SPEED_DEFAULT = 25000000.0f;                   //スピードデフォルト
     float PLAYER_SPEED_MAX = 5000.0f;                           //スピード上限値
@@ -28,8 +30,6 @@ bool Player::Start()
     m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
-
-    EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/Bound.efk");
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -132,13 +132,20 @@ void Player::Move()
     }
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == true)           //ボタンが離されて且つロックオンがオンの時
     {
+        if (m_isPowerCharge == true)
+        {
+            m_powerCharge = NewGO<PowerCharge>(0, "powerCharge");
+        }
+        m_isPowerCharge = false;
         m_delay += 0.1;
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
-        if (m_delay > 1.0f)
+        if (m_delay > 2.0f)
         {
             m_isRockOnFire = true;
             m_isPress = false;
-            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * (m_charge * 3.0f);  //前後
+            m_isPowerCharge = true;
+            m_sonicBoom = NewGO<SonicBoom>(0, "sonicBoom");
+            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);  //前後
             m_charge = CHARGE_DEFAULT;
             m_delay = 0.0f;
         }

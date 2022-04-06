@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Game.h"
+#include "Title.h"
 
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
@@ -20,8 +20,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 	g_sceneLight.SeteyePosition(g_camera3D->GetPosition());
 
-	NewGO<Game>(0, "game");
-
+	NewGO<Title>(0, "title");
 
 	g_postEffect.Init();
 	g_bloom.Init();
@@ -55,16 +54,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		g_k2EngineLow->ExecuteRender();
 
-
 		//TODO オフスクリーンレンダリングの処理
 		g_postEffect.Render(renderContext);
-		//仮置き。
+		
 		EffectEngine::GetInstance()->Draw();
+
 		//TODO spriteの描画。
 		g_renderingEngine.SpriteRenderDraw(renderContext);
 
 		g_renderingEngine.FontRenderDraw(renderContext);
-
 
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();

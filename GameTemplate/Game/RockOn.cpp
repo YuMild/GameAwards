@@ -82,6 +82,15 @@ void RockOn::Sprite()
 		m_position.y = m_2DPosition.y;
 		m_position.z = 0.0f;
 
+		m_rockOn_1.SetPosition(m_position);
+		m_rockOn_2.SetPosition(m_position);
+		m_rockOn_3.SetPosition(m_position);
+		m_rockOn_4.SetPosition(m_position);
+		m_rockOn_5.SetPosition(m_position);
+		m_rockOn_6.SetPosition(m_position);
+		m_rockOn_7.SetPosition(m_position);
+		m_rockOn_8.SetPosition(m_position);
+
 		m_rotation_Num1 += 0.7f;
 		m_rotation_Num2 += 1.2f;
 		m_rotation_Num3 += 1.3f;
@@ -150,15 +159,6 @@ void RockOn::Sprite()
 			m_rockOn_8.Update();
 		}
 	}
-	
-	m_rockOn_1.SetPosition(m_position);
-	m_rockOn_2.SetPosition(m_position);
-	m_rockOn_3.SetPosition(m_position);
-	m_rockOn_4.SetPosition(m_position);
-	m_rockOn_5.SetPosition(m_position);
-	m_rockOn_6.SetPosition(m_position);
-	m_rockOn_7.SetPosition(m_position);
-	m_rockOn_8.SetPosition(m_position);
 }
 
 void RockOn::Judge()

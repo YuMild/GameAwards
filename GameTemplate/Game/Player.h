@@ -1,6 +1,8 @@
 #pragma once
 
+class PowerCharge;
 class RockOn;
+class SonicBoom;
 
 /// <summary>
 /// プレイヤー
@@ -90,6 +92,8 @@ private:
     /// </summary>
     void Move();
 
+    SoundSource* m_sound;
+
     FontRender          m_fontRenderX;              //フォントレンダー
     FontRender          m_fontRenderY;              //フォントレンダー
     FontRender          m_fontRenderZ;              //フォントレンダー
@@ -108,8 +112,11 @@ private:
 
     bool                m_isPress = false;          //ボタンが押されているか否かの判定
     bool                m_isRockOnFire = false;     //ロックオン時に発射されたか否かの判定
+    bool                m_isPowerCharge = true;    //パワーチャージエフェクト
     float               m_charge = 0.0f;            //チャージ
     float               m_delay = 0.0f;             //ディレイ
 
+    PowerCharge*        m_powerCharge;
     RockOn*             m_rockOn;
+    SonicBoom*          m_sonicBoom;
 };

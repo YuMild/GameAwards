@@ -5,9 +5,12 @@
 #include "Drone.h"
 #include "HoneyCombBlock.h"
 #include "JumpBoard.h"
+#include "Nut.h"
 #include "Player.h"
+#include "SignBoard.h"
 #include "Stage_0_Ground.h"
 #include "Stage_0_Wall.h"
+#include "Volt.h"
 
 Stage_0::Stage_0()
 {
@@ -24,7 +27,15 @@ bool Stage_0::Start()
     m_levelRender.Init("Assets/modelData/Stage_0/Stage_0.tkl",
         [&](LevelObjectData& objData)
         {
-            if (objData.EqualObjectName(L"Stage_0_Wall") == true)
+            if (objData.EqualObjectName(L"Stage_0_Ground") == true)
+            {
+                m_stage_0_Ground = NewGO<Stage_0_Ground>(0, "stage_0_Ground");      //生成する。
+                m_stage_0_Ground->SetPosition(objData.position);                    //座標を設定する。
+                m_stage_0_Ground->SetScale(objData.scale);                          //サイズを設定する。
+                m_stage_0_Ground->SetRotation(objData.rotation);                    //回転を設定する。
+                return true;
+            }
+            else if (objData.EqualObjectName(L"Stage_0_Wall") == true)
             {
                 m_stage_0_Wall = NewGO<Stage_0_Wall>(0, "stage_0_Wall");            //生成する。
                 m_stage_0_Wall->SetPosition(objData.position);                      //座標を設定する。
@@ -32,12 +43,12 @@ bool Stage_0::Start()
                 m_stage_0_Wall->SetRotation(objData.rotation);                      //回転を設定する。
                 return true;
             }
-            else if (objData.EqualObjectName(L"Stage_0_Ground") == true)
+            else if (objData.ForwardMatchName(L"SignBoard") == true)
             {
-                m_stage_0_Ground = NewGO<Stage_0_Ground>(0, "stage_0_Ground");      //生成する。
-                m_stage_0_Ground->SetPosition(objData.position);                    //座標を設定する。
-                m_stage_0_Ground->SetScale(objData.scale);                          //サイズを設定する。
-                m_stage_0_Ground->SetRotation(objData.rotation);                    //回転を設定する。
+                auto signBoard = NewGO<SignBoard>(0, "signBoard");                  //生成する。
+                signBoard->SetPosition(objData.position);                           //座標を設定する。
+                signBoard->SetScale(objData.scale);                                 //サイズを設定する。
+                signBoard->SetRotation(objData.rotation);                           //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Stage_0_JumpBoard") == true)
@@ -58,18 +69,34 @@ bool Stage_0::Start()
             }
             else if (objData.ForwardMatchName(L"Drone") == true)
             {
-                auto drone = NewGO<Drone>(0, "drone");                           //生成する。
-                drone->SetPosition(objData.position);                              //座標を設定する。
-                drone->SetScale(objData.scale);                                    //サイズを設定する。
-                drone->SetRotation(objData.rotation);                              //回転を設定する。
+                auto drone = NewGO<Drone>(0, "drone");                              //生成する。
+                drone->SetPosition(objData.position);                               //座標を設定する。
+                drone->SetScale(objData.scale);                                     //サイズを設定する。
+                drone->SetRotation(objData.rotation);                               //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"HoneyComb") == true)
             {
-                auto honeyCombBlock = NewGO<HoneyCombBlock>(0, "honeyCombBlock");                           //生成する。
-                honeyCombBlock->SetPosition(objData.position);                              //座標を設定する。
-                honeyCombBlock->SetScale(objData.scale);                                    //サイズを設定する。
-                honeyCombBlock->SetRotation(objData.rotation);                              //回転を設定する。
+                auto honeyCombBlock = NewGO<HoneyCombBlock>(0, "honeyCombBlock");   //生成する。
+                honeyCombBlock->SetPosition(objData.position);                      //座標を設定する。
+                honeyCombBlock->SetScale(objData.scale);                            //サイズを設定する。
+                honeyCombBlock->SetRotation(objData.rotation);                      //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"Stage_0_Nut") == true)
+            {
+                auto nut = NewGO<Nut>(0, "nut");                                    //生成する。
+                nut->SetPosition(objData.position);                                 //座標を設定する。
+                nut->SetScale(objData.scale);                                       //サイズを設定する。
+                nut->SetRotation(objData.rotation);                                 //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"Stage_0_Volt") == true)
+            {
+                auto volt = NewGO<Volt>(0, "volt");                                 //生成する。
+                volt->SetPosition(objData.position);                                //座標を設定する。
+                volt->SetScale(objData.scale);                                      //サイズを設定する。
+                volt->SetRotation(objData.rotation);                                //回転を設定する。
                 return true;
             }
         });
@@ -79,9 +106,4 @@ bool Stage_0::Start()
 void Stage_0::Update()
 {
     m_levelRender.Update();
-}
-
-void Stage_0::Render(RenderContext(&rc))
-{
-
 }

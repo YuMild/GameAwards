@@ -22,13 +22,15 @@
     <Filter Include="Stage\Stage_0">
       <UniqueIdentifier>{6ac483c1-00fc-4041-a5ce-f139a19f550e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{d0b9c04a-7030-486b-bb60-bd9b85c6c4c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="main.cpp">
@@ -64,14 +66,36 @@
     <ClCompile Include="Drone.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
-    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="SonicBoom.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerCharge.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Nut.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Volt.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Setting.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="SignBoard.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="ChargeShot.h">
@@ -104,6 +128,29 @@
     <ClInclude Include="Drone.h">
       <Filter>Stage\Parts</Filter>
     </ClInclude>
-    <ClInclude Include="Title.h" />
+    <ClInclude Include="SonicBoom.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerCharge.h">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Nut.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Volt.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Setting.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="SignBoard.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

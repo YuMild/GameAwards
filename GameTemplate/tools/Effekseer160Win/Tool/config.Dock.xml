@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
-  <WindowWidth>892</WindowWidth>
-  <WindowHeight>1046</WindowHeight>
-  <WindowPosX>994</WindowPosX>
+  <WindowWidth>956</WindowWidth>
+  <WindowHeight>1078</WindowHeight>
+  <WindowPosX>962</WindowPosX>
   <WindowPosY>0</WindowPosY>
   <WindowIsMaximumMode>0</WindowIsMaximumMode>
   <Docks>
@@ -13,5 +13,6 @@
     <Effekseer.GUI.Dock.RotationValues>Open</Effekseer.GUI.Dock.RotationValues>
     <Effekseer.GUI.Dock.ScaleValues>Open</Effekseer.GUI.Dock.ScaleValues>
     <Effekseer.GUI.Dock.RendererCommonValues>Open</Effekseer.GUI.Dock.RendererCommonValues>
+    <Effekseer.GUI.Dock.RendererValues>Open</Effekseer.GUI.Dock.RendererValues>
   </Docks>
 </Root>
