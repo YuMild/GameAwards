@@ -64,12 +64,16 @@ private:
 	Vector2 m_2DPosition;
 	Vector3 m_position;
 	Vector3 m_difference;
+	Vector3 m_RockOnPosition;
 
+	std::vector<Bumper*> m_bumpers;
 	Bumper* m_bumper;
 	Player* m_player;
 
 	bool m_isReady = false;
 	bool m_isRockOn = false;
+
+	int m_bumperSize;
 
 	float m_rockOnSize_1 = 1.0f;
 	float m_rockOnSize_2 = 1.0f;

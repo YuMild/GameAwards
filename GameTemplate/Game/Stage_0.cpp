@@ -43,7 +43,7 @@ bool Stage_0::Start()
                 m_stage_0_Wall->SetRotation(objData.rotation);                      //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"SignBoard") == true)
+            else if (objData.ForwardMatchName(L"Signboard") == true)
             {
                 auto signBoard = NewGO<SignBoard>(0, "signBoard");                  //生成する。
                 signBoard->SetPosition(objData.position);                           //座標を設定する。
@@ -83,7 +83,7 @@ bool Stage_0::Start()
                 honeyCombBlock->SetRotation(objData.rotation);                      //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"Stage_0_Nut") == true)
+            else if (objData.ForwardMatchName(L"Nut") == true)
             {
                 auto nut = NewGO<Nut>(0, "nut");                                    //生成する。
                 nut->SetPosition(objData.position);                                 //座標を設定する。
@@ -91,7 +91,7 @@ bool Stage_0::Start()
                 nut->SetRotation(objData.rotation);                                 //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"Stage_0_Volt") == true)
+            else if (objData.ForwardMatchName(L"Volt") == true)
             {
                 auto volt = NewGO<Volt>(0, "volt");                                 //生成する。
                 volt->SetPosition(objData.position);                                //座標を設定する。
