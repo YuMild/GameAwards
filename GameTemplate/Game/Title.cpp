@@ -21,7 +21,7 @@ Title::~Title()
 
 bool Title::Start()
 {
-	m_backGround.Init("Assets/sprite/Title/Black.dds", 1920.0f, 1280.0f);
+	m_backGround.Init("Assets/sprite/Title/TitleBackGround.dds", 1920.0f, 1280.0f);
 
 	m_start.Init("Assets/sprite/Title/Start.dds", FONT_SIZE, FONT_SIZE);
 	m_start.SetPosition({ 0.0f,-100.0f,0.0f });

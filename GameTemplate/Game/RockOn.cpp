@@ -48,7 +48,7 @@ bool RockOn::Start()
 
 	m_bumper = FindGO<Bumper>("bumper");
 	m_player = FindGO<Player>("player");
-	
+
 	return true;
 }
 
