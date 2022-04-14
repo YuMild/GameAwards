@@ -49,6 +49,8 @@ namespace nsK2EngineLow {
 		{
 			//ノンスキンメッシュ用の頂点シェーダーのエントリーポイントを指定する。
 			initData.m_vsEntryPointFunc = "VSMain";
+
+			initData.m_alphaBlendMode = AlphaBlendMode_Trans;
 		}
 		else
 		{

@@ -1,6 +1,12 @@
 #pragma once
 
-class Bumper : public IGameObject
+#include <RockOnObject.h>
+#include <physics/PhysicsGhostObject.h>
+
+class Player;
+class RockOn;
+
+class Bumper : public RockOnObject
 {
 public:
 
@@ -22,7 +28,7 @@ public:
 	/// 座標を取得
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetPosition() const
+	Vector3 GetPosition() const override
 	{
 		return m_position;
 	}
@@ -42,13 +48,35 @@ public:
 	{
 		m_rotation = rotation;
 	}
+	/// <summary>
+	///	ステートを取得。
+	/// </summary>
+	/// <returns></returns>
+	int GetState() const override
+	{
+		return m_state;
+	}
 
 private:
 
+	/// <summary>
+	/// 当たり判定の管理。
+	/// </summary>
+	void Hit();
+
+	EffectEmitter*					m_explosion;
 	ModelRender						m_modelRender;
 	CharacterController				m_boxCollider;
+	PhysicsGhostObject				m_ghostCollider;
 
 	Vector3							m_position;
 	Vector3							m_scale;
 	Quaternion						m_rotation;
+
+	Player*							m_player;
+	RockOn*							m_rockOn;
+
+	int								m_state = 0;
+	bool							m_isHit = false;
+	float							m_aliveTime = 0.0f;
 };

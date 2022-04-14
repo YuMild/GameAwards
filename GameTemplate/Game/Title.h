@@ -17,6 +17,9 @@ public:
 private:
 
 	void Back();
+	/// <summary>
+	/// ‘I‘ğ‚ÌŠÇ—B
+	/// </summary>
 	void Choice();
 
 	SoundSource*	m_choiceSE;

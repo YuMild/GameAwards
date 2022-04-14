@@ -61,7 +61,7 @@ void ChargeShot::Speed()
 	m_speed = m_player->GetPlayerSpeed();
 
 	wchar_t wcsbuf[256];
-	swprintf_s(wcsbuf, 256, L"%d", int(m_speed * 60 / 1000));
+	swprintf_s(wcsbuf, 256, L"%03d", int(m_speed * 60 / 1000));
 
 	m_fontRender.SetText(wcsbuf);
 

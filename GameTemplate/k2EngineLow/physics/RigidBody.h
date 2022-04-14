@@ -61,8 +61,6 @@ namespace nsK2EngineLow {
 			trans.setRotation(btRot);
 			m_rigidBody->setWorldTransform(trans);
 		}
-
-
 		/*!
 		* @brief	—Í‚ğ‰Á‚¦‚éB
 		*@param[out]	force		—ÍB

@@ -227,8 +227,10 @@
     <ClCompile Include="Bumper.cpp" />
     <ClCompile Include="ChargeShot.cpp" />
     <ClCompile Include="Drone.cpp" />
+    <ClCompile Include="Energy.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="HoneyCombBlock.cpp" />
     <ClCompile Include="JumpBoard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -236,6 +238,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PowerCharge.cpp" />
     <ClCompile Include="RockOn.cpp" />
+    <ClCompile Include="RockOnObject.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="SignBoard.cpp" />
     <ClCompile Include="SonicBoom.cpp" />
@@ -249,6 +252,7 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Volt.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -256,14 +260,17 @@
     <ClInclude Include="Bumper.h" />
     <ClInclude Include="ChargeShot.h" />
     <ClInclude Include="Drone.h" />
+    <ClInclude Include="Energy.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Goal.h" />
     <ClInclude Include="HoneyCombBlock.h" />
     <ClInclude Include="JumpBoard.h" />
     <ClInclude Include="Nut.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerCharge.h" />
     <ClInclude Include="RockOn.h" />
+    <ClInclude Include="RockOnObject.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="SignBoard.h" />
     <ClInclude Include="SonicBoom.h" />
@@ -273,6 +280,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Title.h" />
+    <ClInclude Include="Turret.h" />
     <ClInclude Include="Volt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

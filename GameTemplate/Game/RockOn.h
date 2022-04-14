@@ -1,5 +1,7 @@
 #pragma once
 
+#include <RockOnObject.h>
+
 class Bumper;
 class Player;
 
@@ -22,7 +24,13 @@ public:
 		return m_difference;
 	}
 
+	void AddRockOnObject(RockOnObject* addObject)
+	{
+		m_rockOnObject.push_back(addObject);
+	}
+
 private:
+
 	/// <summary>
 	/// ロックオンするか否かの判定をする。
 	/// </summary>
@@ -67,6 +75,7 @@ private:
 	Vector3 m_RockOnPosition;
 
 	std::vector<Bumper*> m_bumpers;
+	std::vector<RockOnObject*> m_rockOnObject;
 	Bumper* m_bumper;
 	Player* m_player;
 

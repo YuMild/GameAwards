@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 
+#include "Game.h"
 #include "PowerCharge.h"
 #include "RockOn.h"
 #include "SonicBoom.h"
@@ -12,7 +13,7 @@ namespace
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = -50000.0f;                           //重力
-    float PLAYER_ROLL = 0.5f;                                   //転がりやすさ
+    float PLAYER_ROLL = 1.0f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
     float PLAYER_SPEED_DEFAULT = 25000000.0f;                   //スピードデフォルト
@@ -30,6 +31,13 @@ bool Player::Start()
     m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
+
+    EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
+    m_reSpawn = NewGO<EffectEmitter>(2);
+    m_reSpawn->Init(2);
+    m_reSpawn->SetScale(Vector3::One * 2.0f);
+    m_reSpawn->SetPosition({ m_position.x,m_position.y += 10.0f,m_position.z });
+    m_reSpawn->Play();
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -61,6 +69,7 @@ bool Player::Start()
     //例えばyを0に指定すると、y座標は移動しなくなる。
     m_rigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
 
+    m_game = FindGO<Game>("game");
     m_rockOn = FindGO<RockOn>("rockOn");
 
     return true;
@@ -68,21 +77,22 @@ bool Player::Start()
 
 void Player::Update()
 {
+    Death();
     Move();
     //モデルの更新処理。
     m_modelRender.Update();
 
     //デバッグ用
     wchar_t x[256];
-    swprintf_s(x, 256, L"X=%d", int(m_position.x));
+    swprintf_s(x, 256, L"X=%f", m_position.x);
     m_fontRenderX.SetText(x);
     m_fontRenderX.SetPosition({ 500.0f, 300.0f, 0.0f });
     wchar_t y[256];
-    swprintf_s(y, 256, L"Y=%d", int(m_position.y));
+    swprintf_s(y, 256, L"Y=%f", m_position.y);
     m_fontRenderY.SetText(y);
     m_fontRenderY.SetPosition({ 500.0f, 250.0f, 0.0f });
     wchar_t z[256];
-    swprintf_s(z, 256, L"Z=%d", int(m_position.z));
+    swprintf_s(z, 256, L"Z=%f", m_position.z);
     m_fontRenderZ.SetText(z);
     m_fontRenderZ.SetPosition({ 500.0f, 200.0f, 0.0f });
 }
@@ -97,8 +107,22 @@ void Player::Render(RenderContext& rc)
     m_fontRenderZ.Draw(rc);
 }
 
+void Player::Death()
+{
+    if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonB))
+    {
+        m_game->SetGemeEnd(1);
+    }
+}
+
 void Player::Move()
 {
+    if (m_scale <= 1.0f)
+    {
+        m_scale += 0.1;
+    }
+    m_modelRender.SetScale(Vector3::One * m_scale);
+
     //剛体の座標と回転を取得。
     m_rigidBody.GetPositionAndRotation(m_position, m_rotation);
     //剛体の座標と回転をモデルに反映。

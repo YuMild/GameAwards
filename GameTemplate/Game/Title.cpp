@@ -2,6 +2,7 @@
 #include "Title.h"
 
 #include "Game.h"
+#include "Setting.h"
 
 namespace
 {
@@ -21,7 +22,7 @@ Title::~Title()
 
 bool Title::Start()
 {
-	m_backGround.Init("Assets/sprite/Title/TitleBackGround.dds", 1920.0f, 1280.0f);
+	m_backGround.Init("Assets/sprite/Title/TitleBackGround.dds", 1600.0f, 900.0f);
 
 	m_start.Init("Assets/sprite/Title/Start.dds", FONT_SIZE, FONT_SIZE);
 	m_start.SetPosition({ 0.0f,-100.0f,0.0f });
@@ -64,6 +65,11 @@ void Title::Update()
 	if (m_choiceState == 0 && g_pad[0]->IsTrigger(enButtonB))
 	{
 		NewGO<Game>(0, "game");
+		DeleteGO(this);
+	}
+	if (m_choiceState == 1 && g_pad[0]->IsTrigger(enButtonB))
+	{
+		NewGO<Setting>(0, "setting");
 		DeleteGO(this);
 	}
 	Back();

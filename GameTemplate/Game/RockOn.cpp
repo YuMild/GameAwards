@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "RockOn.h"
 
 #include "Bumper.h"
@@ -48,7 +48,7 @@ bool RockOn::Start()
 
 	m_bumper = FindGO<Bumper>("bumper");
 	m_player = FindGO<Player>("player");
-
+	m_bumpers = FindGOs<Bumper>("bumper");
 	return true;
 }
 
@@ -73,11 +73,76 @@ void RockOn::Render(RenderContext& rc)
 	}
 }
 
+void RockOn::Judge()
+{
+	//ãƒ­ãƒƒã‚¯ã‚ªãƒ³æœ€å¤§è·é›¢ã‚ˆã‚Šå¤§ãã„ãƒ™ã‚¯ãƒˆãƒ«ãªã‚‰ä½•ã§ã‚‚ã„ã„ã€‚
+	m_difference = { 10000.0f,10000.0f,10000.0f };
+
+	//ä¸€åº¦ã§ã‚‚ä»£å…¥ã•ã‚ŒãŸã‹ã©ã†ã‹ã€‚
+	bool isInit = false;
+
+	//foræ–‡ã§å›ã™ã€‚
+	for (auto object : m_rockOnObject)
+	{
+		if (object->GetState() == 1)
+		{
+			continue;
+		}
+		//ãƒãƒ³ãƒ‘ãƒ¼ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢ã€‚
+		Vector3 diff = object->GetPosition() - m_player->GetPosition();
+		//é ã™ããŸã‚Šè¿‘ã™ããŸã‚‰
+		if (diff.Length() >= 3000.0f || diff.Length() < 100.0f)
+		{
+			//ãƒ­ãƒƒã‚¯ã‚ªãƒ³å€™è£œã«å…¥ã‚‰ãªã„ã€‚
+			continue;
+		}
+		//diffã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã€‚
+		Vector3 diffnormal = diff;
+		//æ­£è¦åŒ–ã€‚
+		diffnormal.Normalize();
+		//è¦–é‡è§’ã€‚
+		m_angle = acosf(g_camera3D->GetForward().Dot(diffnormal));
+		//æƒ³å®šã—ã¦ã„ã‚‹è¦–é‡è§’ã‚ˆã‚Šå¤§ãã„å ´åˆã€‚
+		if (m_angle > (Math::PI / 180.0f) * 30.0f)
+		{
+			//ãƒ­ãƒƒã‚¯ã‚ªãƒ³å€™è£œã«å…¥ã‚‰ãªã„ã€‚
+			continue;
+		}
+		if (m_difference.Length() > diff.Length())
+		{
+			m_difference = diff;
+			m_RockOnPosition = object->GetPosition();
+			//ä»£å…¥ã•ã‚ŒãŸã€‚
+			isInit = true;
+		}
+	}
+
+	//æ­£è¦åŒ–
+	m_difference.Normalize();
+
+	//ä¸€åº¦ã§ã‚‚ä»£å…¥ã•ã‚Œã¦ã„ãŸã‚‰ã€‚
+	if (isInit)
+	{
+		//ãƒ­ãƒƒã‚¯ã‚ªãƒ³ã™ã‚‹
+		m_isRockOn = true;
+	}
+	else
+	{
+		//ãƒ­ãƒƒã‚¯ã‚ªãƒ³ã—ãªã„
+		m_isRockOn = false;
+		m_player->SetIsRockOnFire(false);
+		m_rockOnSize_1 = 1.0f;
+		m_rockOnSize_2 = 1.0f;
+		m_rockOnSize_3 = 1.0f;
+		m_rockOnSize_4 = 1.0f;
+	}
+}
+
 void RockOn::Sprite()
 {
 	if (m_isRockOn == true)
 	{
-		g_camera3D->CalcScreenPositionFromWorldPosition(m_2DPosition, m_bumper->GetPosition());
+		g_camera3D->CalcScreenPositionFromWorldPosition(m_2DPosition, m_RockOnPosition);
 		m_position.x = m_2DPosition.x;
 		m_position.y = m_2DPosition.y;
 		m_position.z = 0.0f;
@@ -158,44 +223,5 @@ void RockOn::Sprite()
 			m_rockOn_8.SetScale(Vector3{ m_rockOnSize_4,m_rockOnSize_4,0.0f });
 			m_rockOn_8.Update();
 		}
-	}
-}
-
-void RockOn::Judge()
-{
-	//ƒvƒŒƒCƒ„[‚©‚çƒoƒ“ƒp[‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚ğ‹‚ß‚é
-	m_difference = m_bumper->GetPosition() - m_player->GetPosition();
-
-	//‹——£‚ª‰“‰ß‚¬‚½‚è‹ß‰ß‚¬‚é‚ÆƒƒbƒNƒIƒ“‚µ‚È‚¢
-	if (m_difference.Length() >= 3000.0f || m_difference.Length() < 100.0f)
-	{
-		m_isReady = false;
-	}
-	else
-	{
-		m_isReady = true;
-	}
-
-	//³‹K‰»
-	m_difference.Normalize();
-
-	//ƒƒbƒNƒIƒ“‹–ìŠp‚ğì¬
-	m_angle = acosf(g_camera3D->GetForward().Dot(m_difference));
-
-	//‹——£‚ª“KØ‚ÅŠ‚ÂƒƒbƒNƒIƒ“‹–ìŠp‚ÉƒIƒuƒWƒFƒNƒg‚ª“ü‚Á‚Ä‚¢‚½‚ç
-	if (m_angle < (Math::PI / 180.0f) * 30.0f && m_isReady == true)
-	{
-		//ƒƒbƒNƒIƒ“‚·‚é
-		m_isRockOn = true;
-	}
-	else
-	{
-		//ƒƒbƒNƒIƒ“‚µ‚È‚¢
-		m_isRockOn = false;
-		m_player->SetIsRockOnFire(false);
-		m_rockOnSize_1 = 1.0f;
-		m_rockOnSize_2 = 1.0f;
-		m_rockOnSize_3 = 1.0f;
-		m_rockOnSize_4 = 1.0f;
 	}
 }

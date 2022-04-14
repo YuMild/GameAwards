@@ -1,5 +1,6 @@
 #pragma once
 
+class Game;
 class PowerCharge;
 class RockOn;
 class SonicBoom;
@@ -36,7 +37,7 @@ public:
     /// 大きさを設定。
     /// </summary>
     /// <param name="scale">大きさ。</param>
-    void SetScale(const Vector3& scale)
+    void SetScale(const float& scale)
     {
         m_scale = scale;
     }
@@ -51,7 +52,7 @@ public:
     }
 
     /// <summary>
-    /// プレイヤーの移動速度を取得
+    /// プレイヤーの移動速度を設定。
     /// </summary>
     /// <param name="moveSpeed"></param>
     void SetMoveSpeed(Vector3& moveSpeed)
@@ -60,7 +61,7 @@ public:
     }
 
     /// <summary>
-    /// ロックオン時に発射されたか
+    /// ロックオン時に発射されたか否か。
     /// </summary>
     /// <param name="judge"></param>
     void SetIsRockOnFire(const bool& judge)
@@ -69,7 +70,7 @@ public:
     }
 
     /// <summary>
-    /// チャージ量を取得
+    /// チャージ量を取得。
     /// </summary>
     /// <returns></returns>
     float GetCharge() const
@@ -85,14 +86,23 @@ public:
     {
         return m_rigidBody.GetLinearVelocity().Length();
     }
+
+    RigidBody           m_rigidBody;                //剛体
+
 private:
+
+    /// <summary>
+    /// デスの判定
+    /// </summary>
+    void Death();
 
     /// <summary>
     /// 動作を管理
     /// </summary>
     void Move();
 
-    SoundSource* m_sound;
+    EffectEmitter*      m_reSpawn;
+    SoundSource*        m_sound;
 
     FontRender          m_fontRenderX;              //フォントレンダー
     FontRender          m_fontRenderY;              //フォントレンダー
@@ -100,10 +110,8 @@ private:
     SpriteRender        m_gaugeRender;              //画像
     ModelRender         m_modelRender;              //モデルレンダー
     SphereCollider      m_sphereCollider;           //円型のコライダー
-    RigidBody           m_rigidBody;                //剛体
 
     Vector3             m_position;                 //ポジション
-    Vector3             m_scale;                    //サイズ
     Vector3             m_cameraForward;            //カメラの前方向
     Vector3             m_cameraRight;              //カメラの左右方向
     Vector3             m_moveSpeed;                //プレイヤーの移動速度
@@ -112,10 +120,12 @@ private:
 
     bool                m_isPress = false;          //ボタンが押されているか否かの判定
     bool                m_isRockOnFire = false;     //ロックオン時に発射されたか否かの判定
-    bool                m_isPowerCharge = true;    //パワーチャージエフェクト
+    bool                m_isPowerCharge = true;     //パワーチャージエフェクト
+    float               m_scale = 0.0f;             //サイズ
     float               m_charge = 0.0f;            //チャージ
     float               m_delay = 0.0f;             //ディレイ
 
+    Game*               m_game;
     PowerCharge*        m_powerCharge;
     RockOn*             m_rockOn;
     SonicBoom*          m_sonicBoom;

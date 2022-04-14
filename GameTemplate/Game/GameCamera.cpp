@@ -4,6 +4,11 @@
 #include "Player.h"
 #include "RockOn.h"
 
+namespace
+{
+	float FIRST_CAMERA_POSITION = 25.0f;
+}
+
 GameCamera::GameCamera()
 {
 
@@ -22,6 +27,10 @@ bool GameCamera::Start()
 	g_camera3D->SetFar(1000000.0f);
 
 	m_rockOn = FindGO<RockOn>("rockOn");
+
+	Quaternion firstCameraPosition;
+	firstCameraPosition.SetRotationDegX(FIRST_CAMERA_POSITION);
+	firstCameraPosition.Apply(m_toCameraPos);
 
 	return true;
 }
@@ -53,10 +62,10 @@ void GameCamera::Update()
 	//	注視点から視点までのベクトルを正規化する
 	Vector3 toPosDir = m_toCameraPos;
 	toPosDir.Normalize();
-	if (toPosDir.y < -0.4f) {
+	if (toPosDir.y < -0.25f) {
 		m_toCameraPos = toCameraPosOld;							//	カメラが上に向き過ぎるのを防ぐ
 	}
-	else if (toPosDir.y > 0.7f) {
+	else if (toPosDir.y > 0.65f) {
 		m_toCameraPos = toCameraPosOld;							//	カメラが下に向き過ぎるのを防ぐ
 	}
 
@@ -66,8 +75,4 @@ void GameCamera::Update()
 	g_camera3D->SetPosition(pos);
 	g_camera3D->SetTarget(m_target);
 	g_camera3D->Update();
-
-	//m_springCamera.SetPosition(pos);
-	//m_springCamera.SetTarget(m_target);
-	//m_springCamera.Update();
 }

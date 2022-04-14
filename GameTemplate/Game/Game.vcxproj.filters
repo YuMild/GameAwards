@@ -90,6 +90,16 @@
     <ClCompile Include="SignBoard.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
+    <ClCompile Include="RockOnObject.cpp" />
+    <ClCompile Include="Turret.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Energy.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -150,6 +160,16 @@
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="SignBoard.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="RockOnObject.h" />
+    <ClInclude Include="Turret.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Energy.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Goal.h">
       <Filter>Stage\Parts</Filter>
     </ClInclude>
   </ItemGroup>

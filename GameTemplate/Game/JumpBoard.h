@@ -1,5 +1,11 @@
 #pragma once
 
+#include <RockOnObject.h>
+#include <physics/PhysicsGhostObject.h>
+
+class Player;
+class RockOn;
+
 class JumpBoard : public IGameObject
 {
 public:
@@ -37,9 +43,28 @@ public:
 
 private:
 
+	/// <summary>
+	/// ìñÇΩÇËîªíËÇÃä«óùÅB
+	/// </summary>
+	void Hit();
+
+	FontRender						m_fontRenderX;
+	FontRender						m_fontRenderY;
+	FontRender						m_fontRenderZ;
+
 	ModelRender						m_modelRender;
 	PhysicsStaticObject				m_phyStaticObject;
+	PhysicsGhostObject				m_ghostCollider;
+
 	Vector3							m_position;
 	Vector3							m_scale;
+	Vector3							m_shoot;
 	Quaternion						m_rotation;
+
+	Player*							m_player;
+	RockOn*							m_rockOn;
+
+	int								m_state = 0;
+	bool							m_isHit = false;
+	float							m_coolTime = 0.0f;
 };
