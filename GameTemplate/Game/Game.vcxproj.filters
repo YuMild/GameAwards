@@ -100,6 +100,9 @@
     <ClCompile Include="Goal.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
+    <ClCompile Include="TimeLimit.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="Goal.h">
       <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeLimit.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

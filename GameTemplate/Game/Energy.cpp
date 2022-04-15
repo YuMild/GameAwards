@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "RockOn.h"
+#include "TimeLimit.h"
 
 Energy::Energy()
 {
@@ -18,6 +19,7 @@ bool Energy::Start()
 {
 	m_player = FindGO<Player>("player");
 	m_rockOn = FindGO<RockOn>("rockOn");
+	m_timeLimit = FindGO<TimeLimit>("timeLimit");
 
 	EffectEngine::GetInstance()->ResistEffect(4, u"Assets/Effect/Selfmade/BrokenExplosion.efk");
 
@@ -59,6 +61,7 @@ void Energy::Hit()
 
 	if (m_isHit == true)
 	{
+		m_timeLimit->AddTime(1.0f);
 		m_explosion = NewGO<EffectEmitter>(4);
 		m_explosion->Init(4);
 		m_explosion->SetScale(Vector3::One * 5.0f);

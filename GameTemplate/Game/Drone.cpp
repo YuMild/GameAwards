@@ -20,6 +20,8 @@ bool Drone::Start()
 	m_rockOn = FindGO<RockOn>("rockOn");
 
 	m_rockOn->AddRockOnObject(this);
+
+	EffectEngine::GetInstance()->ResistEffect(4, u"Assets/Effect/Selfmade/BrokenExplosion.efk");
 	
 	m_modelRender.Init("Assets/modelData/Stage_0/Drone.tkm");
 	m_modelRender.SetPosition(m_position);
@@ -36,11 +38,15 @@ bool Drone::Start()
 void Drone::Update()
 {
 	m_modelRender.Update();
+	Hit();
 }
 
 void Drone::Render(RenderContext& rc)
 {
-	m_modelRender.Draw(rc);
+	if (m_state != 1)
+	{
+		m_modelRender.Draw(rc);
+	}
 }
 
 void Drone::Hit()
@@ -58,8 +64,16 @@ void Drone::Hit()
 	{
 		m_aliveTime += g_gameTime->GetFrameDeltaTime();
 	}
-	if (m_aliveTime >= 0.05f)
+	if (m_aliveTime >= 0.05f && m_isHit == true)
 	{
-		DeleteGO(this);
+		m_explosion = NewGO<EffectEmitter>(4);
+		m_explosion->Init(4);
+		m_explosion->SetScale(Vector3::One * 10.0f);
+		m_explosion->SetPosition({ m_position.x,m_position.y += 10.0f,m_position.z });
+		m_explosion->Play();
+		m_state = 1;
+		m_boxCollider.RemoveRigidBoby();
+		m_ghostCollider.Release();
+		m_isHit = false;
 	}
 }

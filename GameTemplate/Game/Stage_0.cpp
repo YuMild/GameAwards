@@ -115,7 +115,7 @@ bool Stage_0::Start()
                 signBoard->SetRotation(objData.rotation);                           //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"Stage_0_JumpBoard") == true)
+            else if (objData.ForwardMatchName(L"JumpBoard") == true)
             {
                 auto jumpBoard = NewGO<JumpBoard>(0, "jumpBoard");                  //生成する。
                 jumpBoard->SetPosition(objData.position);                           //座標を設定する。
@@ -123,7 +123,7 @@ bool Stage_0::Start()
                 jumpBoard->SetRotation(objData.rotation);                           //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"Stage_0_Bumper") == true)
+            else if (objData.ForwardMatchName(L"Bumper") == true)
             {
                 auto bumper = NewGO<Bumper>(0, "bumper");                           //生成する。
                 bumper->SetPosition(objData.position);                              //座標を設定する。

@@ -4,6 +4,7 @@
 
 class Player;
 class RockOn;
+class TimeLimit;
 
 class Energy : public IGameObject
 {
@@ -73,6 +74,7 @@ private:
 
 	Player*							m_player;
 	RockOn*							m_rockOn;
+	TimeLimit*						m_timeLimit;
 
 	int								m_state = 0;
 	bool							m_isHit = false;

@@ -109,7 +109,7 @@ void Player::Render(RenderContext& rc)
 
 void Player::Death()
 {
-    if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonB))
+    if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonStart))
     {
         m_game->SetGemeEnd(1);
     }

@@ -1,22 +1,64 @@
 #include "stdafx.h"
 #include "Game.h"
 
-#include "Bumper.h"
+#include "Bound.h"
 #include "ChargeShot.h"
 #include "GameCamera.h"
 #include "Player.h"
+#include "PowerCharge.h"
 #include "RockOn.h"
+#include "SonicBoom.h"
 #include "Stage_0.h"
+#include "Title.h"
+#include "TimeLimit.h"
+
+Game::Game()
+{
+
+}
+
+Game::~Game()
+{
+	//エフェクト
+	const auto& bounds = FindGOs<Bound>("bound");
+	int buondSize = bounds.size();
+	for (int i = 0; i < buondSize; i++)
+	{
+		DeleteGO(bounds[i]);
+	}
+	const auto& powerChages = FindGOs<PowerCharge>("powerCharge");
+	int powerChargeSize = powerChages.size();
+	for (int i = 0; i < powerChargeSize; i++)
+	{
+		DeleteGO(powerChages[i]);
+	}
+	const auto& rockOns = FindGOs<RockOn>("rockOn");
+	int rockOnSize = rockOns.size();
+	for (int i = 0; i < rockOnSize; i++)
+	{
+		DeleteGO(rockOns[i]);
+	}
+	const auto& sonicBooms = FindGOs<SonicBoom>("sonicBoom");
+	int sonicBoomSize = sonicBooms.size();
+	for (int i = 0; i < sonicBoomSize; i++)
+	{
+		DeleteGO(sonicBooms[i]);
+	}
+	DeleteGO(m_chargeShot);
+	DeleteGO(m_gameCamera);
+	DeleteGO(m_player);
+	DeleteGO(m_stage_0);
+	DeleteGO(m_timeLimit);
+}
 
 bool Game::Start()
 {
-	m_stage_0 = NewGO<Stage_0>(0, "stage_0");
 	m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 	m_player = NewGO<Player>(0, "player");
 	m_rockOn = NewGO<RockOn>(0, "rockOn");
-	
-	//m_player = FindGO<Player>("player");
+	m_stage_0 = NewGO<Stage_0>(0, "stage_0");
+	m_timeLimit = NewGO<TimeLimit>(0, "timeLimit");
 
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
@@ -37,16 +79,13 @@ void Game::Death()
 {
 	if (m_state == 1)
 	{
-		DeleteGO(m_chargeShot);
-		DeleteGO(m_gameCamera);
-		DeleteGO(m_player);
-		DeleteGO(m_stage_0);
-		DeleteGO(m_rockOn);
-		m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
+		DeleteGO(this);
+		/*m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
 		m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 		m_player = NewGO<Player>(0, "player");
 		m_stage_0 = NewGO<Stage_0>(0, "stage_0");
-		m_rockOn = NewGO<RockOn>(0, "rockOn");
+		m_rockOn = NewGO<RockOn>(0, "rockOn");*/
+		m_title = NewGO<Title>(0, "title");
 		m_state = 0;
 	}
 }

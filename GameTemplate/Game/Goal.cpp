@@ -16,6 +16,7 @@ Goal::~Goal()
 
 bool Goal::Start()
 {
+	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
 
 	m_modelRender.Init("Assets/modelData/Stage_0/Goal.tkm");
@@ -56,9 +57,6 @@ void Goal::Hit()
 
 	if (m_isHit == true)
 	{
-		m_state = 1;
-		m_ghostCollider.Release();
-		m_isHit = false;
 		m_game->SetGemeEnd(1);
 	}
 }
