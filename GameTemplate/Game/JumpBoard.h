@@ -48,10 +48,6 @@ private:
 	/// </summary>
 	void Hit();
 
-	FontRender						m_fontRenderX;
-	FontRender						m_fontRenderY;
-	FontRender						m_fontRenderZ;
-
 	ModelRender						m_modelRender;
 	PhysicsStaticObject				m_phyStaticObject;
 	PhysicsGhostObject				m_ghostCollider;

@@ -17,18 +17,15 @@ JumpBoard::~JumpBoard()
 bool JumpBoard::Start()
 {
 	m_shoot = { 0.0f,0.0f,-1.0f };
-	m_rotation.Apply(m_shoot);
-	m_rotation.Normalize();
 
 	m_rockOn = FindGO<RockOn>("rockOn");
+	m_player = FindGO<Player>("player");
 
 	m_modelRender.Init("Assets/modelData/Stage_0/JumpBoard.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
-
-	m_player = FindGO<Player>("player");
 
 	m_phyStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,1000.0f,300.0f });
@@ -40,28 +37,11 @@ void JumpBoard::Update()
 {
 	m_modelRender.Update();
 	Hit();
-
-	wchar_t x[256];
-	swprintf_s(x, 256, L"X=%f", m_shoot.x);
-	m_fontRenderX.SetText(x);
-	m_fontRenderX.SetPosition({ -500.0f, 250.0f, 0.0f });
-	wchar_t y[256];
-	swprintf_s(y, 256, L"Y=%f", m_shoot.y);
-	m_fontRenderY.SetText(y);
-	m_fontRenderY.SetPosition({ -500.0f, 200.0f, 0.0f });
-	wchar_t z[256];
-	swprintf_s(z, 256, L"Z=%f", m_shoot.z);
-	m_fontRenderZ.SetText(z);
-	m_fontRenderZ.SetPosition({ -500.0f, 150.0f, 0.0f });
 }
 
 void JumpBoard::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);
-
-	m_fontRenderX.Draw(rc);
-	m_fontRenderY.Draw(rc);
-	m_fontRenderZ.Draw(rc);
 }
 
 void JumpBoard::Hit()
@@ -83,7 +63,7 @@ void JumpBoard::Hit()
 		Vector3 zero = Vector3::Zero;				//スピードを0にする。
 		m_player->SetMoveSpeed(zero);				//スピードを0にする。
 		Vector3 shoot = m_shoot;
-		shoot *= 50000000.0f;
+		shoot *= 75000000.0f;
 		m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 	}

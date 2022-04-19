@@ -68,10 +68,13 @@ private:
 	ModelRender						m_modelRender;
 	CharacterController				m_boxCollider;
 	PhysicsGhostObject				m_ghostCollider;
+	PhysicsGhostObject				m_beamCollider;
 
 	Vector3							m_position;
 	Vector3							m_scale;
+	Vector3							m_direction;
 	Quaternion						m_rotation;
+	Quaternion						m_beamRotation;
 
 	Player* m_player;
 	RockOn* m_rockOn;
