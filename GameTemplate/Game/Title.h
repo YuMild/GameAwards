@@ -1,5 +1,7 @@
 #pragma once
 
+class Game;
+
 /// <summary>
 /// ƒ^ƒCƒgƒ‹
 /// </summary>
@@ -35,6 +37,8 @@ private:
 	SpriteRender	m_settingLogo;
 	SpriteRender	m_settingLogoBlack;
 	SpriteRender	m_settingBack;
+
+	Game*			m_game;
 
 	int				m_choiceState = 0;
 

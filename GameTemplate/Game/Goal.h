@@ -1,11 +1,13 @@
 #pragma once
 
+#include <RockOnObject.h>
 #include <physics/PhysicsGhostObject.h>
 
 class Game;
 class Player;
+class RockOn;
 
-class Goal : public IGameObject
+class Goal : public RockOnObject
 {
 public:
 
@@ -64,6 +66,7 @@ private:
 
 	Game*							m_game;
 	Player*							m_player;
+	RockOn*							m_rockOn;
 
 	int								m_state = 0;
 	bool							m_isHit = false;

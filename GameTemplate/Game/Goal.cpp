@@ -3,6 +3,7 @@
 
 #include "Game.h"
 #include "Player.h"
+#include "RockOn.h"
 
 Goal::Goal()
 {
@@ -18,6 +19,9 @@ bool Goal::Start()
 {
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
+	m_rockOn = FindGO<RockOn>("rockOn");
+
+	m_rockOn->AddRockOnObject(this);
 
 	m_modelRender.Init("Assets/modelData/Stage_0/Goal.tkm");
 	m_modelRender.SetPosition(m_position);
@@ -57,6 +61,6 @@ void Goal::Hit()
 
 	if (m_isHit == true)
 	{
-		m_game->SetGemeEnd(1);
+		m_game->SetGemeState(2);
 	}
 }

@@ -26,6 +26,7 @@ namespace
 
 bool Player::Start()
 {
+    
     m_position = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
     m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
@@ -109,10 +110,7 @@ void Player::Render(RenderContext& rc)
 
 void Player::Death()
 {
-    if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonStart))
-    {
-        m_game->SetGemeEnd(1);
-    }
+    
 }
 
 void Player::Move()
@@ -125,12 +123,12 @@ void Player::Move()
 
     //剛体の座標と回転を取得。
     m_rigidBody.GetPositionAndRotation(m_position, m_rotation);
+    
     //剛体の座標と回転をモデルに反映。
     m_modelRender.SetPosition(m_position);
     m_modelRender.SetRotation(m_rotation);
 
     //プレイヤーが進む方向を決定する。
-    
     Vector3 forward = g_camera3D->GetForward();                                 //カメラの前方向
     forward.y = 0.0f;
     forward.Normalize();
@@ -149,29 +147,31 @@ void Player::Move()
     }
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == false)          //ボタンが離されて且つロックオンがオフの時
     {
-        m_isPress = false;
+        m_isRockOnFire == false;                                                //ロックオンアタックを無効化
+        m_isPress = false;                                                      //ボタンが押されていない
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
         m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;              //前後
-        m_charge = CHARGE_DEFAULT;
+        m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
     }
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == true)           //ボタンが離されて且つロックオンがオンの時
     {
         if (m_isPowerCharge == true)
         {
-            m_powerCharge = NewGO<PowerCharge>(0, "powerCharge");
+            m_powerCharge = NewGO<PowerCharge>(0, "powerCharge");               //エフェクトを再生
         }
         m_isPowerCharge = false;
-        m_delay += 0.1;
+        m_delay += 0.1;                                                         //ディレイしてから射出
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
-        if (m_delay > 2.0f)
+
+        if (m_delay > 2.0f)                                                     //ボタンが離されて2.0fが経ったら
         {
-            m_isRockOnFire = true;
-            m_isPress = false;
-            m_isPowerCharge = true;
-            m_sonicBoom = NewGO<SonicBoom>(0, "sonicBoom");
-            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);  //前後
-            m_charge = CHARGE_DEFAULT;
-            m_delay = 0.0f;
+            m_isRockOnFire = true;                                              //ロックオンアタックを有効化
+            m_isPress = false;                                                  //ボタンが押されていない
+            m_isPowerCharge = true; 
+            m_sonicBoom = NewGO<SonicBoom>(0, "sonicBoom");                     //エフェクトを再生
+            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);  //前後 (通常の二倍の速さで射出)
+            m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
+            m_delay = 0.0f;                                                     //ディレイをリセット
         }
     }
 
@@ -180,7 +180,7 @@ void Player::Move()
         m_moveSpeed.y = PLAYER_GRAVITY;                                         //重力が掛かる
     }
 
-    m_rigidBody.AddForce
+    m_rigidBody.AddForce                                                        //剛体に力を加える
     (
         m_moveSpeed,                                                            //力
         g_vec3Zero                                                              //力を加える剛体の相対位置
@@ -196,6 +196,14 @@ void Player::Move()
     if (m_rigidBody.GetLinearXZVelocity().Length() >= 0)
     {
         m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(PLAYER_SPEED_DECREASE, 2));
+    }
+
+    if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonStart))
+    {
+        m_position = { m_reSpawnPosition.x,m_reSpawnPosition.y + 100.0f,m_reSpawnPosition.z };
+        m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
+        m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
+        m_scale = 0.0f;
     }
 
     m_moveSpeed.x = 0.0f;                                                       //スピードの初期化

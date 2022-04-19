@@ -21,9 +21,19 @@ public:
 	void Update() override;
 	void Render(RenderContext& rc) override;
 
-	int SetGemeEnd(const int& state)
+	/// <summary>
+	/// ゲームのステートを管理。1は操作不能。2はゲーム終了。
+	/// </summary>
+	/// <param name="state"></param>
+	/// <returns></returns>
+	int SetGemeState(const int& state)
 	{
 		m_state = state;
+		return m_state;
+	}
+
+	int GetGameState() const
+	{
 		return m_state;
 	}
 

@@ -30,7 +30,7 @@ bool Drone::Start()
 	m_modelRender.Update();
 
 	m_boxCollider.BoxInit({ 100.0f,100.0f,100.0f }, m_position, 0.1);
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 105.0f,105.0f,105.0f });
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 110.0f,110.0f,110.0f });
 
 	return true;
 }

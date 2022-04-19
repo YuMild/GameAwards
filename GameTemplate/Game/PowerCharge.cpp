@@ -24,6 +24,12 @@ bool PowerCharge::Start()
     m_powerCharge->SetPosition(m_position);
     m_powerCharge->Play();
 
+    g_soundEngine->ResistWaveFileBank(2, "Assets/sound/PowerCharge.wav");
+    m_powerChargeSE = NewGO<SoundSource>(2);
+    m_powerChargeSE->Init(2);
+    m_powerChargeSE->SetVolume(0.1f);
+    m_powerChargeSE->Play(false);
+
     return true;
 }
 

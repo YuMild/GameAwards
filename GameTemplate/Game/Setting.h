@@ -23,6 +23,11 @@ private:
 	/// </summary>
 	void Choice();
 
+	/// <summary>
+	/// ‰æ‘œ‚ğŠÇ—B
+	/// </summary>
+	void Sprite();
+
 	SoundSource*	m_choiceSE;
 
 	SpriteRender	m_apply;

@@ -226,6 +226,7 @@
     <ClCompile Include="Bound.cpp" />
     <ClCompile Include="Bumper.cpp" />
     <ClCompile Include="ChargeShot.cpp" />
+    <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="Drone.cpp" />
     <ClCompile Include="Energy.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="Bound.h" />
     <ClInclude Include="Bumper.h" />
     <ClInclude Include="ChargeShot.h" />
+    <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Drone.h" />
     <ClInclude Include="Energy.h" />
     <ClInclude Include="GameCamera.h" />

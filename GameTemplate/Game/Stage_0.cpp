@@ -2,6 +2,7 @@
 #include "Stage_0.h"
 
 #include "Bumper.h"
+#include "CheckPoint.h"
 #include "Drone.h"
 #include "Energy.h"
 #include "Goal.h"
@@ -29,6 +30,12 @@ Stage_0::~Stage_0()
     for (int i = 0; i < bumperSize; i++)
     {
         DeleteGO(bumpers[i]);
+    }
+    const auto& checkPoints = FindGOs<CheckPoint>("checkPoint");
+    int checkPointSize = checkPoints.size();
+    for (int i = 0; i < checkPointSize; i++)
+    {
+        DeleteGO(checkPoints[i]);
     }
     const auto& drones = FindGOs<Drone>("drone");
     int droneSize = drones.size();
@@ -107,28 +114,20 @@ bool Stage_0::Start()
                 m_stage_0_Wall->SetRotation(objData.rotation);                      //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"Signboard") == true)
-            {
-                auto signBoard = NewGO<SignBoard>(0, "signBoard");                  //生成する。
-                signBoard->SetPosition(objData.position);                           //座標を設定する。
-                signBoard->SetScale(objData.scale);                                 //サイズを設定する。
-                signBoard->SetRotation(objData.rotation);                           //回転を設定する。
-                return true;
-            }
-            else if (objData.ForwardMatchName(L"JumpBoard") == true)
-            {
-                auto jumpBoard = NewGO<JumpBoard>(0, "jumpBoard");                  //生成する。
-                jumpBoard->SetPosition(objData.position);                           //座標を設定する。
-                jumpBoard->SetScale(objData.scale);                                 //サイズを設定する。
-                jumpBoard->SetRotation(objData.rotation);                           //回転を設定する。
-                return true;
-            }
             else if (objData.ForwardMatchName(L"Bumper") == true)
             {
                 auto bumper = NewGO<Bumper>(0, "bumper");                           //生成する。
                 bumper->SetPosition(objData.position);                              //座標を設定する。
                 bumper->SetScale(objData.scale);                                    //サイズを設定する。
                 bumper->SetRotation(objData.rotation);                              //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"RespawnPoint") == true)
+            {
+                auto checkPoint = NewGO<CheckPoint>(0, "checkPoint");               //生成する。
+                checkPoint->SetPosition(objData.position);                          //座標を設定する。
+                checkPoint->SetScale(objData.scale);                                //サイズを設定する。
+                checkPoint->SetRotation(objData.rotation);                          //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Drone") == true)
@@ -163,12 +162,28 @@ bool Stage_0::Start()
                 honeyCombBlock->SetRotation(objData.rotation);                      //回転を設定する。
                 return true;
             }
+            else if (objData.ForwardMatchName(L"JumpBoard") == true)
+            {
+                auto jumpBoard = NewGO<JumpBoard>(0, "jumpBoard");                  //生成する。
+                jumpBoard->SetPosition(objData.position);                           //座標を設定する。
+                jumpBoard->SetScale(objData.scale);                                 //サイズを設定する。
+                jumpBoard->SetRotation(objData.rotation);                           //回転を設定する。
+                return true;
+            }
             else if (objData.ForwardMatchName(L"Nut") == true)
             {
                 auto nut = NewGO<Nut>(0, "nut");                                    //生成する。
                 nut->SetPosition(objData.position);                                 //座標を設定する。
                 nut->SetScale(objData.scale);                                       //サイズを設定する。
                 nut->SetRotation(objData.rotation);                                 //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"Signboard") == true)
+            {
+                auto signBoard = NewGO<SignBoard>(0, "signBoard");                  //生成する。
+                signBoard->SetPosition(objData.position);                           //座標を設定する。
+                signBoard->SetScale(objData.scale);                                 //サイズを設定する。
+                signBoard->SetRotation(objData.rotation);                           //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Turret") == true)

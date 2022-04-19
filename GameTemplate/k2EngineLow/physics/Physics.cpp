@@ -146,6 +146,9 @@ namespace nsK2EngineLow {
 		myContactResultCallback.m_cb = cb;
 		myContactResultCallback.m_me = colObj;
 		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
+		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
+		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
+		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
 	}
 
 	void PhysicsWorld::ContactTest(

@@ -55,7 +55,7 @@ public:
     /// プレイヤーの移動速度を設定。
     /// </summary>
     /// <param name="moveSpeed"></param>
-    void SetMoveSpeed(Vector3& moveSpeed)
+    void SetMoveSpeed(const Vector3& moveSpeed)
     {
         m_moveSpeed = moveSpeed;
     }
@@ -70,6 +70,15 @@ public:
     }
 
     /// <summary>
+    /// リスポーン地点を設定。
+    /// </summary>
+    /// <param name="reSpawnPosition"></param>
+    void SetReSpawnPosition(Vector3& reSpawnPosition)
+    {
+        m_reSpawnPosition = reSpawnPosition;
+    }
+
+    /// <summary>
     /// チャージ量を取得。
     /// </summary>
     /// <returns></returns>
@@ -79,7 +88,7 @@ public:
     }
 
     /// <summary>
-    /// プレーヤーのスピードを取得
+    /// プレイヤーのスピードを取得
     /// </summary>
     /// <returns></returns>
     float GetPlayerSpeed() const
@@ -112,6 +121,7 @@ private:
     SphereCollider      m_sphereCollider;           //円型のコライダー
 
     Vector3             m_position;                 //ポジション
+    Vector3             m_reSpawnPosition;          //リスポーンポイント
     Vector3             m_cameraForward;            //カメラの前方向
     Vector3             m_cameraRight;              //カメラの左右方向
     Vector3             m_moveSpeed;                //プレイヤーの移動速度

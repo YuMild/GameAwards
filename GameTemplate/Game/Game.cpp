@@ -77,14 +77,9 @@ void Game::Render(RenderContext& rc)
 
 void Game::Death()
 {
-	if (m_state == 1)
+	if (m_state == 2)
 	{
 		DeleteGO(this);
-		/*m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
-		m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
-		m_player = NewGO<Player>(0, "player");
-		m_stage_0 = NewGO<Stage_0>(0, "stage_0");
-		m_rockOn = NewGO<RockOn>(0, "rockOn");*/
 		m_title = NewGO<Title>(0, "title");
 		m_state = 0;
 	}

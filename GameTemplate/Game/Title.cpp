@@ -55,6 +55,10 @@ bool Title::Start()
 	m_settingBack.SetPosition({ -30.0f,-150.0f,0.0f });
 	m_settingBack.Update();
 
+	NewGO<Game>(0, "game");
+	m_game = FindGO<Game>("game");
+	m_game->SetGemeState(1);
+
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/Choice.wav");
 	
 	return true;
@@ -64,7 +68,6 @@ void Title::Update()
 {
 	if (m_choiceState == 0 && g_pad[0]->IsTrigger(enButtonB))
 	{
-		NewGO<Game>(0, "game");
 		DeleteGO(this);
 	}
 	if (m_choiceState == 1 && g_pad[0]->IsTrigger(enButtonB))
