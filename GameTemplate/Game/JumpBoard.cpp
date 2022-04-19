@@ -31,7 +31,7 @@ bool JumpBoard::Start()
 	m_player = FindGO<Player>("player");
 
 	m_phyStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,1000.0f,200.0f });
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,1000.0f,300.0f });
 
 	return true;
 }

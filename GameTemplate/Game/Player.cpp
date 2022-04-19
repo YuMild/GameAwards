@@ -12,7 +12,7 @@ namespace
     Vector3 PLAYER_FIRST_POSITION = { 0.0f,100.0f,0.0f };       //スポーン座標
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
-    float PLAYER_GRAVITY = -50000.0f;                           //重力
+    float PLAYER_GRAVITY = -100000.0f;                           //重力
     float PLAYER_ROLL = 1.0f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
@@ -175,16 +175,28 @@ void Player::Move()
         }
     }
 
+    if (m_isRockOnFire == true)                                                 //ロックオンしてる時
+    {
+        m_rigidBody.AddForce                                                    //剛体に力を加える
+        (
+            { m_moveSpeed.x, m_moveSpeed.y, m_moveSpeed.z },                    //力
+            g_vec3Zero                                                          //力を加える剛体の相対位置
+        );
+    }
+
     if (m_isRockOnFire == false)                                                //ロックオンしてない時
     {
         m_moveSpeed.y = PLAYER_GRAVITY;                                         //重力が掛かる
     }
 
-    m_rigidBody.AddForce                                                        //剛体に力を加える
-    (
-        m_moveSpeed,                                                            //力
-        g_vec3Zero                                                              //力を加える剛体の相対位置
-    );
+    if (m_isRockOnFire == false)
+    {
+        m_rigidBody.AddForce                                                    //剛体に力を加える
+        (
+            m_moveSpeed,                                                        //力
+            g_vec3Zero                                                          //力を加える剛体の相対位置
+        );
+    }
 
     //スピードの上限を設定。
     if (m_isRockOnFire == false && m_rigidBody.GetLinearVelocity().Length() >= PLAYER_SPEED_MAX)
@@ -204,6 +216,11 @@ void Player::Move()
         m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
         m_scale = 0.0f;
+    }
+
+    if (g_pad[0]->IsTrigger(enButtonSelect))
+    {
+        m_game->SetGemeState(2);
     }
 
     m_moveSpeed.x = 0.0f;                                                       //スピードの初期化
