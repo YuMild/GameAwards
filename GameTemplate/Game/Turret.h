@@ -65,21 +65,25 @@ private:
 	/// </summary>
 	void Hit();
 
+	EffectEmitter*					m_beam;
+
+	FontRender						m_fontRender;
+
 	ModelRender						m_modelRender;
 	CharacterController				m_boxCollider;
-	PhysicsGhostObject				m_ghostCollider;
 	PhysicsGhostObject				m_beamCollider;
 
 	Vector3							m_position;
 	Vector3							m_scale;
-	Vector3							m_direction;
 	Quaternion						m_rotation;
-	Quaternion						m_beamRotation;
+	Quaternion						m_effectRotation;
 
-	Player* m_player;
-	RockOn* m_rockOn;
+	Player*							m_player;
+	RockOn*							m_rockOn;
 
 	int								m_state = 0;
 	bool							m_isHit = false;
+	bool							m_effectCoolTime = false;
+	float							m_coolTime = 0.0f;
 	float							m_aliveTime = 0.0f;
 };

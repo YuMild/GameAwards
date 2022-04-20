@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "Game.h"
+#include "GameCamera.h"
 #include "PowerCharge.h"
 #include "RockOn.h"
 #include "SonicBoom.h"
@@ -12,7 +13,7 @@ namespace
     Vector3 PLAYER_FIRST_POSITION = { 0.0f,100.0f,0.0f };       //スポーン座標
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
     float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
-    float PLAYER_GRAVITY = -100000.0f;                           //重力
+    float PLAYER_GRAVITY = -100000.0f;                          //重力
     float PLAYER_ROLL = 1.0f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
@@ -26,7 +27,8 @@ namespace
 
 bool Player::Start()
 {
-    
+    m_gameCamera = FindGO<GameCamera>("gameCamera");
+
     m_position = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
     m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
@@ -37,7 +39,7 @@ bool Player::Start()
     m_reSpawn = NewGO<EffectEmitter>(2);
     m_reSpawn->Init(2);
     m_reSpawn->SetScale(Vector3::One * 2.0f);
-    m_reSpawn->SetPosition({ m_position.x,m_position.y += 10.0f,m_position.z });
+    m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
     m_reSpawn->Play();
 
     //コライダーを初期化。
@@ -184,13 +186,9 @@ void Player::Move()
         );
     }
 
-    if (m_isRockOnFire == false)                                                //ロックオンしてない時
-    {
-        m_moveSpeed.y = PLAYER_GRAVITY;                                         //重力が掛かる
-    }
-
     if (m_isRockOnFire == false)
     {
+        m_moveSpeed.y = PLAYER_GRAVITY;
         m_rigidBody.AddForce                                                    //剛体に力を加える
         (
             m_moveSpeed,                                                        //力
@@ -212,10 +210,18 @@ void Player::Move()
 
     if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonStart))
     {
+        m_state = 1;
+    }
+
+    if (m_state == 1)
+    {
         m_position = { m_reSpawnPosition.x,m_reSpawnPosition.y + 100.0f,m_reSpawnPosition.z };
         m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
         m_scale = 0.0f;
+        DeleteGO(m_gameCamera);
+        NewGO<GameCamera>(0, "gameCamera");
+        m_state = 0;
     }
 
     if (g_pad[0]->IsTrigger(enButtonSelect))

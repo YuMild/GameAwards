@@ -103,7 +103,7 @@ void RockOn::Judge()
 		//視野角。
 		m_angle = acosf(g_camera3D->GetForward().Dot(diffnormal));
 		//想定している視野角より大きい場合。
-		if (m_angle > (Math::PI / 180.0f) * 45.0f)
+		if (m_angle > (Math::PI / 180.0f) * 35.0f)
 		{
 			//ロックオン候補に入らない。
 			continue;

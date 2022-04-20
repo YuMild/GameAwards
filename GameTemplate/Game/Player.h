@@ -1,6 +1,7 @@
 #pragma once
 
 class Game;
+class GameCamera;
 class PowerCharge;
 class RockOn;
 class SonicBoom;
@@ -16,21 +17,23 @@ public:
     void Update() override;
 
     /// <summary>
-    /// 座標を設定
+    /// ステートを設定
     /// </summary>
-    /// <param name="position"></param>
-    void SetPosition(Vector3& position)
+    /// <param name="state"></param>
+    /// <returns></returns>
+    int SetState(const int& state)
     {
-        m_position = position;
+        m_state = state;
+        return m_state;
     }
 
     /// <summary>
-    /// 座標を取得
+    /// 座標を設定
     /// </summary>
-    /// <returns></returns>
-    Vector3 GetPosition() const
+    /// <param name="position"></param>
+    void SetPosition(const Vector3& position)
     {
-        return m_position;
+        m_position = position;
     }
 
     /// <summary>
@@ -76,6 +79,15 @@ public:
     void SetReSpawnPosition(Vector3& reSpawnPosition)
     {
         m_reSpawnPosition = reSpawnPosition;
+    }
+
+    /// <summary>
+    /// 座標を取得
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetPosition() const
+    {
+        return m_position;
     }
 
     /// <summary>
@@ -131,11 +143,13 @@ private:
     bool                m_isPress = false;          //ボタンが押されているか否かの判定
     bool                m_isRockOnFire = false;     //ロックオン時に発射されたか否かの判定
     bool                m_isPowerCharge = true;     //パワーチャージエフェクト
+    int                 m_state;                    //ステート
     float               m_scale = 0.0f;             //サイズ
     float               m_charge = 0.0f;            //チャージ
     float               m_delay = 0.0f;             //ディレイ
 
     Game*               m_game;
+    GameCamera*         m_gameCamera;
     PowerCharge*        m_powerCharge;
     RockOn*             m_rockOn;
     SonicBoom*          m_sonicBoom;

@@ -5,7 +5,7 @@
 
 namespace
 {
-    float SET_TIMELIMIT = 100.0f;
+    float SET_TIMELIMIT = 1000.0f;
 }
 
 TimeLimit::TimeLimit()

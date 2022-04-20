@@ -27,6 +27,13 @@ bool CheckPoint::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
+	EffectEngine::GetInstance()->ResistEffect(3, u"Assets/Effect/Selfmade/CheckPoint2.efk");
+	m_reSpawn = NewGO<EffectEmitter>(3);
+	m_reSpawn->Init(3);
+	m_reSpawn->SetScale(Vector3::One * 50.0f);
+	m_reSpawn->SetPosition({ m_position.x,m_position.y + 50.0f,m_position.z });
+	m_reSpawn->Play();
+
 	m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 0.05f);
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 220.0f,220.0f,220.0f });
 
