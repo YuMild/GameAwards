@@ -38,7 +38,7 @@ bool Player::Start()
     EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
     m_reSpawn = NewGO<EffectEmitter>(2);
     m_reSpawn->Init(2);
-    m_reSpawn->SetScale(Vector3::One * 2.0f);
+    m_reSpawn->SetScale(Vector3::One * 3.0f);
     m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
     m_reSpawn->Play();
 
@@ -215,12 +215,22 @@ void Player::Move()
 
     if (m_state == 1)
     {
-        m_position = { m_reSpawnPosition.x,m_reSpawnPosition.y + 100.0f,m_reSpawnPosition.z };
+        m_position = {m_reSpawnPosition.x,m_reSpawnPosition.y + 100.0f,m_reSpawnPosition.z};
         m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
+        m_isRockOnFire = false;
         m_scale = 0.0f;
+        m_reSpawn = NewGO<EffectEmitter>(2);
+        m_reSpawn->Init(2);
+        m_reSpawn->SetScale(Vector3::One * 3.0f);
+        m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+        m_reSpawn->Play();
         DeleteGO(m_gameCamera);
-        NewGO<GameCamera>(0, "gameCamera");
+        m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
+        //DeleteGO(m_rockOn);
+        //m_rockOn = NewGO<RockOn>(0, "rockOn");
+        g_camera3D->SetPosition(0.0f, 100.0f, 100.0f);
+        g_camera3D->SetTarget(m_position);
         m_state = 0;
     }
 

@@ -48,7 +48,7 @@ void Turret::Update()
 	Hit();
 
 	wchar_t x[256];
-	swprintf_s(x, 256, L"BEEEEEEAM%f");
+	swprintf_s(x, 256, L"Fire");
 	m_fontRender.SetText(x);
 	m_fontRender.SetPosition({ -500.0f, 50.0f, 0.0f });
 }

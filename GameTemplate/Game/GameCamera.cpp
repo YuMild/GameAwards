@@ -26,6 +26,14 @@ bool GameCamera::Start()
 
 	g_camera3D->SetFar(1000000.0f);
 
+	m_springCamera.Init
+	(
+		*g_camera3D,
+		100000.0f
+	);
+
+	m_springCamera.SetDampingRate(0.5f);
+
 	m_rockOn = FindGO<RockOn>("rockOn");
 
 	Quaternion firstCameraPosition;
@@ -48,14 +56,14 @@ void GameCamera::Update()
 	
 	//	YŽ²Žü‚è‚Ì‰ñ“]
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, 2.0f * m_rotationX);
+	qRot.SetRotationDeg(Vector3::AxisY, 2.5f * m_rotationX);
 	qRot.Apply(m_toCameraPos);
 
 	//	XŽ²Žü‚è‚Ì‰ñ“]
 	Vector3 axisX;
 	axisX.Cross(Vector3::AxisY, m_toCameraPos);
 	axisX.Normalize();
-	qRot.SetRotationDeg(axisX, 2.0f * m_rotationY);
+	qRot.SetRotationDeg(axisX, 2.5f * m_rotationY);
 	qRot.Apply(m_toCameraPos);
 
 	//	ƒJƒƒ‰‚Ì‰ñ“]‚ÌãŒÀ‚ðƒ`ƒFƒbƒN‚·‚é
@@ -72,7 +80,11 @@ void GameCamera::Update()
 	//	Ž‹“_‚ðŒvŽZ‚·‚é
 	Vector3 pos = m_target + m_toCameraPos;
 
-	g_camera3D->SetPosition(pos);
+	/*g_camera3D->SetPosition(pos);
 	g_camera3D->SetTarget(m_target);
-	g_camera3D->Update();
+	g_camera3D->Update();*/
+
+	m_springCamera.SetPosition(pos);
+	m_springCamera.SetTarget(m_target);
+	m_springCamera.Update();
 }

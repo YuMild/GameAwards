@@ -1,5 +1,6 @@
 #pragma once
 
+class First;
 class Title;
 
 /// <summary>
@@ -46,6 +47,7 @@ private:
 	SpriteRender	m_vibration;
 	SpriteRender	m_vibrationChoice;
 
+	First*			m_first;
 	Title*			m_title;
 
 	int				m_shelf = 0;

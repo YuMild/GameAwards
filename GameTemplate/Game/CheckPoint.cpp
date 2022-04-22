@@ -22,7 +22,7 @@ bool CheckPoint::Start()
 	m_rockOn->AddRockOnObject(this);
 
 	m_modelRender.Init("Assets/modelData/Stage_0/RespawnPoint.tkm");
-	m_modelRender.SetPosition(m_position);
+	m_modelRender.SetPosition(m_position.x, m_position.y, m_position.z);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
@@ -31,10 +31,12 @@ bool CheckPoint::Start()
 	m_reSpawn = NewGO<EffectEmitter>(3);
 	m_reSpawn->Init(3);
 	m_reSpawn->SetScale(Vector3::One * 50.0f);
-	m_reSpawn->SetPosition({ m_position.x,m_position.y + 50.0f,m_position.z });
+	m_reSpawn->SetPosition(m_position);
 	m_reSpawn->Play();
 
-	m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 0.05f);
+	m_position.y += 150.0f;
+
+	//m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 0.05f);
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 220.0f,220.0f,220.0f });
 
 	return true;
@@ -42,7 +44,7 @@ bool CheckPoint::Start()
 
 void CheckPoint::Update()
 {
-	m_modelRender.Update();
+	//m_modelRender.Update();
 	Hit();
 }
 
@@ -50,7 +52,7 @@ void CheckPoint::Render(RenderContext& rc)
 {
 	if (m_state != 1)
 	{
-		m_modelRender.Draw(rc);
+		//m_modelRender.Draw(rc);
 	}
 }
 
@@ -62,6 +64,7 @@ void CheckPoint::Hit()
 			//m_physicsGhostObjectとぶつかった。
 			//フラグをtrueにする。
 			m_isHit = true;
+			m_reSpawn->Stop();
 		}
 		});
 
@@ -73,7 +76,7 @@ void CheckPoint::Hit()
 	{
 		m_player->SetReSpawnPosition(m_position);
 		m_state = 1;
-		m_boxCollider.RemoveRigidBoby();
+		//m_boxCollider.RemoveRigidBoby();
 		m_ghostCollider.Release();
 		m_isHit = false;
 	}

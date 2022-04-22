@@ -234,6 +234,7 @@
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="HoneyCombBlock.cpp" />
     <ClCompile Include="JumpBoard.cpp" />
+    <ClCompile Include="GameLight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nut.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="Stage_0.cpp" />
     <ClCompile Include="Stage_0_Ground.cpp" />
     <ClCompile Include="Stage_0_Wall.cpp" />
+    <ClCompile Include="First.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -269,6 +271,7 @@
     <ClInclude Include="Goal.h" />
     <ClInclude Include="HoneyCombBlock.h" />
     <ClInclude Include="JumpBoard.h" />
+    <ClInclude Include="GameLight.h" />
     <ClInclude Include="Nut.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerCharge.h" />
@@ -280,6 +283,7 @@
     <ClInclude Include="Stage_0.h" />
     <ClInclude Include="Stage_0_Ground.h" />
     <ClInclude Include="Stage_0_Wall.h" />
+    <ClInclude Include="First.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TimeLimit.h" />

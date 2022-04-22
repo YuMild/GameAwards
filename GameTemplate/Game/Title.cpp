@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Title.h"
 
-#include "Game.h"
 #include "Setting.h"
 
 namespace
@@ -54,10 +53,6 @@ bool Title::Start()
 	m_settingBack.Init("Assets/sprite/Title/SettingBack.dds", 300.0f, 300.0f);
 	m_settingBack.SetPosition({ -30.0f,-150.0f,0.0f });
 	m_settingBack.Update();
-
-	NewGO<Game>(0, "game");
-	m_game = FindGO<Game>("game");
-	m_game->SetGemeState(1);
 
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/Choice.wav");
 	

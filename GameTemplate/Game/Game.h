@@ -3,6 +3,7 @@
 class Bound;
 class ChargeShot;
 class GameCamera;
+class GameLight;
 class Player;
 class PowerCharge;
 class RockOn;
@@ -29,7 +30,7 @@ public:
 	int SetGemeState(const int& state)
 	{
 		m_state = state;
-		return m_state;
+		return 0;
 	}
 
 	int GetGameState() const
@@ -44,6 +45,7 @@ private:
 	Bound*					m_bound;
 	ChargeShot*				m_chargeShot;
 	GameCamera*				m_gameCamera;
+	GameLight*				m_gameLight;
 	Player*					m_player;
 	PowerCharge*			m_powerCharge;
 	RockOn*					m_rockOn;

@@ -81,6 +81,11 @@ public:
         m_reSpawnPosition = reSpawnPosition;
     }
 
+    int GetState() const
+    {
+        return m_state;
+    }
+
     /// <summary>
     /// À•W‚ğæ“¾
     /// </summary>

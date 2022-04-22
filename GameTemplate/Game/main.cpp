@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Title.h"
+
+#include "First.h"
 
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
@@ -20,7 +21,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 	g_sceneLight.SeteyePosition(g_camera3D->GetPosition());
 
-	NewGO<Title>(0, "title");
+	NewGO<First>(0, "first");
 
 	g_postEffect.Init();
 	g_bloom.Init();

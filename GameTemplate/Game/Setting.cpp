@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Setting.h"
 
+#include "First.h"
 #include "Title.h"
 
 namespace
@@ -20,8 +21,12 @@ Setting::~Setting()
 
 bool Setting::Start()
 {
+	m_first = FindGO<First>("first");
+
+	//ƒTƒEƒ“ƒh
 	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/Choice.wav");
 	
+	//‰æ‘œ
 	m_apply.Init("Assets/sprite/Setting/Apply.dds", 800.0f, 800.0f);
 	m_apply.SetPosition({ 200.0f,-300.0f,0.0f });
 	m_apply.Update();
@@ -77,6 +82,7 @@ void Setting::Update()
 	Sprite();
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
+		m_first->SetIsCreate(true);
 		DeleteGO(this);
 	}
 }
@@ -168,6 +174,11 @@ void Setting::Choice()
 	if (m_choiceState == 2 && g_pad[0]->IsTrigger(enButtonRight))
 	{
 		m_choiceState += 1;
+	}
+	else if (m_choiceState == 2 && g_pad[0]->IsTrigger(enButtonB))
+	{
+		m_first->SetIsCreate(true);
+		DeleteGO(this);
 	}
 
 	if (m_choiceState == 3 && g_pad[0]->IsTrigger(enButtonLeft))

@@ -4,6 +4,7 @@
 #include "Bound.h"
 #include "ChargeShot.h"
 #include "GameCamera.h"
+#include "GameLight.h"
 #include "Player.h"
 #include "PowerCharge.h"
 #include "RockOn.h"
@@ -46,6 +47,7 @@ Game::~Game()
 	}
 	DeleteGO(m_chargeShot);
 	DeleteGO(m_gameCamera);
+	DeleteGO(m_gameLight);
 	DeleteGO(m_player);
 	DeleteGO(m_stage_0);
 	DeleteGO(m_timeLimit);
@@ -55,6 +57,7 @@ bool Game::Start()
 {
 	m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
+	m_gameLight = NewGO<GameLight>(0, "gameLight");
 	m_player = NewGO<Player>(0, "player");
 	m_rockOn = NewGO<RockOn>(0, "rockOn");
 	m_stage_0 = NewGO<Stage_0>(0, "stage_0");

@@ -157,6 +157,9 @@ namespace nsK2EngineLow {
 	)
 	{
 		ContactTest(rb.GetBody(), cb);
+		ContactTest(rb.GetBody(), cb);
+		ContactTest(rb.GetBody(), cb);
+		ContactTest(rb.GetBody(), cb);
 	}
 
 	void PhysicsWorld::ContactTest(
@@ -164,6 +167,9 @@ namespace nsK2EngineLow {
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	)
 	{
+		ContactTest(*charaCon.GetRigidBody(), cb);
+		ContactTest(*charaCon.GetRigidBody(), cb);
+		ContactTest(*charaCon.GetRigidBody(), cb);
 		ContactTest(*charaCon.GetRigidBody(), cb);
 	}
 }

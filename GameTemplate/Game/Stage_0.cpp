@@ -114,6 +114,11 @@ bool Stage_0::Start()
                 m_stage_0_Wall->SetRotation(objData.rotation);                      //‰ñ“]‚ğİ’è‚·‚éB
                 return true;
             }
+            else if (objData.ForwardMatchName(L"box") == true)
+            {
+                m_levelRender.InitBoxCollider(objData);
+                return true;
+            }
             else if (objData.ForwardMatchName(L"Bumper") == true)
             {
                 auto bumper = NewGO<Bumper>(0, "bumper");                           //¶¬‚·‚éB

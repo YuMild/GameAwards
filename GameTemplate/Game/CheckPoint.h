@@ -66,7 +66,7 @@ private:
 
 	EffectEmitter*					m_reSpawn;
 	ModelRender						m_modelRender;
-	CharacterController				m_boxCollider;
+	//CharacterController				m_boxCollider;
 	PhysicsGhostObject				m_ghostCollider;
 
 	Vector3							m_position;

@@ -16,7 +16,7 @@ bool Stage_0_Ground::Start()
 	m_modelRender.Init("Assets/modelData/Stage_0/Stage_0_Ground.tkm");
 	m_modelRender.Update();
 
-	m_phyStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	//m_phyStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
 
 	return true;
 }

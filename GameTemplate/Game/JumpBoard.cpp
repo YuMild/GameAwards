@@ -28,6 +28,7 @@ bool JumpBoard::Start()
 	m_modelRender.Update();
 
 	m_phyStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+	//m_boxCollider.BoxInit({ 1000.0f,1000.0f,300.0f }, m_position, 0.0);
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,1000.0f,300.0f });
 
 	return true;
@@ -63,7 +64,7 @@ void JumpBoard::Hit()
 		Vector3 zero = Vector3::Zero;				//スピードを0にする。
 		m_player->SetMoveSpeed(zero);				//スピードを0にする。
 		Vector3 shoot = m_shoot;
-		shoot *= 75000000.0f;
+		shoot *= 50000000.0f;
 		m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 	}
