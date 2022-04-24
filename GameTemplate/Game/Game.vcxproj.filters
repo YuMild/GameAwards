@@ -110,6 +110,9 @@
     <ClCompile Include="First.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="BreakBox.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -191,6 +194,9 @@
     <ClInclude Include="GameLight.h" />
     <ClInclude Include="First.h">
       <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakBox.h">
+      <Filter>Stage\Parts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

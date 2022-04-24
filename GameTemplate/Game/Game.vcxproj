@@ -224,6 +224,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bound.cpp" />
+    <ClCompile Include="BreakBox.cpp" />
     <ClCompile Include="Bumper.cpp" />
     <ClCompile Include="ChargeShot.cpp" />
     <ClCompile Include="CheckPoint.cpp" />
@@ -261,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bound.h" />
+    <ClInclude Include="BreakBox.h" />
     <ClInclude Include="Bumper.h" />
     <ClInclude Include="ChargeShot.h" />
     <ClInclude Include="CheckPoint.h" />

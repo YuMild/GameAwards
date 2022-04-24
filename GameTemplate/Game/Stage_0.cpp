@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Stage_0.h"
 
+#include "BreakBox.h"
 #include "Bumper.h"
 #include "CheckPoint.h"
 #include "Drone.h"
@@ -25,6 +26,12 @@ Stage_0::~Stage_0()
 {
     DeleteGO(m_stage_0_Ground);
     DeleteGO(m_stage_0_Wall);
+    const auto& breakBoxs = FindGOs<BreakBox>("breakBox");
+    int breakBoxSize = breakBoxs.size();
+    for (int i = 0; i < breakBoxSize; i++)
+    {
+        DeleteGO(breakBoxs[i]);
+    }
     const auto& bumpers = FindGOs<Bumper>("bumper");
     int bumperSize = bumpers.size();
     for (int i = 0; i < bumperSize; i++)
@@ -117,6 +124,14 @@ bool Stage_0::Start()
             else if (objData.ForwardMatchName(L"box") == true)
             {
                 m_levelRender.InitBoxCollider(objData);
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"BreakBox") == true)
+            {
+                auto breakBox = NewGO<BreakBox>(0, "breakBox");                           //生成する。
+                breakBox->SetPosition(objData.position);                              //座標を設定する。
+                breakBox->SetScale(objData.scale);                                    //サイズを設定する。
+                breakBox->SetRotation(objData.rotation);                              //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Bumper") == true)

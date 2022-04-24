@@ -4,6 +4,7 @@ class Bound;
 class ChargeShot;
 class GameCamera;
 class GameLight;
+class First;
 class Player;
 class PowerCharge;
 class RockOn;
@@ -46,12 +47,12 @@ private:
 	ChargeShot*				m_chargeShot;
 	GameCamera*				m_gameCamera;
 	GameLight*				m_gameLight;
+	First*					m_first;
 	Player*					m_player;
 	PowerCharge*			m_powerCharge;
 	RockOn*					m_rockOn;
 	SonicBoom*				m_sonicBoom;
 	Stage_0*				m_stage_0;
-	Title*					m_title;
 	TimeLimit*				m_timeLimit;
 
 	int						m_state;

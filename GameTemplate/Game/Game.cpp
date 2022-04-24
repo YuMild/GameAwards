@@ -3,6 +3,7 @@
 
 #include "Bound.h"
 #include "ChargeShot.h"
+#include "First.h"
 #include "GameCamera.h"
 #include "GameLight.h"
 #include "Player.h"
@@ -10,7 +11,6 @@
 #include "RockOn.h"
 #include "SonicBoom.h"
 #include "Stage_0.h"
-#include "Title.h"
 #include "TimeLimit.h"
 
 Game::Game()
@@ -83,7 +83,7 @@ void Game::Death()
 	if (m_state == 2)
 	{
 		DeleteGO(this);
-		m_title = NewGO<Title>(0, "title");
+		m_first = NewGO<First>(0, "first");
 		m_state = 0;
 	}
 }
