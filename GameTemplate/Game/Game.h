@@ -9,7 +9,7 @@ class Player;
 class PowerCharge;
 class RockOn;
 class SonicBoom;
-class Stage_0;
+class Stage_1;
 class Title;
 class TimeLimit;
 
@@ -28,7 +28,7 @@ public:
 	/// </summary>
 	/// <param name="state"></param>
 	/// <returns></returns>
-	int SetGemeState(const int& state)
+	int SetGameState(const int& state)
 	{
 		m_state = state;
 		return 0;
@@ -52,7 +52,7 @@ private:
 	PowerCharge*			m_powerCharge;
 	RockOn*					m_rockOn;
 	SonicBoom*				m_sonicBoom;
-	Stage_0*				m_stage_0;
+	Stage_1*				m_stage_1;
 	TimeLimit*				m_timeLimit;
 
 	int						m_state;

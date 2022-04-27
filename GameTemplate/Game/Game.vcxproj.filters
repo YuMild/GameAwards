@@ -48,13 +48,7 @@
     <ClCompile Include="JumpBoard.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
-    <ClCompile Include="Stage_0_Ground.cpp">
-      <Filter>Stage\Stage_0</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage_0_Wall.cpp">
-      <Filter>Stage\Stage_0</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage_0.cpp">
+    <ClCompile Include="Stage_1.cpp">
       <Filter>Stage\Stage_0</Filter>
     </ClCompile>
     <ClCompile Include="Bumper.cpp">
@@ -113,6 +107,13 @@
     <ClCompile Include="BreakBox.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
+    <ClCompile Include="SpeedUpRail.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_1_Stage.cpp">
+      <Filter>Stage\Stage_0</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -133,13 +134,7 @@
     <ClInclude Include="JumpBoard.h">
       <Filter>Stage\Parts</Filter>
     </ClInclude>
-    <ClInclude Include="Stage_0_Ground.h">
-      <Filter>Stage\Stage_0</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage_0_Wall.h">
-      <Filter>Stage\Stage_0</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage_0.h">
+    <ClInclude Include="Stage_1.h">
       <Filter>Stage\Stage_0</Filter>
     </ClInclude>
     <ClInclude Include="Bumper.h">
@@ -198,5 +193,12 @@
     <ClInclude Include="BreakBox.h">
       <Filter>Stage\Parts</Filter>
     </ClInclude>
+    <ClInclude Include="SpeedUpRail.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_1_Stage.h">
+      <Filter>Stage\Stage_0</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h" />
   </ItemGroup>
 </Project>

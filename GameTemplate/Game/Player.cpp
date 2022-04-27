@@ -36,11 +36,6 @@ bool Player::Start()
     m_modelRender.SetPosition(m_position);
 
     EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
-    m_reSpawn = NewGO<EffectEmitter>(2);
-    m_reSpawn->Init(2);
-    m_reSpawn->SetScale(Vector3::One * 3.0f);
-    m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
-    m_reSpawn->Play();
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -103,7 +98,10 @@ void Player::Update()
 void Player::Render(RenderContext& rc)
 {
     //モデルの描画。
-    m_modelRender.Draw(rc);
+    if (m_game->GetGameState() != 1)
+    {
+        m_modelRender.Draw(rc);
+    }
 
     m_fontRenderX.Draw(rc);
     m_fontRenderY.Draw(rc);
@@ -115,9 +113,35 @@ void Player::Death()
     
 }
 
+void Player::UpdateOnStop()
+{
+    m_stopTimer += 0.1f;
+
+    if (m_stopTimer >= 2.0f)
+    {
+        m_isRockOnFire == false;                                            //ロックオンアタックを無効化
+        m_isPress = false;
+        m_moveSpeed = (m_cameraForward * PLAYER_SPEED_DEFAULT) * m_charge;  //前後
+        m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
+        m_stopTimer = 0.0f;
+        GameObjectManager::GetInstance()->SetStop(false);
+    }
+}
+
 void Player::Move()
 {
-    if (m_scale <= 1.0f)
+    if (m_game->GetGameState() != 1 && m_isEffectStart == true)
+    {
+        m_reSpawn = NewGO<EffectEmitter>(2);
+        m_reSpawn->Init(2);
+        m_reSpawn->SetScale(Vector3::One * 3.0f);
+        m_reSpawn->SetPosition({ m_position.x,m_position.y,m_position.z });
+        m_reSpawn->Play();
+
+        m_isEffectStart = false;
+    }
+
+    if (m_game->GetGameState() != 1 && m_scale <= 1.0f)
     {
         m_scale += 0.1;
     }
@@ -128,18 +152,18 @@ void Player::Move()
     
     //剛体の座標と回転をモデルに反映。
     m_modelRender.SetPosition(m_position);
-    m_modelRender.SetRotation(m_rotation);
+    // m_modelRender.SetRotation(m_rotation);
 
     //プレイヤーが進む方向を決定する。
-    Vector3 forward = g_camera3D->GetForward();                                 //カメラの前方向
-    forward.y = 0.0f;
-    forward.Normalize();
+    m_cameraForward = g_camera3D->GetForward();                                 //カメラの前方向
+    m_cameraForward.y = 0.0f;
+    m_cameraForward.Normalize();
     
     Vector3 target = m_rockOn->GetDifference();                                 //ロックオンしているオブジェクトの方向
 
     m_moveSpeed.y = PLAYER_GRAVITY;
 
-    if (g_pad[0]->IsPress(enButtonLB2))                                         //ボタンを押している時
+    if (m_game->GetGameState() != 1 && g_pad[0]->IsPress(enButtonLB2))                                         //ボタンを押している時
     {
         m_isPress = true;
         if (m_charge < 1.0f)
@@ -149,11 +173,14 @@ void Player::Move()
     }
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == false)          //ボタンが離されて且つロックオンがオフの時
     {
-        m_isRockOnFire == false;                                                //ロックオンアタックを無効化
-        m_isPress = false;                                                      //ボタンが押されていない
+        GameObjectManager::GetInstance()->SetStop(true);
+        m_stopTimer += 0.1f;
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
-        m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;              //前後
-        m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
+        if (m_stopTimer > 2.0f)
+        {
+            
+           
+        }
     }
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == true)           //ボタンが離されて且つロックオンがオンの時
     {
@@ -227,8 +254,6 @@ void Player::Move()
         m_reSpawn->Play();
         DeleteGO(m_gameCamera);
         m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
-        //DeleteGO(m_rockOn);
-        //m_rockOn = NewGO<RockOn>(0, "rockOn");
         g_camera3D->SetPosition(0.0f, 100.0f, 100.0f);
         g_camera3D->SetTarget(m_position);
         m_state = 0;
@@ -236,7 +261,7 @@ void Player::Move()
 
     if (g_pad[0]->IsTrigger(enButtonSelect))
     {
-        m_game->SetGemeState(2);
+        m_game->SetGameState(2);
     }
 
     m_moveSpeed.x = 0.0f;                                                       //スピードの初期化

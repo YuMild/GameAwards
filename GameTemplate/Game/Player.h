@@ -15,7 +15,7 @@ public:
     bool Start() override;
     void Render(RenderContext& rc)override;
     void Update() override;
-
+    void UpdateOnStop() override;
     /// <summary>
     /// ステートを設定
     /// </summary>
@@ -113,6 +113,11 @@ public:
         return m_rigidBody.GetLinearVelocity().Length();
     }
 
+    bool GetStop() const
+    {
+        return m_stop;
+    }
+
     RigidBody           m_rigidBody;                //剛体
 
 private:
@@ -145,13 +150,16 @@ private:
 
     Quaternion          m_rotation;                 //回転
 
+    bool                m_isEffectStart = true;     //エフェクトを一回だけ再生させる
     bool                m_isPress = false;          //ボタンが押されているか否かの判定
     bool                m_isRockOnFire = false;     //ロックオン時に発射されたか否かの判定
     bool                m_isPowerCharge = true;     //パワーチャージエフェクト
+    bool                m_stop = false;
     int                 m_state;                    //ステート
     float               m_scale = 0.0f;             //サイズ
     float               m_charge = 0.0f;            //チャージ
     float               m_delay = 0.0f;             //ディレイ
+    float               m_stopTimer = 0.0f;
 
     Game*               m_game;
     GameCamera*         m_gameCamera;

@@ -228,6 +228,7 @@
     <ClCompile Include="Bumper.cpp" />
     <ClCompile Include="ChargeShot.cpp" />
     <ClCompile Include="CheckPoint.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Drone.cpp" />
     <ClCompile Include="Energy.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -245,10 +246,10 @@
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="SignBoard.cpp" />
     <ClCompile Include="SonicBoom.cpp" />
-    <ClCompile Include="Stage_0.cpp" />
-    <ClCompile Include="Stage_0_Ground.cpp" />
-    <ClCompile Include="Stage_0_Wall.cpp" />
+    <ClCompile Include="SpeedUpRail.cpp" />
+    <ClCompile Include="Stage_1.cpp" />
     <ClCompile Include="First.cpp" />
+    <ClCompile Include="Stage_1_Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -266,6 +267,7 @@
     <ClInclude Include="Bumper.h" />
     <ClInclude Include="ChargeShot.h" />
     <ClInclude Include="CheckPoint.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Drone.h" />
     <ClInclude Include="Energy.h" />
     <ClInclude Include="GameCamera.h" />
@@ -282,10 +284,10 @@
     <ClInclude Include="Setting.h" />
     <ClInclude Include="SignBoard.h" />
     <ClInclude Include="SonicBoom.h" />
-    <ClInclude Include="Stage_0.h" />
-    <ClInclude Include="Stage_0_Ground.h" />
-    <ClInclude Include="Stage_0_Wall.h" />
+    <ClInclude Include="SpeedUpRail.h" />
+    <ClInclude Include="Stage_1.h" />
     <ClInclude Include="First.h" />
+    <ClInclude Include="Stage_1_Stage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TimeLimit.h" />

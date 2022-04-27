@@ -18,7 +18,8 @@ bool First::Start()
 {
 	NewGO<Game>(0, "game");
 	m_game = FindGO<Game>("game");
-	m_game->SetGemeState(0);
+	m_game->SetGameState(1);
+	return true;
 }
 
 void First::Update()

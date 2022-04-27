@@ -61,6 +61,6 @@ void Goal::Hit()
 
 	if (m_isHit == true)
 	{
-		m_game->SetGemeState(2);
+		m_game->SetGameState(2);
 	}
 }

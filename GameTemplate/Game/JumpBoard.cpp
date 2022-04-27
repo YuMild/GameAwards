@@ -27,8 +27,6 @@ bool JumpBoard::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
-	m_phyStaticObject.CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-	//m_boxCollider.BoxInit({ 1000.0f,1000.0f,300.0f }, m_position, 0.0);
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,1000.0f,300.0f });
 
 	return true;

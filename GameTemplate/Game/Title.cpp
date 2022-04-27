@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Title.h"
 
+#include "Game.h"
 #include "Setting.h"
 
 namespace
@@ -21,6 +22,8 @@ Title::~Title()
 
 bool Title::Start()
 {
+	m_game = FindGO<Game>("game");
+
 	m_backGround.Init("Assets/sprite/Title/TitleBackGround.dds", 1600.0f, 900.0f);
 
 	m_start.Init("Assets/sprite/Title/Start.dds", FONT_SIZE, FONT_SIZE);
@@ -63,6 +66,7 @@ void Title::Update()
 {
 	if (m_choiceState == 0 && g_pad[0]->IsTrigger(enButtonB))
 	{
+		m_game->SetGameState(0);
 		DeleteGO(this);
 	}
 	if (m_choiceState == 1 && g_pad[0]->IsTrigger(enButtonB))

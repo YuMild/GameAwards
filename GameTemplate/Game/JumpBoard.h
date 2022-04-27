@@ -49,8 +49,6 @@ private:
 	void Hit();
 
 	ModelRender						m_modelRender;
-	//CharacterController				m_boxCollider;
-	PhysicsStaticObject				m_phyStaticObject;
 	PhysicsGhostObject				m_ghostCollider;
 
 	Vector3							m_position;

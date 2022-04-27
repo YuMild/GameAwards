@@ -29,6 +29,8 @@ private:
 	/// </summary>
 	void Sprite();
 
+	FontRender      m_fontRender;
+
 	SoundSource*	m_choiceSE;
 
 	SpriteRender	m_apply;
@@ -44,6 +46,8 @@ private:
 	SpriteRender	m_stickSensitivityChoice;
 	SpriteRender	m_stickSensitivityBar;
 	SpriteRender	m_stickSensitivityBarChoice;
+	SpriteRender	m_stickSensitivityBarInside;
+	SpriteRender	m_stickSensitivityBarInsideChoice;
 	SpriteRender	m_vibration;
 	SpriteRender	m_vibrationChoice;
 
@@ -52,4 +56,10 @@ private:
 
 	int				m_shelf = 0;
 	int				m_choiceState = 0;
+	float			m_stickSensitivityNum = 5.0f;
+
+	float			m_scale = 0;
+
+	bool			m_stickSensitivityUp = false;
+	bool			m_stickSensitivityDown = false;
 };

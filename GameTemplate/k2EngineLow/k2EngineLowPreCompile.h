@@ -49,7 +49,7 @@ using namespace Microsoft::WRL;
 #include "math/Vector.h"
 #include "math/Matrix.h"
 
-#include "k2EngineLow.h"
+//#include "k2EngineLow.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/IndexBuffer.h"
 #include "graphics/IShaderResource.h"
@@ -121,3 +121,5 @@ static const int MAX_BONE = 512;	// É{Å[ÉìÇÃç≈ëÂêîÅB
 #include "graphics/effect/EffectEngine.h"
 #include "sound/SoundSource.h"
 #include "graphics/effect/EffectEmitter.h"
+
+#include "k2EngineLow.h"

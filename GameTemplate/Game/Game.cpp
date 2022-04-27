@@ -10,7 +10,7 @@
 #include "PowerCharge.h"
 #include "RockOn.h"
 #include "SonicBoom.h"
-#include "Stage_0.h"
+#include "Stage_1.h"
 #include "TimeLimit.h"
 
 Game::Game()
@@ -49,7 +49,7 @@ Game::~Game()
 	DeleteGO(m_gameCamera);
 	DeleteGO(m_gameLight);
 	DeleteGO(m_player);
-	DeleteGO(m_stage_0);
+	DeleteGO(m_stage_1);
 	DeleteGO(m_timeLimit);
 }
 
@@ -60,7 +60,7 @@ bool Game::Start()
 	m_gameLight = NewGO<GameLight>(0, "gameLight");
 	m_player = NewGO<Player>(0, "player");
 	m_rockOn = NewGO<RockOn>(0, "rockOn");
-	m_stage_0 = NewGO<Stage_0>(0, "stage_0");
+	m_stage_1 = NewGO<Stage_1>(0, "stage_1");
 	m_timeLimit = NewGO<TimeLimit>(0, "timeLimit");
 
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();

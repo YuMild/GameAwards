@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameCamera.h"
 
+#include "Game.h"
 #include "Player.h"
 #include "RockOn.h"
 
@@ -21,7 +22,10 @@ GameCamera::~GameCamera()
 
 bool GameCamera::Start()
 {
+	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
+	m_rockOn = FindGO<RockOn>("rockOn");
+
 	m_toCameraPos.Set(0.0f, 100.0f, 100.0f);
 
 	g_camera3D->SetFar(1000000.0f);
@@ -32,9 +36,7 @@ bool GameCamera::Start()
 		100000.0f
 	);
 
-	m_springCamera.SetDampingRate(0.5f);
-
-	m_rockOn = FindGO<RockOn>("rockOn");
+	m_springCamera.SetDampingRate(0.75f);
 
 	Quaternion firstCameraPosition;
 	firstCameraPosition.SetRotationDegX(FIRST_CAMERA_POSITION);
@@ -51,19 +53,22 @@ void GameCamera::Update()
 	Vector3 toCameraPosOld = m_toCameraPos;
 
 	//	パッドの入力を使ってカメラを回す
-	m_rotationX = g_pad[0]->GetRStickXF();
-	m_rotationY = g_pad[0]->GetRStickYF();
+	if (m_game->GetGameState() != 1)
+	{
+		m_rotationX = g_pad[0]->GetRStickXF();
+		m_rotationY = g_pad[0]->GetRStickYF();
+	}
 	
 	//	Y軸周りの回転
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, 2.5f * m_rotationX);
+	qRot.SetRotationDeg(Vector3::AxisY, 5.0f * m_rotationX);
 	qRot.Apply(m_toCameraPos);
 
 	//	X軸周りの回転
 	Vector3 axisX;
 	axisX.Cross(Vector3::AxisY, m_toCameraPos);
 	axisX.Normalize();
-	qRot.SetRotationDeg(axisX, 2.5f * m_rotationY);
+	qRot.SetRotationDeg(axisX, 5.0f * m_rotationY);
 	qRot.Apply(m_toCameraPos);
 
 	//	カメラの回転の上限をチェックする

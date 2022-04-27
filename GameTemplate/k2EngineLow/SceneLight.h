@@ -179,4 +179,4 @@ namespace nsK2EngineLow {
 			Light m_light;
 		};
 		extern SceneLight g_sceneLight;
-	}
+}

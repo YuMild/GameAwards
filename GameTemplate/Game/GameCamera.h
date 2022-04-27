@@ -2,6 +2,7 @@
 
 #include <SpringCamera.h>
 
+class Game;
 class Player;
 class RockOn;
 
@@ -21,6 +22,7 @@ private:
 	Vector3			m_target;
 	Vector3			m_toCameraPos = Vector3::One;
 
+	Game*			m_game;
 	Player*			m_player;
 	RockOn*			m_rockOn;
 

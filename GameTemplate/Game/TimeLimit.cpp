@@ -33,7 +33,7 @@ void TimeLimit::Update()
 
     if (m_limitTimer <= 0)
     {
-        m_game->SetGemeState(2);
+        m_game->SetGameState(2);
     }
 
     wchar_t x[256];
