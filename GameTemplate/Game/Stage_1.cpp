@@ -4,6 +4,7 @@
 #include "BreakBox.h"
 #include "Bumper.h"
 #include "CheckPoint.h"
+#include "Door.h"
 #include "Drone.h"
 #include "Energy.h"
 #include "Goal.h"
@@ -41,6 +42,12 @@ Stage_1::~Stage_1()
     for (int i = 0; i < checkPointSize; i++)
     {
         DeleteGO(checkPoints[i]);
+    }
+    const auto& doors = FindGOs<Door>("door");
+    int doorSize = doors.size();
+    for (int i = 0; i < doorSize; i++)
+    {
+        DeleteGO(doors[i]);
     }
     const auto& drones = FindGOs<Drone>("drone");
     int droneSize = drones.size();
@@ -144,6 +151,14 @@ bool Stage_1::Start()
                 checkPoint->SetPosition(objData.position);                          //座標を設定する。
                 checkPoint->SetScale(objData.scale);                                //サイズを設定する。
                 checkPoint->SetRotation(objData.rotation);                          //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"Door") == true)
+            {
+                auto door = NewGO<Door>(0, "door");                              //生成する。
+                door->SetPosition(objData.position);                               //座標を設定する。
+                door->SetScale(objData.scale);                                     //サイズを設定する。
+                door->SetRotation(objData.rotation);                               //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Drone") == true)

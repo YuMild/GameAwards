@@ -1,6 +1,5 @@
 #pragma once
 
-#include <RockOnObject.h>
 #include <physics/PhysicsGhostObject.h>
 
 class Player;
@@ -59,7 +58,6 @@ private:
 	Player*							m_player;
 	RockOn*							m_rockOn;
 
-	int								m_state = 0;
 	bool							m_isHit = false;
 	float							m_coolTime = 0.0f;
 };

@@ -117,7 +117,7 @@ void Player::UpdateOnStop()
 {
     m_stopTimer += 0.1f;
 
-    if (m_stopTimer >= 2.0f)
+    if (m_stopTimer >= 0.1f)
     {
         m_isRockOnFire == false;                                            //ロックオンアタックを無効化
         m_isPress = false;

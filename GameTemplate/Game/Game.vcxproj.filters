@@ -113,7 +113,18 @@
     <ClCompile Include="Stage_1_Stage.cpp">
       <Filter>Stage\Stage_0</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Door.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Truck.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -199,6 +210,17 @@
     <ClInclude Include="Stage_1_Stage.h">
       <Filter>Stage\Stage_0</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h" />
+    <ClInclude Include="Door.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Truck.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
