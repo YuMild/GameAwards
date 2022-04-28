@@ -1,12 +1,12 @@
 #pragma once
 
-#include <RockOnObject.h>
+//#include <RockOnObject.h>
 #include <physics/PhysicsGhostObject.h>
 
 class Player;
 class RockOn;
 
-class SpeedUpRail : public RockOnObject
+class SpeedUpRail : public IGameObject
 {
 public:
 
@@ -25,14 +25,6 @@ public:
 		m_position = position;
 	}
 	/// <summary>
-	/// 座標を取得
-	/// </summary>
-	/// <returns></returns>
-	Vector3 GetPosition() const override
-	{
-		return m_position;
-	}
-	/// <summary>
 	/// サイズを設定。
 	/// </summary>
 	/// <param name="scale"></param>
@@ -48,14 +40,6 @@ public:
 	{
 		m_rotation = rotation;
 	}
-	/// <summary>
-	///	ステートを取得。
-	/// </summary>
-	/// <returns></returns>
-	int GetState() const override
-	{
-		return m_state;
-	}
 
 private:
 
@@ -63,6 +47,8 @@ private:
 	/// 当たり判定の管理。
 	/// </summary>
 	void Hit();
+
+	FontRender						m_fontRender;
 
 	ModelRender						m_modelRender;
 	PhysicsGhostObject				m_ghostCollider;
@@ -75,7 +61,6 @@ private:
 	Player*							m_player;
 	RockOn*							m_rockOn;
 
-	int								m_state = 0;
 	bool							m_isHit = false;
 	float							m_coolTime = 0.0f;
 };

@@ -6,7 +6,9 @@
 #include "CheckPoint.h"
 #include "Door.h"
 #include "Drone.h"
+#include "Duct.h"
 #include "Energy.h"
+#include "Engine.h"
 #include "Goal.h"
 #include "HoneyCombBlock.h"
 #include "JumpBoard.h"
@@ -55,11 +57,23 @@ Stage_1::~Stage_1()
     {
         DeleteGO(drones[i]);
     }
+    const auto& ducts = FindGOs<Duct>("duct");
+    int ductSize = ducts.size();
+    for (int i = 0; i < ductSize; i++)
+    {
+        DeleteGO(ducts[i]);
+    }
     const auto& energys = FindGOs<Energy>("energy");
     int energySize = energys.size();
     for (int i = 0; i < energySize; i++)
     {
         DeleteGO(energys[i]);
+    }
+    const auto& engines = FindGOs<Engine>("engine");
+    int engineSize = engines.size();
+    for (int i = 0; i < engineSize; i++)
+    {
+        DeleteGO(engines[i]);
     }
     const auto& goals = FindGOs<Goal>("goal");
     int goalize = goals.size();
@@ -113,7 +127,7 @@ Stage_1::~Stage_1()
 
 bool Stage_1::Start()
 {
-    m_levelRender.Init("Assets/modelData/Stage_0/Stage_0.tkl",
+    m_levelRender.Init("Assets/modelData/Stage_0/Stage_1.tkl",
         [&](LevelObjectData& objData)
         {
             if (objData.EqualObjectName(L"Stage_1") == true)
@@ -169,12 +183,28 @@ bool Stage_1::Start()
                 drone->SetRotation(objData.rotation);                               //回転を設定する。
                 return true;
             }
+            else if (objData.ForwardMatchName(L"Duct") == true)
+            {
+                auto duct = NewGO<Duct>(0, "duct");                              //生成する。
+                duct->SetPosition(objData.position);                               //座標を設定する。
+                duct->SetScale(objData.scale);                                     //サイズを設定する。
+                duct->SetRotation(objData.rotation);                               //回転を設定する。
+                return true;
+            }
             else if (objData.ForwardMatchName(L"Energy") == true)
             {
                 auto energy = NewGO<Energy>(0, "energy");                           //生成する。
                 energy->SetPosition(objData.position);                              //座標を設定する。
                 energy->SetScale(objData.scale);                                    //サイズを設定する。
                 energy->SetRotation(objData.rotation);                              //回転を設定する。
+                return true;
+            }
+            else if (objData.ForwardMatchName(L"Engine") == true)
+            {
+                auto engine = NewGO<Engine>(0, "engine");                           //生成する。
+                engine->SetPosition(objData.position);                              //座標を設定する。
+                engine->SetScale(objData.scale);                                    //サイズを設定する。
+                engine->SetRotation(objData.rotation);                              //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Goal") == true)

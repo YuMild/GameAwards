@@ -36,10 +36,20 @@ void JumpBoard::Update()
 {
 	m_modelRender.Update();
 	Hit();
+
+	wchar_t x[256];
+	swprintf_s(x, 256, L"Jamp");
+	m_fontRender.SetText(x);
+	m_fontRender.SetPosition({ 100.0f, 0.0f, 0.0f });
 }
 
 void JumpBoard::Render(RenderContext& rc)
 {
+	if (m_coolTime <= 1.0f)
+	{
+		m_fontRender.Draw(rc);
+	}
+
 	m_modelRender.Draw(rc);
 }
 
@@ -49,7 +59,7 @@ void JumpBoard::Hit()
 
 	//キャラクタコントローラーとゴーストオブジェクトのあたり判定を行う。
 	PhysicsWorld::GetInstance()->ContactTest(m_player->m_rigidBody, [&](const btCollisionObject& contactObject) {
-		if (m_ghostCollider.IsSelf(contactObject) == true && m_coolTime >= 5.0f) {
+		if (m_ghostCollider.IsSelf(contactObject) == true && m_coolTime >= 1.0f) {
 			//m_physicsGhostObjectとぶつかった。
 			//フラグをtrueにする。
 			m_isHit = true;
@@ -62,7 +72,7 @@ void JumpBoard::Hit()
 		Vector3 zero = Vector3::Zero;				//スピードを0にする。
 		m_player->SetMoveSpeed(zero);				//スピードを0にする。
 		Vector3 shoot = m_shoot;
-		shoot *= 50000000.0f;
+		shoot *= 75000000.0f;
 		m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 	}

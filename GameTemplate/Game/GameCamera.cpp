@@ -36,7 +36,7 @@ bool GameCamera::Start()
 		100000.0f
 	);
 
-	m_springCamera.SetDampingRate(0.75f);
+	m_springCamera.SetDampingRate(0.5f);
 
 	Quaternion firstCameraPosition;
 	firstCameraPosition.SetRotationDegX(FIRST_CAMERA_POSITION);
@@ -61,14 +61,14 @@ void GameCamera::Update()
 	
 	//	Y軸周りの回転
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, 5.0f * m_rotationX);
+	qRot.SetRotationDeg(Vector3::AxisY, 3.0f * m_rotationX);
 	qRot.Apply(m_toCameraPos);
 
 	//	X軸周りの回転
 	Vector3 axisX;
 	axisX.Cross(Vector3::AxisY, m_toCameraPos);
 	axisX.Normalize();
-	qRot.SetRotationDeg(axisX, 5.0f * m_rotationY);
+	qRot.SetRotationDeg(axisX, 3.0f * m_rotationY);
 	qRot.Apply(m_toCameraPos);
 
 	//	カメラの回転の上限をチェックする

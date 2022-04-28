@@ -47,6 +47,8 @@ private:
 	/// </summary>
 	void Hit();
 
+	FontRender						m_fontRender;
+
 	ModelRender						m_modelRender;
 	PhysicsGhostObject				m_ghostCollider;
 

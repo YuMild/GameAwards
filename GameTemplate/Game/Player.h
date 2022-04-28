@@ -113,11 +113,6 @@ public:
         return m_rigidBody.GetLinearVelocity().Length();
     }
 
-    bool GetStop() const
-    {
-        return m_stop;
-    }
-
     RigidBody           m_rigidBody;                //剛体
 
 private:
@@ -147,6 +142,7 @@ private:
     Vector3             m_cameraForward;            //カメラの前方向
     Vector3             m_cameraRight;              //カメラの左右方向
     Vector3             m_moveSpeed;                //プレイヤーの移動速度
+    Vector3 m_rockOnTarget;
 
     Quaternion          m_rotation;                 //回転
 
@@ -154,7 +150,8 @@ private:
     bool                m_isPress = false;          //ボタンが押されているか否かの判定
     bool                m_isRockOnFire = false;     //ロックオン時に発射されたか否かの判定
     bool                m_isPowerCharge = true;     //パワーチャージエフェクト
-    bool                m_stop = false;
+    bool                m_stopNormal = false;
+    bool                m_stopRockOn = false;
     int                 m_state;                    //ステート
     float               m_scale = 0.0f;             //サイズ
     float               m_charge = 0.0f;            //チャージ

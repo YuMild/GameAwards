@@ -47,7 +47,13 @@ private:
 	/// </summary>
 	void Hit();
 
+	enum EnAnimationClip {
+		enAnimationClip_Open,
+		enAnimationClip_Num
+	};
+
 	ModelRender						m_modelRender;
+	AnimationClip					m_open[enAnimationClip_Num];
 	PhysicsGhostObject				m_ghostCollider;
 
 	Vector3							m_position;

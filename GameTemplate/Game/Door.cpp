@@ -24,8 +24,10 @@ bool Door::Start()
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
+	m_open[enAnimationClip_Open].Load("Assets/animData/Door.tka");
+	m_open[enAnimationClip_Open].SetLoopFlag(false);
 
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 500.0f,500.0f,500.0f });
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 2000.0f,2000.0f,2000.0f });
 
 	return true;
 }
@@ -50,7 +52,7 @@ void Door::Hit()
 
 	//キャラクタコントローラーとゴーストオブジェクトのあたり判定を行う。
 	PhysicsWorld::GetInstance()->ContactTest(m_player->m_rigidBody, [&](const btCollisionObject& contactObject) {
-		if (m_ghostCollider.IsSelf(contactObject) == true && m_coolTime >= 5.0f) {
+		if (m_ghostCollider.IsSelf(contactObject) == true && m_coolTime >= 1.0f) {
 			//m_physicsGhostObjectとぶつかった。
 			//フラグをtrueにする。
 			m_isHit = true;
@@ -59,6 +61,7 @@ void Door::Hit()
 
 	if (m_isHit == true)
 	{
+		m_modelRender.PlayAnimation(enAnimationClip_Open, 0.0f);
 		m_state = 1;
 		m_isHit = false;
 	}

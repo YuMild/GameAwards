@@ -230,6 +230,7 @@
     <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Drone.cpp" />
+    <ClCompile Include="Duct.cpp" />
     <ClCompile Include="Energy.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Drone.h" />
+    <ClInclude Include="Duct.h" />
     <ClInclude Include="Energy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameCamera.h" />

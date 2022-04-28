@@ -33,11 +33,10 @@ bool Turret::Start()
 
 	EffectEngine::GetInstance()->ResistEffect(5, u"Assets/Effect/Selfmade/Beam.efk");
 
-	m_boxCollider.BoxInit({ 100.0f,100.0f,100.0f }, m_position, 0.1);
-	
+	m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 0.1);
 
 	m_effectRotation = m_rotation;
-	m_effectRotation.AddRotationDegY(180.0f);
+	m_effectRotation.AddRotationDegY(0.0f);
 
 	return true;
 }
@@ -74,12 +73,12 @@ void Turret::Hit()
 			m_beam = NewGO<EffectEmitter>(5);
 			m_beam->Init(5);
 			m_beam->SetRotation(m_effectRotation);
-			m_beam->SetScale(Vector3::One * 30.0f);
-			m_beam->SetPosition({ m_position.x,m_position.y,m_position.z });
+			m_beam->SetScale(Vector3::One * 100.0f);
+			m_beam->SetPosition({ m_position.x,m_position.y + 70.0f,m_position.z });
 			m_beam->Play();
 			m_effectCoolTime = true;
 		}
-		m_beamCollider.CreateBox(m_position, m_rotation, { 3000.0f,30.0f,30.0f });
+		m_beamCollider.CreateBox(m_position, m_rotation, { 30.0f,30.0f,3000.0f });
 		m_state = 1;
 		m_aliveTime += g_gameTime->GetFrameDeltaTime();
 	}
