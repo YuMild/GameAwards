@@ -5,7 +5,6 @@
 #include "GameObjectManager.h"
 
 namespace nsK2EngineLow {
-	GameObjectManager* g_gameObjectManager;
 	GameObjectManager* GameObjectManager::m_instance = nullptr;
 
 	GameObjectManager::GameObjectManager()
@@ -23,7 +22,7 @@ namespace nsK2EngineLow {
 	}
 	void GameObjectManager::ExecuteUpdate()
 	{
-		if (m_stop==true) {
+		if (m_stop == true) {
 			for (auto& goList : m_gameObjectListArray) {
 				for (auto& go : goList) {
 					go->UpdateOnStop();
@@ -31,7 +30,6 @@ namespace nsK2EngineLow {
 			}
 			return;
 		}
-
 		//死亡フラグがついているゲームオブジェクトを破棄する。
 		for (auto& goList : m_gameObjectListArray) {
 			goList.remove_if([&](IGameObject* go) {
@@ -48,6 +46,7 @@ namespace nsK2EngineLow {
 				go->StartWrapper();
 			}
 		}
+
 
 		for (auto& goList : m_gameObjectListArray) {
 			for (auto& go : goList) {

@@ -3,9 +3,10 @@ namespace nsK2EngineLow {
 	/// <summary>
 	/// スプライトレンダラー。
 	/// </summary>
-	class SpriteRender
+	class SpriteRender : public IRenderer
 	{
 	public:
+		SpriteRender();
 		/// <summary>
 		/// 初期化。
 		/// </summary>
@@ -144,8 +145,8 @@ namespace nsK2EngineLow {
 				m_pivot);
 		}
 
-		////////////////////////////////////////////////////////////////////
-		void OnRender2D(RenderContext& rc)
+		
+		void OnRenderSprite2D(RenderContext& rc) override
 		{
 			if (m_isInit == false)
 			{

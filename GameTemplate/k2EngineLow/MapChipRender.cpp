@@ -28,7 +28,8 @@ namespace nsK2EngineLow {
 	void MapChipRender::Init()
 	{
 		
-			m_modelRender.Init(*m_filePath.get());
+			m_modelRender.Init(*m_filePath.get(),true);
+			m_modelRender.SetCasterShadow(false);
 			auto& mapChipData = m_mapChipDataVector[0];
 			m_modelRender.SetTRS(mapChipData.position, mapChipData.rotation, mapChipData.scale);
 			m_modelRender.Update();

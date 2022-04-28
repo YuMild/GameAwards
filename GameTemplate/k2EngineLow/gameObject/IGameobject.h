@@ -39,7 +39,7 @@ namespace nsK2EngineLow {
 		virtual void Update() {}
 		// ゲームオブジェクトの更新停止中に呼ばれる更新処理。
 		// この関数はGameObjectのUpdateを停止していても呼ばれます。
-		virtual void UpdateOnStop(){}
+		virtual void UpdateOnStop() {}
 		/*!
 		 *@brief	描画
 		*/

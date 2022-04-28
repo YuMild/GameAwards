@@ -48,8 +48,7 @@ using namespace Microsoft::WRL;
 #include "math/Math.h"
 #include "math/Vector.h"
 #include "math/Matrix.h"
-
-//#include "k2EngineLow.h"
+#include "k2EngineLow.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/IndexBuffer.h"
 #include "graphics/IShaderResource.h"
@@ -74,6 +73,7 @@ using namespace Microsoft::WRL;
 
 #include "graphics/Sprite.h"
 #include "graphics/Model.h"
+#include "IRenderer.h"
 #include "ModelRender.h"
 #include "SceneLight.h"
 #include "SpriteRender.h"
@@ -121,5 +121,3 @@ static const int MAX_BONE = 512;	// É{Å[ÉìÇÃç≈ëÂêîÅB
 #include "graphics/effect/EffectEngine.h"
 #include "sound/SoundSource.h"
 #include "graphics/effect/EffectEmitter.h"
-
-#include "k2EngineLow.h"

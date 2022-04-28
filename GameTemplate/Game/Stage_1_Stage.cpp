@@ -13,7 +13,7 @@ Stage_1_Stage::~Stage_1_Stage()
 
 bool Stage_1_Stage::Start()
 {
-	m_modelRender.Init("Assets/modelData/Stage_0/Stage_1.tkm");
+	m_modelRender.Init("Assets/modelData/Stage_0/Stage_1.tkm",true);
 	m_modelRender.Update();
 
 	return true;

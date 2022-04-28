@@ -1,6 +1,6 @@
 #pragma once
 namespace nsK2EngineLow {
-	class FontRender
+	class FontRender : public IRenderer
 	{
 	public:
 		static const int MAX_TEXT_SIZE = 256;
@@ -155,13 +155,13 @@ namespace nsK2EngineLow {
 		{
 			m_font.SetShadowParam(isDrawShadow, shadowOffset, shadowColor);
 		}
+
 		/// <summary>
-		/// 2D描画パスから呼ばれる処理。
+		/// 2Dフォント描画。
 		/// </summary>
 		/// <param name="rc"></param>
-		void OnRender2D(RenderContext& rc)
+		void OnRenderFont2D(RenderContext& rc) override
 		{
-
 			m_font.Begin(rc);
 			m_font.Draw(m_text, Vector2(m_position.x, m_position.y), m_color, m_rotation, m_scale, m_pivot);
 			m_font.End(rc);

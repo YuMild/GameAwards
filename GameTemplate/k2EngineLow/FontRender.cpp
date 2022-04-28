@@ -8,6 +8,6 @@ namespace nsK2EngineLow{
 		{
 			return;
 		}
-		g_renderingEngine.AddFontRenderObject(this);
+		g_renderingEngine.AddRenderObject(this);
 	}
 }

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-
-#include "First.h"
+#include "Game.h"
 
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
@@ -13,7 +12,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 {
 	// ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
-
+	
 	// k2EngineLowの初期化。
 	g_k2EngineLow = new K2EngineLow();
 	g_k2EngineLow->Init(g_hWnd, FRAME_BUFFER_W, FRAME_BUFFER_H);
@@ -21,10 +20,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 	g_sceneLight.SeteyePosition(g_camera3D->GetPosition());
 
-	NewGO<First>(0, "first");
-
 	g_postEffect.Init();
 	g_bloom.Init();
+	g_renderingEngine.Init();
+	
+	NewGO<Game>(0, "game");
+
+
+	
+	
 	//step-2 ポストエフェクト実行用のスプライトを初期化する。
 	//スプライトの初期化オブジェクトを作成する。
 	SpriteInitData spriteInitData;
@@ -40,7 +44,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	monochromeSprite.Init(spriteInitData);
 
 
-
+	
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
@@ -52,19 +56,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// ゲームオブジェクトマネージャーの更新処理を呼び出す。
 		g_k2EngineLow->ExecuteUpdate();
 
-		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
-		g_k2EngineLow->ExecuteRender();
-
-		//TODO オフスクリーンレンダリングの処理
-		g_postEffect.Render(renderContext);
 		
+
+		g_renderingEngine.Execute(renderContext);
+
 		EffectEngine::GetInstance()->Draw();
-
-		g_renderingEngine.FontRenderDraw(renderContext);
-
-		//TODO spriteの描画。
-		g_renderingEngine.SpriteRenderDraw(renderContext);
-
+		
+		
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();
 
@@ -75,3 +73,4 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	return 0;
 }
+

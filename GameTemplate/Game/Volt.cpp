@@ -13,7 +13,7 @@ Volt::~Volt()
 
 bool Volt::Start()
 {
-	m_modelRender.Init("Assets/modelData/Stage_0/Volt.tkm");
+	m_modelRender.Init("Assets/modelData/Stage_0/Volt.tkm",false);
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);

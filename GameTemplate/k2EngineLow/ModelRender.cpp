@@ -18,20 +18,25 @@ namespace nsK2EngineLow {
 	void ModelRender::Update()
 	{
 		
-		//アニメーションを進める。
-		m_animation.Progress(g_gameTime->GetFrameDeltaTime());
+	
 		if (m_animationClip != nullptr)
 		{
 			m_skeleton.Update(m_model.GetWorldMatrix());
+			
 		}
+		//アニメーションを進める。
+		m_animation.Progress(g_gameTime->GetFrameDeltaTime()* m_animationSpeed);
 		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
+		m_shadowmodel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	}
 	void ModelRender::Draw(RenderContext& rc)
 	{
 		m_model.Draw(rc);
 
+		g_renderingEngine.AddRenderObject(this);
 	}
 	void ModelRender::Init(const char* filePath,
+		bool shadowRecieve,
 		AnimationClip* animationClips,
 		int numAnimationClips,
 		EnModelUpAxis enModelUpAxis)
@@ -41,16 +46,13 @@ namespace nsK2EngineLow {
 		initData.m_fxFilePath = "Assets/shader/model.fx";
 
 
-		//ディレクションライトの情報を定数バッファとしてディスクリプタヒープに登録するために
-		//モデルの初期化情報として渡す。
-		initData.m_expandConstantBuffer = &g_sceneLight.GetLight();
-		initData.m_expandConstantBufferSize = sizeof(g_sceneLight.GetLight());
+		//モデルの定数バッファ用の情報をモデルの初期化情報として渡す。
+		initData.m_expandConstantBuffer = &g_renderingEngine.GetModelRenderCB();
+		initData.m_expandConstantBufferSize = sizeof(g_renderingEngine.GetModelRenderCB());
 		if (animationClips == nullptr)
 		{
 			//ノンスキンメッシュ用の頂点シェーダーのエントリーポイントを指定する。
 			initData.m_vsEntryPointFunc = "VSMain";
-
-			initData.m_alphaBlendMode = AlphaBlendMode_Trans;
 		}
 		else
 		{
@@ -61,13 +63,23 @@ namespace nsK2EngineLow {
 			initData.m_skeleton = &m_skeleton;
 			InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
 		}
+
+		if (shadowRecieve) {
+			initData.m_psEntryPointFunc = "PSMainShadowReciever";
+			m_isShadowCaster = false;
+		}
+		else
+		{
+			m_isShadowCaster = true;
+		}
+		//シャドウマップを拡張SRVに設定する。
+		initData.m_expandShaderResoruceView[0] = &g_renderingEngine.GetShadowMap();
 		initData.m_tkmFilePath = filePath;
 		
-
-
 		m_enFbxUpAxis = enModelUpAxis;
 		initData.m_modelUpAxis = m_enFbxUpAxis;
 		m_model.Init(initData);
+		InitShadowModel(filePath, m_enFbxUpAxis);
 
 	}
 	void ModelRender::InitSkeleton(const char* filePath)
@@ -103,9 +115,27 @@ namespace nsK2EngineLow {
 		if (m_animationClip != nullptr) {
 			//スケルトンを指定する。
 			ShadowModelInitData.m_skeleton = &m_skeleton;
+			//スキンメッシュ用の頂点シェーダーのエントリーポイントを指定。
+			ShadowModelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
 		}
+		else
+		{
+			ShadowModelInitData.m_vsSkinEntryPointFunc = "VSMain";
+		}
+		ShadowModelInitData.m_colorBufferFormat[0]=DXGI_FORMAT_R32_FLOAT,
 		m_shadowmodel.Init(ShadowModelInitData);
+		
 
-		g_renderingEngine.AddShadowRenderModel(m_shadowmodel);
+	}
+	void ModelRender::OnRenderShadowMap(RenderContext& rc, const Matrix& lvpMatrix)
+	{
+		if (m_isShadowCaster)
+		{
+			m_shadowmodel.Draw(
+				rc,
+				g_matIdentity,
+				lvpMatrix);
+
+		}
 	}
 }

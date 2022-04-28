@@ -1,7 +1,7 @@
 ﻿#pragma once
+#include "RenderingEngine.h"
 namespace nsK2EngineLow {
-	
-	class ModelRender
+	class ModelRender : public IRenderer
 	{
 
 
@@ -16,11 +16,12 @@ namespace nsK2EngineLow {
 		/// 初期化処理。
 		/// </summary>
 		/// <param name="filePath">ファイルパス</param>
+		/// <param name="shadowRecieve">影の影響を受けるかどうか　trueだと受ける。ほぼ投影シャドウなので影を落とす物体は影を受けることはできない。</param>
 		/// <param name="animationClips">アニメーションクリップ</param>
-		/// <param name="numAnimationClips">アニメーションの数</param>
+		/// <param name="numAnimationClips">アニメーションクリップの数</param>
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
-			//bool offScreenRendaring = false,
+			bool shadowRecieve,
 			AnimationClip* animationClips=nullptr,
 			int numAnimationClips=0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
@@ -29,6 +30,10 @@ namespace nsK2EngineLow {
 		/// </summary>
 		void Draw(RenderContext& rc);
 
+		void SetCasterShadow(const bool castershadow)
+		{
+			m_isShadowCaster = castershadow;
+		}
 		/// <summary>
 		/// 座標をセット。
 		/// </summary>
@@ -99,6 +104,14 @@ namespace nsK2EngineLow {
 		{
 			return m_model;
 		}
+		/// <summary>
+		/// アニメーション再生の速度を設定する。
+		/// </summary>
+		/// <param name="animationSpeed">数値の分だけ倍にする。</param>
+		void SetAnimationSpeed(const float animationSpeed)
+		{
+			m_animationSpeed = animationSpeed;
+		}
 
 
 	private:
@@ -119,18 +132,31 @@ namespace nsK2EngineLow {
 		void InitShadowModel(
 			const char* tkmFilePath,
 			EnModelUpAxis modelUpAxis);
-
+		/// <summary>
+		/// シャドウマップへの描画パスから呼ばれる処理。
+		/// </summary>
+		/// <param name="rc">レンダリングコンテキスト</param>
+		/// <param name="ligNo">ライト番号</param>
+		/// <param name="lvpMatrix">ライトビュープロジェクション行列</param>
+		void OnRenderShadowMap(
+			RenderContext& rc,
+			const Matrix& lvpMatrix
+		)override;
+		
 		Model					m_model;								//モデル。
 		Model					m_shadowmodel;							//シャドウモデル。
 		Animation				m_animation;							//アニメーション。
 		AnimationClip*			m_animationClip = nullptr;				//アニメーションクリップ。
 		int						m_numAnimationClips = 0;				//アニメーションクリップの数。
 		Skeleton				m_skeleton;								//骨。
-
+		float					m_animationSpeed = 1.0f;
 		Vector3					m_position = Vector3::Zero;				//座標。	
 		Quaternion				m_rotation = Quaternion::Identity;		//回転。
 		Vector3					m_scale = Vector3::One;					//拡大率。
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
+		bool					m_isShadowCaster = true;
+
+		RenderingEngine::ModelRenderCB* m_modelCB;
 
 		
 

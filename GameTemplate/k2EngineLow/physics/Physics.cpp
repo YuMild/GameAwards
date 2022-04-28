@@ -146,9 +146,6 @@ namespace nsK2EngineLow {
 		myContactResultCallback.m_cb = cb;
 		myContactResultCallback.m_me = colObj;
 		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
-		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
-		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
-		m_dynamicWorld->contactTest(colObj, myContactResultCallback);
 	}
 
 	void PhysicsWorld::ContactTest(
@@ -156,9 +153,6 @@ namespace nsK2EngineLow {
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	)
 	{
-		ContactTest(rb.GetBody(), cb);
-		ContactTest(rb.GetBody(), cb);
-		ContactTest(rb.GetBody(), cb);
 		ContactTest(rb.GetBody(), cb);
 	}
 
@@ -168,7 +162,7 @@ namespace nsK2EngineLow {
 	)
 	{
 		ContactTest(*charaCon.GetRigidBody(), cb);
-		ContactTest(*charaCon.GetRigidBody(), cb);
+		ContactTest(*charaCon.GetRigidBody(), cb); 
 		ContactTest(*charaCon.GetRigidBody(), cb);
 		ContactTest(*charaCon.GetRigidBody(), cb);
 	}

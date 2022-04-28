@@ -246,8 +246,6 @@ namespace nsK2EngineLow {
 	{
 		GameObjectManager::GetInstance()->DeleteGameObject(go);
 	}
-
-	extern GameObjectManager* g_gameObjectManager;
 }
 
 

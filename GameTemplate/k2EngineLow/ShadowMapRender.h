@@ -5,18 +5,22 @@ namespace nsK2EngineLow {
 	public:
 		void Init();
 
-		void Render(RenderContext& rc, Vector3& ligDirection);
+		void Render(RenderContext& rc, Vector3 ligDirection, std::vector< IRenderer* >& renderObjects);
 
-
-		void AddShadowModel(Model& md)
+		Texture& GetShadowMap()
 		{
-			m_Shadowmodels.push_back(&md);
+			
+			return shadowMap.GetRenderTargetTexture();
 		}
-
+		
+		Camera& GetLightCamera()
+		{
+			return m_lightCamera;
+		}
 
 	private:
 		RenderTarget shadowMap;
-		std::vector<Model*> m_Shadowmodels;
+		Camera m_lightCamera;
 	};
 
 }

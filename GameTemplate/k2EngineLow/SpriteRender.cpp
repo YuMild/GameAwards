@@ -2,6 +2,11 @@
 #include "SpriteRender.h"
 
 namespace nsK2EngineLow {
+	SpriteRender::SpriteRender()
+	{
+
+	}
+
 	void SpriteRender::Init(const char* filePath, const float w, const float h, AlphaBlendMode alphaBlendMode)
 	{
 		SpriteInitData initData;
@@ -21,6 +26,6 @@ namespace nsK2EngineLow {
 
 	void SpriteRender::Draw(RenderContext& rc)
 	{
-		g_renderingEngine.AddSpriteRenderObject(this);
+		g_renderingEngine.AddRenderObject(this);
 	}
 }

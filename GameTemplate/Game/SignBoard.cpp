@@ -13,7 +13,7 @@ SignBoard::~SignBoard()
 
 bool SignBoard::Start()
 {
-	m_modelRender.Init("Assets/modelData/Stage_0/Signboard.tkm");
+	m_modelRender.Init("Assets/modelData/Stage_0/Signboard.tkm",true);
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);
