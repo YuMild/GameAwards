@@ -12,7 +12,7 @@ namespace
     //プレイヤー
     Vector3 PLAYER_FIRST_POSITION = { 0.0f,100.0f,0.0f };       //スポーン座標
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
-    float PLAYER_COLLISION_SCALE = 10.0f;                       //当たり判定のサイズ
+    float PLAYER_COLLISION_SCALE = 50.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = -100000.0f;                          //重力
     float PLAYER_ROLL = 1.0f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
@@ -124,6 +124,7 @@ void Player::UpdateOnStop()
             m_isRockOnFire == false;                                            //ロックオンアタックを無効化
             m_isPress = false;
             m_stopNormal = false;
+            m_moveSpeed.Normalize();
             m_moveSpeed = (m_cameraForward * PLAYER_SPEED_DEFAULT) * m_charge;  //前後
             m_moveSpeed.y = PLAYER_GRAVITY;
             m_rigidBody.AddForce                                                //剛体に力を加える
@@ -218,13 +219,9 @@ void Player::Move()
         m_stopRockOn = true;
     }
 
-    if (m_isRockOnFire == true)                                                 //ロックオンしてる時
-    {
-        
-    }
     else if (m_isRockOnFire == false)
     {
-        
+        m_moveSpeed.y = PLAYER_GRAVITY;
     }
 
     m_rigidBody.AddForce                                                                                //剛体に力を加える

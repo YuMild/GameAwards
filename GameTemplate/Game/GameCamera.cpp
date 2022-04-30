@@ -26,7 +26,7 @@ bool GameCamera::Start()
 	m_player = FindGO<Player>("player");
 	m_rockOn = FindGO<RockOn>("rockOn");
 
-	m_toCameraPos.Set(0.0f, 100.0f, 100.0f);
+	m_toCameraPos.Set(0.0f, 200.0f, 100.0f);
 
 	g_camera3D->SetFar(1000000.0f);
 
@@ -36,7 +36,7 @@ bool GameCamera::Start()
 		100000.0f
 	);
 
-	m_springCamera.SetDampingRate(0.5f);
+	m_springCamera.SetDampingRate(1.75f);
 
 	Quaternion firstCameraPosition;
 	firstCameraPosition.SetRotationDegX(FIRST_CAMERA_POSITION);
@@ -61,14 +61,14 @@ void GameCamera::Update()
 	
 	//	Y軸周りの回転
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, 3.0f * m_rotationX);
+	qRot.SetRotationDeg(Vector3::AxisY, 5.0f * m_rotationX);
 	qRot.Apply(m_toCameraPos);
 
 	//	X軸周りの回転
 	Vector3 axisX;
 	axisX.Cross(Vector3::AxisY, m_toCameraPos);
 	axisX.Normalize();
-	qRot.SetRotationDeg(axisX, 3.0f * m_rotationY);
+	qRot.SetRotationDeg(axisX, 5.0f * m_rotationY);
 	qRot.Apply(m_toCameraPos);
 
 	//	カメラの回転の上限をチェックする

@@ -128,6 +128,9 @@
     <ClCompile Include="Duct.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
+    <ClCompile Include="ReSpawnPoint.cpp">
+      <Filter>Stage\Parts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -226,6 +229,9 @@
       <Filter>Stage\Parts</Filter>
     </ClInclude>
     <ClInclude Include="Duct.h">
+      <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="ReSpawnPoint.h">
       <Filter>Stage\Parts</Filter>
     </ClInclude>
   </ItemGroup>

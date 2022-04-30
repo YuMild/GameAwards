@@ -52,6 +52,7 @@ private:
 		enAnimationClip_Num
 	};
 
+	FontRender						m_fontRender;
 	ModelRender						m_modelRender;
 	AnimationClip					m_open[enAnimationClip_Num];
 	PhysicsGhostObject				m_ghostCollider;

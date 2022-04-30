@@ -58,10 +58,17 @@ void ChargeShot::Cut()
 
 void ChargeShot::Speed()
 {
-	m_speed = m_player->GetPlayerSpeed();
+	//m_speed = m_player->GetPlayerSpeed();
+	// 速度を1フレームの変位量(実際に動いた量)から算出する。
+	Vector3 vSpeed = m_player->GetPositionDeltaValue();
+	// 速度をcm/frameからcm/秒に変更する。
+	vSpeed /= g_gameTime->GetFrameDeltaTime();
+
+	m_speed = vSpeed.Length();
+	
 
 	wchar_t wcsbuf[256];
-	swprintf_s(wcsbuf, 256, L"%03d", int(m_speed * 60 / 1000));
+	swprintf_s(wcsbuf, 256, L"%03d", int(m_speed * 3600 / 100000 ));
 
 	m_fontRender.SetText(wcsbuf);
 

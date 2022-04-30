@@ -13,10 +13,13 @@
 #include "HoneyCombBlock.h"
 #include "JumpBoard.h"
 #include "Nut.h"
+#include "Pipe.h"
 #include "Player.h"
+#include "ReSpawnPoint.h"
 #include "SignBoard.h"
 #include "SpeedUpRail.h"
 #include "Stage_1_Stage.h"
+#include "Truck.h"
 #include "Turret.h"
 #include "Volt.h"
 
@@ -99,6 +102,18 @@ Stage_1::~Stage_1()
     {
         DeleteGO(nuts[i]);
     }
+    const auto& pipes = FindGOs<Pipe>("pipe");
+    int pipeSize = pipes.size();
+    for (int i = 0; i < pipeSize; i++)
+    {
+        DeleteGO(pipes[i]);
+    }
+    const auto& reSpawnPoints = FindGOs<ReSpawnPoint>("reSpawnPoint");
+    int reSpawnPointSize = reSpawnPoints.size();
+    for (int i = 0; i < reSpawnPointSize; i++)
+    {
+        DeleteGO(reSpawnPoints[i]);
+    }
     const auto& signBoards = FindGOs<SignBoard>("signBoard");
     int signBoardSize = signBoards.size();
     for (int i = 0; i < signBoardSize; i++)
@@ -110,6 +125,12 @@ Stage_1::~Stage_1()
     for (int i = 0; i < speedUpRailSize; i++)
     {
         DeleteGO(speedUpRails[i]);
+    }
+    const auto& trucks = FindGOs<Truck>("truck");
+    int truckSize = trucks.size();
+    for (int i = 0; i < truckSize; i++)
+    {
+        DeleteGO(trucks[i]);
     }
     const auto& turrets = FindGOs<Turret>("turret");
     int turretSize = turrets.size();
@@ -239,6 +260,22 @@ bool Stage_1::Start()
                 nut->SetRotation(objData.rotation);                                 //回転を設定する。
                 return true;
             }
+            else if (objData.ForwardMatchName(L"Pipe") == true)
+            {
+                auto pipe = NewGO<Pipe>(0, "pipe");                                    //生成する。
+                pipe->SetPosition(objData.position);                                 //座標を設定する。
+                pipe->SetScale(objData.scale);                                       //サイズを設定する。
+                pipe->SetRotation(objData.rotation);                                 //回転を設定する。
+            return true;
+            }
+            else if (objData.ForwardMatchName(L"ReSpawnPoint") == true)
+            {
+                auto reSpawnPoint = NewGO<ReSpawnPoint>(0, "reSpawnPoint");                                    //生成する。
+                reSpawnPoint->SetPosition(objData.position);                                 //座標を設定する。
+                reSpawnPoint->SetScale(objData.scale);                                       //サイズを設定する。
+                reSpawnPoint->SetRotation(objData.rotation);                                 //回転を設定する。
+            return true;
+            }
             else if (objData.ForwardMatchName(L"Signboard") == true)
             {
                 auto signBoard = NewGO<SignBoard>(0, "signBoard");                  //生成する。
@@ -254,6 +291,14 @@ bool Stage_1::Start()
                 speedUpRail->SetScale(objData.scale);                               //サイズを設定する。
                 speedUpRail->SetRotation(objData.rotation);                         //回転を設定する。
                 return true;
+            }
+            else if (objData.ForwardMatchName(L"Truck") == true)
+            {
+            auto truck = NewGO<Truck>(0, "truck");            //生成する。
+            truck->SetPosition(objData.position);                         //座標を設定する。
+            truck->SetScale(objData.scale);                               //サイズを設定する。
+            truck->SetRotation(objData.rotation);                         //回転を設定する。
+            return true;
             }
             else if (objData.ForwardMatchName(L"Turret") == true)
             {

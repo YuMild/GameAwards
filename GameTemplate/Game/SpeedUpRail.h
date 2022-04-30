@@ -62,5 +62,5 @@ private:
 	RockOn*							m_rockOn;
 
 	bool							m_isHit = false;
-	float							m_coolTime = 0.0f;
+	float							m_coolTime = 1.0f;
 };

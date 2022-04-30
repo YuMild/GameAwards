@@ -244,6 +244,7 @@
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PowerCharge.cpp" />
+    <ClCompile Include="ReSpawnPoint.cpp" />
     <ClCompile Include="RockOn.cpp" />
     <ClCompile Include="RockOnObject.cpp" />
     <ClCompile Include="Setting.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerCharge.h" />
+    <ClInclude Include="ReSpawnPoint.h" />
     <ClInclude Include="RockOn.h" />
     <ClInclude Include="RockOnObject.h" />
     <ClInclude Include="Setting.h" />

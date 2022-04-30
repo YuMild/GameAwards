@@ -112,7 +112,14 @@ public:
     {
         return m_rigidBody.GetLinearVelocity().Length();
     }
-
+    /// <summary>
+    /// 1フレームでの座標の変位量を取得。
+    /// </summary>
+    /// <returns></returns>
+    const Vector3& GetPositionDeltaValue() const
+    {
+        return m_positionDeltaValue;
+    }
     RigidBody           m_rigidBody;                //剛体
 
 private:
@@ -136,7 +143,7 @@ private:
     SpriteRender        m_gaugeRender;              //画像
     ModelRender         m_modelRender;              //モデルレンダー
     SphereCollider      m_sphereCollider;           //円型のコライダー
-
+    Vector3             m_positionDeltaValue;       //1フレームでの座標の変位量
     Vector3             m_position;                 //ポジション
     Vector3             m_reSpawnPosition;          //リスポーンポイント
     Vector3             m_cameraForward;            //カメラの前方向
