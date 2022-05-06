@@ -20,7 +20,7 @@ bool PowerCharge::Start()
     EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
     m_powerCharge = NewGO<EffectEmitter>(2);
     m_powerCharge->Init(2);
-    m_powerCharge->SetScale(Vector3::One * 5.0f);
+    m_powerCharge->SetScale(Vector3::One * 20.0f);
     m_powerCharge->SetPosition(m_position);
     m_powerCharge->Play();
 

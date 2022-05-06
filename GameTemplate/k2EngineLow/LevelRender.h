@@ -77,7 +77,7 @@ namespace nsK2EngineLow {
 		/// </summary>
 		/// <param name="scale">サイズ。</param>
 		/// <param name="resitutation">反発力。</param>
-		void InitBoxCollider(const LevelObjectData& objData,float const& restitution=0.0f);
+		void InitBoxCollider(const LevelObjectData& objData,float const& restitution=0.3f);
 		/// <summary>
 		/// boxColliderを廃棄する。
 		/// </summary>

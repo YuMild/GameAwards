@@ -19,8 +19,8 @@ bool Truck::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
-	m_boxCollider.BoxInit({ 500.0f,500.0f,2000.0f }, m_position, 0.5);
-	Vector3 vec = { 0.0f,150.0f,800.0f };
+	m_boxCollider.BoxInit({ 1000.0f,1000.0f,4000.0f }, m_position, 0.5);
+	Vector3 vec = { 0.0f,300.0f,1600.0f };
 	m_rotation.Apply(vec);
 
 	Vector3 vec1 = m_position - vec;

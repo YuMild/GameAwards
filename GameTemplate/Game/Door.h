@@ -39,6 +39,14 @@ public:
 	{
 		m_rotation = rotation;
 	}
+	/// <summary>
+	/// ステートを設定
+	/// </summary>
+	/// <param name="num"></param>
+	void SetState(const int& num)
+	{
+		m_state = num;
+	}
 
 private:
 
@@ -48,11 +56,13 @@ private:
 	void Hit();
 
 	enum EnAnimationClip {
+		enAnimationClip_Idle,
 		enAnimationClip_Open,
 		enAnimationClip_Num
 	};
 
 	FontRender						m_fontRender;
+
 	ModelRender						m_modelRender;
 	AnimationClip					m_open[enAnimationClip_Num];
 	PhysicsGhostObject				m_ghostCollider;

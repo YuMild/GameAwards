@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Game.h"
+#include "First.h"
 
 // K2EngineLowのグローバルアクセスポイント。
 K2EngineLow* g_k2EngineLow = nullptr;
@@ -24,11 +24,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_bloom.Init();
 	g_renderingEngine.Init();
 	
-	NewGO<Game>(0, "game");
+	NewGO<First>(0, "first");
 
-
-	
-	
 	//step-2 ポストエフェクト実行用のスプライトを初期化する。
 	//スプライトの初期化オブジェクトを作成する。
 	SpriteInitData spriteInitData;

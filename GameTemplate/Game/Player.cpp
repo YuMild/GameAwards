@@ -1,3 +1,4 @@
+
 #include "stdafx.h"
 #include "Player.h"
 
@@ -10,19 +11,20 @@
 namespace
 {
     //プレイヤー
-    Vector3 PLAYER_FIRST_POSITION = { 0.0f,100.0f,0.0f };       //スポーン座標
+    Vector3 PLAYER_FIRST_POSITION = { 0.0f,200.0f,0.0f };       //スポーン座標
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
     float PLAYER_COLLISION_SCALE = 50.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = -100000.0f;                          //重力
     float PLAYER_ROLL = 1.0f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
-    float PLAYER_SPEED_DEFAULT = 25000000.0f;                   //スピードデフォルト
-    float PLAYER_SPEED_MAX = 5000.0f;                           //スピード上限値
+    float PLAYER_SPEED_DEFAULT = 50000000.0f;                   //スピードデフォルト
+    float PLAYER_SPEED_MAX = 7500.0f;                           //スピード上限値
 
     //チャージ
     float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値
     float CHARGE_ADD = 0.05f;                                   //1f毎にチャージされる値
+    const float STOP_TIME = 1.0f;
 }
 
 bool Player::Start()
@@ -30,8 +32,9 @@ bool Player::Start()
     m_gameCamera = FindGO<GameCamera>("gameCamera");
 
     m_position = PLAYER_FIRST_POSITION;
+    m_reSpawnPosition = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
-    m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm",false);
+    m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm", false);
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 
@@ -110,7 +113,7 @@ void Player::Render(RenderContext& rc)
 
 void Player::Death()
 {
-    
+
 }
 
 void Player::UpdateOnStop()
@@ -119,7 +122,7 @@ void Player::UpdateOnStop()
     {
         m_stopTimer += 0.1f;
 
-        if (m_stopTimer >= 0.1f)
+        if (m_stopTimer >= STOP_TIME)
         {
             m_isRockOnFire == false;                                            //ロックオンアタックを無効化
             m_isPress = false;
@@ -142,7 +145,7 @@ void Player::UpdateOnStop()
     {
         m_stopTimer += 0.1f;
 
-        if (m_stopTimer >= 0.1f)                                                //ボタンが離されて2.0fが経ったら
+        if (m_stopTimer >= STOP_TIME)                                           //ボタンが離されて2.0fが経ったら
         {
             m_isRockOnFire = true;                                              //ロックオンアタックを有効化
             m_isPress = false;                                                  //ボタンが押されていない
@@ -179,10 +182,17 @@ void Player::Move()
         m_scale += 0.1;
     }
     m_modelRender.SetScale(Vector3::One * m_scale);
-    
+
     m_rigidBody.GetPositionAndRotation(m_position, m_rotation);                 //剛体の座標と回転を取得。
-    
+
     m_modelRender.SetPosition(m_position);                                      //剛体の座標と回転をモデルに反映。
+    Matrix cameraRotationMatrix = g_camera3D->GetCameraRotation();
+    m_rotation.SetRotation(cameraRotationMatrix);
+    Quaternion rotX;
+    m_rotCameraRightAngle += GetPlayerSpeed() * 0.0001f;
+    rotX.SetRotation(Vector3::AxisX, m_rotCameraRightAngle);
+    m_rotation *= rotX;
+
     m_modelRender.SetRotation(m_rotation);
 
     //プレイヤーが進む方向を決定する。
@@ -194,6 +204,7 @@ void Player::Move()
 
     if (m_game->GetGameState() != 1 && g_pad[0]->IsPress(enButtonLB2))          //ボタンを押している時
     {
+        m_isPressState = false;
         m_isPress = true;
         if (m_charge < 1.0f)
         {
@@ -202,6 +213,7 @@ void Player::Move()
     }
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == false)          //ボタンが離されて且つロックオンがオフの時
     {
+        m_isPressState = true;
         GameObjectManager::GetInstance()->SetStop(true);
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
         m_stopNormal = true;
@@ -214,12 +226,13 @@ void Player::Move()
             m_powerCharge = NewGO<PowerCharge>(0, "powerCharge");               //エフェクトを再生
             m_isPowerCharge = false;
         }
+        m_isPressState = true;
         GameObjectManager::GetInstance()->SetStop(true);
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
         m_stopRockOn = true;
     }
 
-    else if (m_isRockOnFire == false)
+    if (m_isRockOnFire == false)
     {
         m_moveSpeed.y = PLAYER_GRAVITY;
     }
@@ -229,13 +242,13 @@ void Player::Move()
         m_moveSpeed,                                                                                    //力
         g_vec3Zero                                                                                      //力を加える剛体の相対位置
     );
-    
+
     if (m_isRockOnFire == false && m_rigidBody.GetLinearVelocity().Length() >= PLAYER_SPEED_MAX)        //スピードの上限を設定。
     {
         m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * PLAYER_SPEED_MAX);
     }
 
-    
+
     if (m_rigidBody.GetLinearXZVelocity().Length() >= 0)                                                //スピードを徐々に減衰させる。
     {
         m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(PLAYER_SPEED_DECREASE, 2));
@@ -253,14 +266,14 @@ void Player::Move()
 
     if (m_state == 1)                                                                                   //死亡時
     {
-        m_position = {m_reSpawnPosition.x,m_reSpawnPosition.y + 100.0f,m_reSpawnPosition.z};
+        m_position = { m_reSpawnPosition.x,m_reSpawnPosition.y + 100.0f,m_reSpawnPosition.z };
         m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
         m_isRockOnFire = false;
         m_scale = 0.0f;
         m_reSpawn = NewGO<EffectEmitter>(2);
         m_reSpawn->Init(2);
-        m_reSpawn->SetScale(Vector3::One * 3.0f);
+        m_reSpawn->SetScale(Vector3::One * 10.0f);
         m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
         m_reSpawn->Play();
         DeleteGO(m_gameCamera);

@@ -82,8 +82,8 @@ void Game::Death()
 {
 	if (m_state == 2)
 	{
+		m_state = 0;
 		DeleteGO(this);
 		m_first = NewGO<First>(0, "first");
-		m_state = 0;
 	}
 }

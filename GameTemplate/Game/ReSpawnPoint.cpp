@@ -16,8 +16,6 @@ ReSpawnPoint::~ReSpawnPoint()
 
 bool ReSpawnPoint::Start()
 {
-	m_shoot = { 0.0f,0.0f,-1.0f };
-
 	m_rockOn = FindGO<RockOn>("rockOn");
 	m_player = FindGO<Player>("player");
 
@@ -27,7 +25,7 @@ bool ReSpawnPoint::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,1000.0f,300.0f });
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 300.0f,300.0f,300.0f });
 
 	return true;
 }
@@ -59,11 +57,6 @@ void ReSpawnPoint::Hit()
 	if (m_isHit == true)
 	{
 		m_coolTime = 0.0f;
-		Vector3 zero = Vector3::Zero;				//スピードを0にする。
-		m_player->SetMoveSpeed(zero);				//スピードを0にする。
-		Vector3 shoot = m_shoot;
-		shoot *= 75000000.0f;
-		m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 	}
 }

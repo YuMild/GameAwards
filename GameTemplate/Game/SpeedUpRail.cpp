@@ -16,12 +16,13 @@ SpeedUpRail::~SpeedUpRail()
 
 bool SpeedUpRail::Start()
 {
-	m_shoot = { 0.0f,0.0f,-1.0f };
+	m_shoot = { 1.0f,0.0f,0.0f };
+	m_rotation.Apply(m_shoot);
 
 	m_player = FindGO<Player>("player");
 	m_rockOn = FindGO<RockOn>("rockOn");
 
-	//m_rockOn->AddRockOnObject(this);
+	m_rockOn->AddRockOnObject(this);
 
 	m_modelRender.Init("Assets/modelData/Stage_0/SpeedUpRail.tkm",true);
 	m_modelRender.SetPosition(m_position);
@@ -29,7 +30,7 @@ bool SpeedUpRail::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 	
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,1000.0f,1000.0f });
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,500.0f,1000.0f });
 
 	return true;
 }
@@ -42,7 +43,7 @@ void SpeedUpRail::Update()
 	wchar_t x[256];
 	swprintf_s(x, 256, L"SpeedUp");
 	m_fontRender.SetText(x);
-	m_fontRender.SetPosition({ -100.0f, 0.0f, 0.0f });
+	m_fontRender.SetPosition({ -500.0f,100.0f, 0.0f });
 }
 
 void SpeedUpRail::Render(RenderContext& rc)
@@ -57,6 +58,8 @@ void SpeedUpRail::Render(RenderContext& rc)
 
 void SpeedUpRail::Hit()
 {
+	m_coolTime += g_gameTime->GetFrameDeltaTime();
+
 	//キャラクタコントローラーとゴーストオブジェクトのあたり判定を行う。
 	PhysicsWorld::GetInstance()->ContactTest(m_player->m_rigidBody, [&](const btCollisionObject& contactObject) {
 		if (m_ghostCollider.IsSelf(contactObject) == true && m_coolTime >= 1.0f) {

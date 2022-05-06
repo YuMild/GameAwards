@@ -1,12 +1,12 @@
 #pragma once
 
-//#include <RockOnObject.h>
+#include <RockOnObject.h>
 #include <physics/PhysicsGhostObject.h>
 
 class Player;
 class RockOn;
 
-class SpeedUpRail : public IGameObject
+class SpeedUpRail : public RockOnObject
 {
 public:
 
@@ -23,6 +23,14 @@ public:
 	void SetPosition(const Vector3 position)
 	{
 		m_position = position;
+	}
+	/// <summary>
+	/// 座標を取得
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetPosition() const override
+	{
+		return m_position;
 	}
 	/// <summary>
 	/// サイズを設定。

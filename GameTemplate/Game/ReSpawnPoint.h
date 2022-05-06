@@ -52,7 +52,6 @@ private:
 
 	Vector3							m_position;
 	Vector3							m_scale;
-	Vector3							m_shoot;
 	Quaternion						m_rotation;
 
 	Player*							m_player;

@@ -134,7 +134,7 @@ namespace nsK2EngineLow
 			m_dampingRate = CalcSpringScalar(m_dampingRate, m_targetDampingRate, m_dampingRateVel);
 			Vector3 target = CalcSpringVector(m_camera->GetTarget(), m_target, m_targetMoveSpeed, m_maxMoveSpeed, m_dampingRate);
 			Vector3 position = CalcSpringVector(m_camera->GetPosition(), m_position, m_positionMoveSpeed, m_maxMoveSpeed, m_dampingRate);
-			m_camera->SetTarget(target);
+			m_camera->SetTarget(m_target);
 			m_camera->SetPosition(position);
 		}
 	}

@@ -86,6 +86,17 @@ public:
         return m_state;
     }
 
+    bool GetIsPressState() const
+    {
+        return m_isPressState;
+    }
+
+    bool SetIsPressState(const bool& state)
+    {
+        m_isPressState = state;
+        return 0;
+    }
+
     /// <summary>
     /// 座標を取得
     /// </summary>
@@ -149,7 +160,7 @@ private:
     Vector3             m_cameraForward;            //カメラの前方向
     Vector3             m_cameraRight;              //カメラの左右方向
     Vector3             m_moveSpeed;                //プレイヤーの移動速度
-    Vector3 m_rockOnTarget;
+    Vector3             m_rockOnTarget;
 
     Quaternion          m_rotation;                 //回転
 
@@ -159,12 +170,14 @@ private:
     bool                m_isPowerCharge = true;     //パワーチャージエフェクト
     bool                m_stopNormal = false;
     bool                m_stopRockOn = false;
+    bool                m_isPressState = false;
     int                 m_state;                    //ステート
     float               m_scale = 0.0f;             //サイズ
     float               m_charge = 0.0f;            //チャージ
     float               m_delay = 0.0f;             //ディレイ
     float               m_stopTimer = 0.0f;
-
+    float               m_rotCameraRightAngle = 0.0f;       // カメラの右方向を軸とした回転角度。
+   
     Game*               m_game;
     GameCamera*         m_gameCamera;
     PowerCharge*        m_powerCharge;

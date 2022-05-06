@@ -13,8 +13,15 @@ public:
 	~GameCamera();
 	bool Start();
 	void Update();
-
+	void Render(RenderContext& rc);
+	/// <summary>
+	/// ダッシュが開始されたことを通知。
+	/// </summary>
+	void NotifyStartDash();
+	
 private:
+
+	FontRender      m_fontRender;
 
 	SpringCamera	m_springCamera;
 
@@ -29,4 +36,6 @@ private:
 	bool			m_isRockOnJudge = false;
 	float			m_rotationX = 0.0f;
 	float			m_rotationY = 0.0f;
+	float			m_dampingRate = 0.0f;
+	float			m_coolTime = 0.0f;
 };
