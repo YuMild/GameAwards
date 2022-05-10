@@ -75,7 +75,7 @@ void SpeedUpRail::Hit()
 		Vector3 zero = Vector3::Zero;				//スピードを0にする。
 		m_player->SetMoveSpeed(zero);				//スピードを0にする。
 		Vector3 shoot = m_shoot;
-		shoot *= 50000000.0f;
+		shoot *= 150000000.0f;
 		m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 	}

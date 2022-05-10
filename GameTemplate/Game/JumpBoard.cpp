@@ -72,9 +72,9 @@ void JumpBoard::Hit()
 		m_coolTime = 0.0f;
 		Vector3 zero = Vector3::Zero;				//スピードを0にする。
 		m_player->SetMoveSpeed(zero);				//スピードを0にする。
-		Vector3 shoot = m_shoot;
-		shoot *= 20000000.0f;
-		m_player->SetMoveSpeed(shoot);
+		//Vector3 shoot = m_shoot;
+		//shoot *= 50000000.0f;
+		//m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 	}
 }

@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 #include "Player.h"
 
@@ -19,12 +18,11 @@ namespace
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
     float PLAYER_SPEED_DEFAULT = 50000000.0f;                   //スピードデフォルト
-    float PLAYER_SPEED_MAX = 7500.0f;                           //スピード上限値
+    float PLAYER_SPEED_MAX = 10000.0f;                           //スピード上限値
 
     //チャージ
     float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値
     float CHARGE_ADD = 0.05f;                                   //1f毎にチャージされる値
-    const float STOP_TIME = 1.0f;
 }
 
 bool Player::Start()
@@ -32,13 +30,17 @@ bool Player::Start()
     m_gameCamera = FindGO<GameCamera>("gameCamera");
 
     m_position = PLAYER_FIRST_POSITION;
-    m_reSpawnPosition = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
-    m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm", false);
+    m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm",false);
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 
     EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
+    m_reSpawn = NewGO<EffectEmitter>(2);
+    m_reSpawn->Init(2);
+    m_reSpawn->SetScale(Vector3::One * 3.0f);
+    m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+    m_reSpawn->Play();
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -98,13 +100,15 @@ void Player::Update()
     m_fontRenderZ.SetPosition({ 500.0f, 200.0f, 0.0f });
 }
 
+void Player::UpdateOnStop()
+{
+
+}
+
 void Player::Render(RenderContext& rc)
 {
     //モデルの描画。
-    if (m_game->GetGameState() != 1)
-    {
-        m_modelRender.Draw(rc);
-    }
+    m_modelRender.Draw(rc);
 
     m_fontRenderX.Draw(rc);
     m_fontRenderY.Draw(rc);
@@ -116,76 +120,19 @@ void Player::Death()
 
 }
 
-void Player::UpdateOnStop()
-{
-    if (m_stopNormal == true)
-    {
-        m_stopTimer += 0.1f;
-
-        if (m_stopTimer >= STOP_TIME)
-        {
-            m_isRockOnFire == false;                                            //ロックオンアタックを無効化
-            m_isPress = false;
-            m_stopNormal = false;
-            m_moveSpeed.Normalize();
-            m_moveSpeed = (m_cameraForward * PLAYER_SPEED_DEFAULT) * m_charge;  //前後
-            m_moveSpeed.y = PLAYER_GRAVITY;
-            m_rigidBody.AddForce                                                //剛体に力を加える
-            (
-                m_moveSpeed,                                                    //力
-                g_vec3Zero                                                      //力を加える剛体の相対位置
-            );
-            m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
-            m_stopTimer = 0.0f;                                                 //タイムストップをリセット
-            GameObjectManager::GetInstance()->SetStop(false);                   //時間停止を解除
-        }
-    }
-
-    if (m_stopRockOn == true)
-    {
-        m_stopTimer += 0.1f;
-
-        if (m_stopTimer >= STOP_TIME)                                           //ボタンが離されて2.0fが経ったら
-        {
-            m_isRockOnFire = true;                                              //ロックオンアタックを有効化
-            m_isPress = false;                                                  //ボタンが押されていない
-            m_stopRockOn = false;
-            Vector3 target = m_rockOn->GetDifference();                         //ロックオンしているオブジェクトの方向
-            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);  //前後 (通常の二倍の速さで射出)
-            m_rigidBody.AddForce                                                //剛体に力を加える
-            (
-                { m_moveSpeed.x, m_moveSpeed.y, m_moveSpeed.z },                //力
-                g_vec3Zero                                                      //力を加える剛体の相対位置
-            );
-            m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
-            m_stopTimer = 0.0f;                                                 //ディレイをリセット
-            GameObjectManager::GetInstance()->SetStop(false);                   //時間停止を解除
-        }
-    }
-}
-
 void Player::Move()
 {
-    if (m_game->GetGameState() != 1 && m_isEffectStart == true)
-    {
-        m_reSpawn = NewGO<EffectEmitter>(2);
-        m_reSpawn->Init(2);
-        m_reSpawn->SetScale(Vector3::One * 3.0f);
-        m_reSpawn->SetPosition({ m_position.x,m_position.y,m_position.z });
-        m_reSpawn->Play();
-
-        m_isEffectStart = false;
-    }
-
-    if (m_game->GetGameState() != 1 && m_scale <= 1.0f)
+    if (m_scale <= 1.0f)
     {
         m_scale += 0.1;
     }
     m_modelRender.SetScale(Vector3::One * m_scale);
 
-    m_rigidBody.GetPositionAndRotation(m_position, m_rotation);                 //剛体の座標と回転を取得。
+    //剛体の座標と回転を取得。
+    m_rigidBody.GetPositionAndRotation(m_position, m_rotation);
 
-    m_modelRender.SetPosition(m_position);                                      //剛体の座標と回転をモデルに反映。
+    //剛体の座標と回転をモデルに反映。
+    m_modelRender.SetPosition(m_position);
     Matrix cameraRotationMatrix = g_camera3D->GetCameraRotation();
     m_rotation.SetRotation(cameraRotationMatrix);
     Quaternion rotX;
@@ -196,15 +143,16 @@ void Player::Move()
     m_modelRender.SetRotation(m_rotation);
 
     //プレイヤーが進む方向を決定する。
-    m_cameraForward = g_camera3D->GetForward();                                 //カメラの前方向
-    m_cameraForward.y = 0.0f;
-    m_cameraForward.Normalize();
+    Vector3 forward = g_camera3D->GetForward();                                 //カメラの前方向
+    forward.y = 0.0f;
+    forward.Normalize();
+
+    Vector3 target = m_rockOn->GetDifference();                                 //ロックオンしているオブジェクトの方向
 
     m_moveSpeed.y = PLAYER_GRAVITY;
 
-    if (m_game->GetGameState() != 1 && g_pad[0]->IsPress(enButtonLB2))          //ボタンを押している時
+    if (g_pad[0]->IsPress(enButtonLB2))                                         //ボタンを押している時
     {
-        m_isPressState = false;
         m_isPress = true;
         if (m_charge < 1.0f)
         {
@@ -214,47 +162,67 @@ void Player::Move()
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == false)          //ボタンが離されて且つロックオンがオフの時
     {
         m_isPressState = true;
-        GameObjectManager::GetInstance()->SetStop(true);
+        m_isRockOnFire == false;                                                //ロックオンアタックを無効化
+        m_isPress = false;                                                      //ボタンが押されていない
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
-        m_stopNormal = true;
+        m_moveSpeed = (forward * PLAYER_SPEED_DEFAULT) * m_charge;              //前後
+        m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
     }
     else if (m_isPress == true && m_rockOn->GetRockOnJudge() == true)           //ボタンが離されて且つロックオンがオンの時
     {
-        m_isPowerCharge = true;
         if (m_isPowerCharge == true)
         {
             m_powerCharge = NewGO<PowerCharge>(0, "powerCharge");               //エフェクトを再生
-            m_isPowerCharge = false;
         }
         m_isPressState = true;
-        GameObjectManager::GetInstance()->SetStop(true);
+        m_isPowerCharge = false;
+        m_delay += 0.1;                                                         //ディレイしてから射出
         m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
-        m_stopRockOn = true;
+
+        if (m_delay > 2.0f)                                                     //ボタンが離されて2.0fが経ったら
+        {
+            m_isRockOnFire = true;                                              //ロックオンアタックを有効化
+            m_isPress = false;                                                  //ボタンが押されていない
+            m_isPowerCharge = true;
+            m_sonicBoom = NewGO<SonicBoom>(0, "sonicBoom");                     //エフェクトを再生
+            m_moveSpeed = (target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);  //前後 (通常の二倍の速さで射出)
+            m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
+            m_delay = 0.0f;                                                     //ディレイをリセット
+        }
+    }
+
+    if (m_isRockOnFire == true)                                                 //ロックオンしてる時
+    {
+        m_rigidBody.AddForce                                                    //剛体に力を加える
+        (
+            { m_moveSpeed.x, m_moveSpeed.y, m_moveSpeed.z },                    //力
+            g_vec3Zero                                                          //力を加える剛体の相対位置
+        );
     }
 
     if (m_isRockOnFire == false)
     {
         m_moveSpeed.y = PLAYER_GRAVITY;
+        m_rigidBody.AddForce                                                    //剛体に力を加える
+        (
+            m_moveSpeed,                                                        //力
+            g_vec3Zero                                                          //力を加える剛体の相対位置
+        );
     }
 
-    m_rigidBody.AddForce                                                                                //剛体に力を加える
-    (
-        m_moveSpeed,                                                                                    //力
-        g_vec3Zero                                                                                      //力を加える剛体の相対位置
-    );
-
-    if (m_isRockOnFire == false && m_rigidBody.GetLinearVelocity().Length() >= PLAYER_SPEED_MAX)        //スピードの上限を設定。
+    //スピードの上限を設定。
+    if (m_isRockOnFire == false && m_rigidBody.GetLinearVelocity().Length() >= PLAYER_SPEED_MAX)
     {
         m_rigidBody.SetLinearVelocity(g_camera3D->GetForward() * PLAYER_SPEED_MAX);
     }
 
-
-    if (m_rigidBody.GetLinearXZVelocity().Length() >= 0)                                                //スピードを徐々に減衰させる。
+    //スピードを徐々に減衰させる。
+    if (m_rigidBody.GetLinearXZVelocity().Length() >= 0)
     {
         m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(PLAYER_SPEED_DECREASE, 2));
     }
 
-    if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonStart))                                     //死亡判定
+    if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonStart))
     {
         m_state = 1;
     }
@@ -264,7 +232,7 @@ void Player::Move()
         m_game->SetGameState(2);
     }
 
-    if (m_state == 1)                                                                                   //死亡時
+    if (m_state == 1)
     {
         m_position = { m_reSpawnPosition.x,m_reSpawnPosition.y + 100.0f,m_reSpawnPosition.z };
         m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
@@ -273,17 +241,24 @@ void Player::Move()
         m_scale = 0.0f;
         m_reSpawn = NewGO<EffectEmitter>(2);
         m_reSpawn->Init(2);
-        m_reSpawn->SetScale(Vector3::One * 10.0f);
+        m_reSpawn->SetScale(Vector3::One * 3.0f);
         m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
         m_reSpawn->Play();
         DeleteGO(m_gameCamera);
         m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
+        //DeleteGO(m_rockOn);
+        //m_rockOn = NewGO<RockOn>(0, "rockOn");
         g_camera3D->SetPosition(0.0f, 100.0f, 100.0f);
         g_camera3D->SetTarget(m_position);
         m_state = 0;
     }
 
-    m_moveSpeed.x = 0.0f;                                                                               //スピードの初期化
-    m_moveSpeed.y = 0.0f;                                                                               //スピードの初期化
-    m_moveSpeed.z = 0.0f;                                                                               //スピードの初期化
+    if (g_pad[0]->IsTrigger(enButtonSelect))
+    {
+        m_game->SetGameState(2);
+    }
+
+    m_moveSpeed.x = 0.0f;                                                       //スピードの初期化
+    m_moveSpeed.y = 0.0f;                                                       //スピードの初期化
+    m_moveSpeed.z = 0.0f;                                                       //スピードの初期化
 }
