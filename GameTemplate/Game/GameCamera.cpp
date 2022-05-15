@@ -8,7 +8,7 @@
 namespace
 {
 	const float FIRST_CAMERA_POSITION = 40.0f;
-	const float	DAMPING_RATE_ON_DASH = 1.75f;	// ロックオンンダッシュ開始時のダンピングレート。
+	const float	DAMPING_RATE_ON_DASH = 1.75f;			// ロックオンンダッシュ開始時のダンピングレート。
 	const float	DAMPING_RATE_ON_NORMAL = 0.5f;			// 通常時のダンピングレート。
 }
 
@@ -32,6 +32,8 @@ bool GameCamera::Start()
 	m_toCameraPos.Set(0.0f, 600.0f, 500.0f);
 
 	g_camera3D->SetFar(1000000.0f);
+
+	m_springCamera.Refresh();
 
 	m_springCamera.Init
 	(
@@ -102,18 +104,14 @@ void GameCamera::Update()
 	Vector3 toPosDir = m_toCameraPos;
 	toPosDir.Normalize();
 	if (toPosDir.y < -0.25f) {
-		m_toCameraPos = toCameraPosOld;							//	カメラが上に向き過ぎるのを防ぐ
+		m_toCameraPos = toCameraPosOld;									//	カメラが上に向き過ぎるのを防ぐ
 	}
 	else if (toPosDir.y > 0.65f) {
-		m_toCameraPos = toCameraPosOld;							//	カメラが下に向き過ぎるのを防ぐ
+		m_toCameraPos = toCameraPosOld;									//	カメラが下に向き過ぎるのを防ぐ
 	}
 
 	//	視点を計算する
 	Vector3 pos = m_target + m_toCameraPos;
-
-	/*g_camera3D->SetPosition(pos);
-	g_camera3D->SetTarget(m_target);
-	g_camera3D->Update();*/
 
 	// ダンピングレートを計算する。
 	m_dampingRate += (DAMPING_RATE_ON_NORMAL - m_dampingRate) * 0.03f; // ダンピングレートを徐々に落としていく。

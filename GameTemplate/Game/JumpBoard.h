@@ -57,6 +57,7 @@ private:
 	Vector3							m_shoot;
 	Quaternion						m_rotation;
 
+	SoundSource*					m_jumpSE;
 	Player*							m_player;
 	RockOn*							m_rockOn;
 

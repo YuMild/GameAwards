@@ -29,6 +29,8 @@ bool BreakBox::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
+	g_soundEngine->ResistWaveFileBank(5, "Assets/sound/Explosion.wav");
+
 	m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 0.05f);
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 220.0f,220.0f,220.0f });
 
@@ -71,6 +73,12 @@ void BreakBox::Hit()
 		m_explosion->SetScale(Vector3::One * 20.0f);
 		m_explosion->SetPosition({ m_position.x,m_position.y += 10.0f,m_position.z });
 		m_explosion->Play();
+
+		m_explosionSE = NewGO<SoundSource>(5);
+		m_explosionSE->Init(5);
+		m_explosionSE->SetVolume(0.1f);
+		m_explosionSE->Play(false);
+
 		m_state = 1;
 		m_boxCollider.RemoveRigidBoby();
 		m_ghostCollider.Release();

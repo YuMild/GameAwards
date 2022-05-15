@@ -32,6 +32,8 @@ bool Door::Start()
 	m_modelRender.Update();
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 2000.0f,2000.0f,3000.0f });
 
+	g_soundEngine->ResistWaveFileBank(4, "Assets/sound/Door.wav");
+	
 	return true;
 }
 
@@ -76,7 +78,12 @@ void Door::Hit()
 
 	if (m_isHit == true)
 	{
+		m_openSE = NewGO<SoundSource>(4);
+		m_openSE->Init(4);
+		m_openSE->SetVolume(0.1f);
+		m_openSE->Play(false);
 		m_modelRender.PlayAnimation(enAnimationClip_Open, 0.0f);
+		m_ghostCollider.Release();
 		m_coolTime = false;
 		m_isHit = false;
 	}

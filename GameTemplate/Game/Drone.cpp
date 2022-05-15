@@ -25,12 +25,12 @@ bool Drone::Start()
 	
 	m_modelRender.Init("Assets/modelData/Stage_0/Drone.tkm",false);
 	m_modelRender.SetPosition(m_position);
-	m_modelRender.SetScale(m_scale);
+	m_modelRender.SetScale(m_scale * 0.5);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
 	m_boxCollider.BoxInit({ 100.0f,100.0f,100.0f }, m_position, 0.1);
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 110.0f,110.0f,110.0f });
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 120.0f,120.0f,120.0f });
 
 	return true;
 }

@@ -28,6 +28,8 @@ bool JumpBoard::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
+	g_soundEngine->ResistWaveFileBank(7, "Assets/sound/Jump.wav");
+	
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 2000.0f,2000.0f,600.0f });
 
 	return true;
@@ -69,12 +71,17 @@ void JumpBoard::Hit()
 
 	if (m_isHit == true)
 	{
+		//サウンドを再生
+		m_jumpSE = NewGO<SoundSource>(7);
+		m_jumpSE->Init(7);
+		m_jumpSE->SetVolume(0.1f);
+		m_jumpSE->Play(false);
 		m_coolTime = 0.0f;
 		Vector3 zero = Vector3::Zero;				//スピードを0にする。
 		m_player->SetMoveSpeed(zero);				//スピードを0にする。
-		//Vector3 shoot = m_shoot;
-		//shoot *= 50000000.0f;
-		//m_player->SetMoveSpeed(shoot);
+		Vector3 shoot = m_shoot;
+		shoot *= 50000000.0f;
+		m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 	}
 }

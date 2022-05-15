@@ -91,7 +91,7 @@ void RockOn::Judge()
 		//バンパーとプレイヤーまでの距離。
 		Vector3 diff = object->GetPosition() - m_player->GetPosition();
 		//遠すぎたり近すぎたら
-		if (diff.Length() >= 3000.0f || diff.Length() < 10.0f)
+		if (diff.Length() >= 5000.0f || diff.Length() < 10.0f)
 		{
 			//ロックオン候補に入らない。
 			continue;

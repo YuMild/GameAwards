@@ -29,7 +29,9 @@ bool SpeedUpRail::Start()
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
-	
+
+	g_soundEngine->ResistWaveFileBank(6, "Assets/sound/SpeedUp.wav");
+
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 1000.0f,500.0f,1000.0f });
 
 	return true;
@@ -71,6 +73,10 @@ void SpeedUpRail::Hit()
 
 	if (m_isHit == true)
 	{
+		m_speedUpSE = NewGO<SoundSource>(6);
+		m_speedUpSE->Init(6);
+		m_speedUpSE->SetVolume(0.3f);
+		m_speedUpSE->Play(false);
 		m_coolTime = 0.0f;
 		Vector3 zero = Vector3::Zero;				//スピードを0にする。
 		m_player->SetMoveSpeed(zero);				//スピードを0にする。

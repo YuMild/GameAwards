@@ -73,8 +73,9 @@ private:
 	Vector3							m_scale;
 	Quaternion						m_rotation;
 
-	Player* m_player;
-	RockOn* m_rockOn;
+	SoundSource*					m_explosionSE;
+	Player*							m_player;
+	RockOn*							m_rockOn;
 
 	int								m_state = 0;
 	bool							m_isHit = false;

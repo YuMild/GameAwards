@@ -145,6 +145,16 @@ private:
     /// </summary>
     void Move();
 
+    /// <summary>
+    /// ロックオンしてない時の動作を管理
+    /// </summary>
+    void NormalMove();
+
+    /// <summary>
+    /// ロックオンしている時の動作を管理
+    /// </summary>
+    void RockOnMove();
+    
     EffectEmitter*      m_reSpawn;
     SoundSource*        m_sound;
 
@@ -161,6 +171,8 @@ private:
     Vector3             m_cameraRight;              //カメラの左右方向
     Vector3             m_moveSpeed;                //プレイヤーの移動速度
     Vector3             m_rockOnTarget;
+    Vector3             m_forward;
+    Vector3             m_target;
 
     Quaternion          m_rotation;                 //回転
 
