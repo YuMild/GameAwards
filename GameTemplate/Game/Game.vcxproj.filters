@@ -60,9 +60,6 @@
     <ClCompile Include="Drone.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
-    <ClCompile Include="SonicBoom.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="PowerCharge.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
@@ -96,9 +93,6 @@
     </ClCompile>
     <ClCompile Include="TimeLimit.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckPoint.cpp">
-      <Filter>Stage\Parts</Filter>
     </ClCompile>
     <ClCompile Include="GameLight.cpp" />
     <ClCompile Include="First.cpp">
@@ -163,9 +157,6 @@
     <ClInclude Include="Drone.h">
       <Filter>Stage\Parts</Filter>
     </ClInclude>
-    <ClInclude Include="SonicBoom.h">
-      <Filter>Effect</Filter>
-    </ClInclude>
     <ClInclude Include="PowerCharge.h">
       <Filter>Effect</Filter>
     </ClInclude>
@@ -199,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="TimeLimit.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckPoint.h">
-      <Filter>Stage\Parts</Filter>
     </ClInclude>
     <ClInclude Include="GameLight.h" />
     <ClInclude Include="First.h">

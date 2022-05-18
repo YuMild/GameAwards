@@ -64,7 +64,7 @@ private:
 	/// </summary>
 	void Hit();
 
-	EffectEmitter* m_explosion;
+	EffectEmitter*					m_explosion;
 	ModelRender						m_modelRender;
 	CharacterController				m_boxCollider;
 	PhysicsGhostObject				m_ghostCollider;

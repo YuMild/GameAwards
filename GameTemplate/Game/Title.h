@@ -25,7 +25,7 @@ private:
 	void Choice();
 
 	SoundSource*	m_choiceSE;
-
+	
 	SpriteRender	m_backGround;
 	SpriteRender	m_start;
 	SpriteRender	m_startBlack;

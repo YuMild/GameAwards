@@ -43,6 +43,7 @@ private:
 
 	void Death();
 	
+	SoundSource*			m_backGroundBGM;
 	Bound*					m_bound;
 	ChargeShot*				m_chargeShot;
 	GameCamera*				m_gameCamera;

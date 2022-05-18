@@ -5,7 +5,6 @@
 #include "GameCamera.h"
 #include "PowerCharge.h"
 #include "RockOn.h"
-#include "SonicBoom.h"
 
 namespace
 {
@@ -13,12 +12,12 @@ namespace
     Vector3 PLAYER_FIRST_POSITION = { 0.0f,200.0f,0.0f };       //スポーン座標
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
     float PLAYER_COLLISION_SCALE = 50.0f;                       //当たり判定のサイズ
-    float PLAYER_GRAVITY = -100000.0f;                          //重力
+    float PLAYER_GRAVITY = -200000.0f;                          //重力
     float PLAYER_ROLL = 1.0f;                                   //転がりやすさ
     float PLAYER_FRICTION = 1.0f;                               //摩擦力
     float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
     float PLAYER_SPEED_DEFAULT = 50000000.0f;                   //スピードデフォルト
-    float PLAYER_SPEED_MAX = 10000.0f;                           //スピード上限値
+    float PLAYER_SPEED_MAX = 10000.0f;                          //スピード上限値
 
     //チャージ
     float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値
@@ -42,6 +41,12 @@ bool Player::Start()
     m_reSpawn->SetScale(Vector3::One * 3.0f);
     m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
     m_reSpawn->Play();
+
+    EffectEngine::GetInstance()->ResistEffect(10, u"Assets/Effect/Selfmade/FireImpact.efk");
+    m_fireImpact = NewGO<EffectEmitter>(10);
+    m_fireImpact->Init(10);
+    m_fireImpact->SetScale(Vector3::One * 300.0f);
+    m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -129,8 +134,6 @@ void Player::Death()
     m_reSpawn->Play();
     DeleteGO(m_gameCamera);
     m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
-    //DeleteGO(m_rockOn);
-    //m_rockOn = NewGO<RockOn>(0, "rockOn");
     g_camera3D->SetPosition(0.0f, 100.0f, 100.0f);
     g_camera3D->SetTarget(m_position);
     m_state = 0;
@@ -240,8 +243,14 @@ void Player::NormalMove()
     m_isPressState = true;
     m_isRockOnFire == false;                                                //ロックオンアタックを無効化
     m_isPress = false;                                                      //ボタンが押されていない
-    m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
-    m_moveSpeed = (m_forward * PLAYER_SPEED_DEFAULT) * m_charge;              //前後
+    m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
+    m_fireImpact = NewGO<EffectEmitter>(10);
+    m_fireImpact->Init(10);
+    m_fireImpact->SetScale(Vector3::One * 50.0f);
+    m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+    m_fireImpact->SetRotation(m_effectRotation);
+    m_fireImpact->Play();
+    m_moveSpeed = (m_forward * PLAYER_SPEED_DEFAULT) * m_charge;            //前後
     m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
 }
 
@@ -261,8 +270,13 @@ void Player::RockOnMove()
         m_isRockOnFire = true;                                              //ロックオンアタックを有効化
         m_isPress = false;                                                  //ボタンが押されていない
         m_isPowerCharge = true;
-        m_sonicBoom = NewGO<SonicBoom>(0, "sonicBoom");                     //エフェクトを再生
-        m_moveSpeed = (m_target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);  //前後 (通常の二倍の速さで射出)
+        m_fireImpact = NewGO<EffectEmitter>(10);
+        m_fireImpact->Init(10);
+        m_fireImpact->SetScale(Vector3::One * 50.0f);
+        m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+        m_fireImpact->SetRotation(m_effectRotation);
+        m_fireImpact->Play();
+        m_moveSpeed = (m_target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);//前後 (通常の二倍の速さで射出)
         m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
         m_delay = 0.0f;                                                     //ディレイをリセット
     }

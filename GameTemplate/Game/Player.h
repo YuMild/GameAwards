@@ -4,7 +4,7 @@ class Game;
 class GameCamera;
 class PowerCharge;
 class RockOn;
-class SonicBoom;
+class FireImpact;
 
 /// <summary>
 /// プレイヤー
@@ -156,6 +156,7 @@ private:
     void RockOnMove();
     
     EffectEmitter*      m_reSpawn;
+    EffectEmitter*      m_fireImpact;
     SoundSource*        m_sound;
 
     FontRender          m_fontRenderX;              //フォントレンダー
@@ -175,6 +176,7 @@ private:
     Vector3             m_target;
 
     Quaternion          m_rotation;                 //回転
+    Quaternion          m_effectRotation;           //エフェクトの回転
 
     bool                m_isEffectStart = true;     //エフェクトを一回だけ再生させる
     bool                m_isPress = false;          //ボタンが押されているか否かの判定
@@ -194,5 +196,4 @@ private:
     GameCamera*         m_gameCamera;
     PowerCharge*        m_powerCharge;
     RockOn*             m_rockOn;
-    SonicBoom*          m_sonicBoom;
 };

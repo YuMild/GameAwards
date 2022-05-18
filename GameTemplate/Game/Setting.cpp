@@ -24,7 +24,7 @@ bool Setting::Start()
 	m_first = FindGO<First>("first");
 
 	//サウンド
-	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/Choice.wav");
+	g_soundEngine->ResistWaveFileBank(1, "Assets/sound/Jump.wav");
 	
 	//画像
 	m_apply.Init("Assets/sprite/Setting/Apply.dds", 800.0f, 800.0f);
@@ -120,7 +120,7 @@ void Setting::Render(RenderContext& rc)
 			m_stickSensitivityBarChoice.Draw(rc);
 			m_stickSensitivityBarInsideChoice.Draw(rc);
 		}
-		else
+		else if (m_shelf != 1)
 		{
 			m_stickSensitivity.Draw(rc);
 			m_stickSensitivityBar.Draw(rc);
@@ -130,7 +130,7 @@ void Setting::Render(RenderContext& rc)
 		{
 			m_vibrationChoice.Draw(rc);
 		}
-		else
+		else if (m_shelf != 1)
 		{
 			m_vibration.Draw(rc);
 		}
@@ -172,11 +172,21 @@ void Setting::Choice()
 	{
 		m_shelf = 1;
 		m_choiceState = 0;
+
+		m_choiceSE = NewGO<SoundSource>(1);
+		m_choiceSE->Init(1);
+		m_choiceSE->SetVolume(0.3f);
+		m_choiceSE->Play(false);
 	}
 	else if (m_shelf == 1 && g_pad[0]->IsTrigger(enButtonLB1))
 	{
 		m_shelf = 0;
 		m_choiceState = 0;
+
+		m_choiceSE = NewGO<SoundSource>(1);
+		m_choiceSE->Init(1);
+		m_choiceSE->SetVolume(0.3f);
+		m_choiceSE->Play(false);
 	}
 
 	/// <summary>
@@ -185,11 +195,21 @@ void Setting::Choice()
 	if (m_choiceState >= 0 && m_choiceState < 2 && g_pad[0]->IsTrigger(enButtonDown))
 	{
 		m_choiceState += 1;
+
+		m_choiceSE = NewGO<SoundSource>(1);
+		m_choiceSE->Init(1);
+		m_choiceSE->SetVolume(0.3f);
+		m_choiceSE->Play(false);
 	}
 
 	if (m_choiceState <= 2 && m_choiceState > 0 && g_pad[0]->IsTrigger(enButtonUp))
 	{
 		m_choiceState -= 1;
+
+		m_choiceSE = NewGO<SoundSource>(1);
+		m_choiceSE->Init(1);
+		m_choiceSE->SetVolume(0.3f);
+		m_choiceSE->Play(false);
 	}
 
 	/// <summary>
@@ -241,6 +261,11 @@ void Setting::Choice()
 		if (g_pad[0]->IsTrigger(enButtonRight))									//右ボタンを押すと
 		{
 			m_choiceState += 1;													//適用に切替
+
+			m_choiceSE = NewGO<SoundSource>(1);
+			m_choiceSE->Init(1);
+			m_choiceSE->SetVolume(0.3f);
+			m_choiceSE->Play(false);
 		}
 		else if ( g_pad[0]->IsTrigger(enButtonB))								//Bボタンを押すと
 		{
@@ -254,10 +279,20 @@ void Setting::Choice()
 		if (g_pad[0]->IsTrigger(enButtonLeft))									//左ボタンを押すと
 		{
 			m_choiceState -= 1;													//キャンセルに切替
+
+			m_choiceSE = NewGO<SoundSource>(1);
+			m_choiceSE->Init(1);
+			m_choiceSE->SetVolume(0.3f);
+			m_choiceSE->Play(false);
 		}
 		else if (g_pad[0]->IsTrigger(enButtonUp))								//上ボタンを押すと
 		{
 			m_choiceState -= 2;													//キャンセルを飛ばして選択項目に移る
+
+			m_choiceSE = NewGO<SoundSource>(1);
+			m_choiceSE->Init(1);
+			m_choiceSE->SetVolume(0.3f);
+			m_choiceSE->Play(false);
 		}
 		else if (g_pad[0]->IsTrigger(enButtonB))								//Bボタンを押すと
 		{

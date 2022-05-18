@@ -1,11 +1,12 @@
 #pragma once
 
+#include <RockOnObject.h>
 #include <physics/PhysicsGhostObject.h>
 
 class Player;
 class RockOn;
 
-class ReSpawnPoint : public IGameObject
+class ReSpawnPoint : public RockOnObject
 {
 public:
 
@@ -24,6 +25,14 @@ public:
 		m_position = position;
 	}
 	/// <summary>
+	/// 座標を取得
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetPosition() const override
+	{
+		return m_position;
+	}
+	/// <summary>
 	/// サイズを設定。
 	/// </summary>
 	/// <param name="scale"></param>
@@ -38,6 +47,14 @@ public:
 	void SetRotation(const Quaternion& rotation)
 	{
 		m_rotation = rotation;
+	}
+	/// <summary>
+	///	ステートを取得。
+	/// </summary>
+	/// <returns></returns>
+	int GetState() const override
+	{
+		return m_state;
 	}
 
 private:
@@ -57,6 +74,7 @@ private:
 	Player*							m_player;
 	RockOn*							m_rockOn;
 
+	int								m_state = 0;
 	bool							m_isHit = false;
-	float							m_coolTime = 0.0f;
+	float							m_aliveTime = 0.0f;
 };

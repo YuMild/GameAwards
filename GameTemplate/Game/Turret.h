@@ -66,8 +66,7 @@ private:
 	void Hit();
 
 	EffectEmitter*					m_beam;
-
-	FontRender						m_fontRender;
+	EffectEmitter*					m_beamCharge;
 
 	ModelRender						m_modelRender;
 	CharacterController				m_boxCollider;
@@ -83,7 +82,8 @@ private:
 
 	int								m_state = 0;
 	bool							m_isHit = false;
-	bool							m_effectCoolTime = false;
+	bool							m_beamEffectCoolTime = false;
+	bool							m_chargeEffectCoolTime = false;
 	float							m_coolTime = 0.0f;
 	float							m_aliveTime = 0.0f;
 };

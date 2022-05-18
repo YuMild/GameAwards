@@ -3,7 +3,6 @@
 
 #include "BreakBox.h"
 #include "Bumper.h"
-#include "CheckPoint.h"
 #include "Door.h"
 #include "Drone.h"
 #include "Duct.h"
@@ -41,12 +40,6 @@ Stage_1::~Stage_1()
     for (int i = 0; i < bumperSize; i++)
     {
         DeleteGO(bumpers[i]);
-    }
-    const auto& checkPoints = FindGOs<CheckPoint>("checkPoint");
-    int checkPointSize = checkPoints.size();
-    for (int i = 0; i < checkPointSize; i++)
-    {
-        DeleteGO(checkPoints[i]);
     }
     const auto& doors = FindGOs<Door>("door");
     int doorSize = doors.size();
@@ -180,20 +173,12 @@ bool Stage_1::Start()
                 bumper->SetRotation(objData.rotation);                              //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"RespawnPoint") == true)
-            {
-                auto checkPoint = NewGO<CheckPoint>(0, "checkPoint");               //生成する。
-                checkPoint->SetPosition(objData.position);                          //座標を設定する。
-                checkPoint->SetScale(objData.scale);                                //サイズを設定する。
-                checkPoint->SetRotation(objData.rotation);                          //回転を設定する。
-                return true;
-            }
             else if (objData.ForwardMatchName(L"Door") == true)
             {
-                auto door = NewGO<Door>(0, "door");                              //生成する。
-                door->SetPosition(objData.position);                               //座標を設定する。
-                door->SetScale(objData.scale);                                     //サイズを設定する。
-                door->SetRotation(objData.rotation);                               //回転を設定する。
+                auto door = NewGO<Door>(0, "door");                                 //生成する。
+                door->SetPosition(objData.position);                                //座標を設定する。
+                door->SetScale(objData.scale);                                      //サイズを設定する。
+                door->SetRotation(objData.rotation);                                //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Drone") == true)
@@ -206,10 +191,10 @@ bool Stage_1::Start()
             }
             else if (objData.ForwardMatchName(L"Duct") == true)
             {
-                auto duct = NewGO<Duct>(0, "duct");                              //生成する。
-                duct->SetPosition(objData.position);                               //座標を設定する。
-                duct->SetScale(objData.scale);                                     //サイズを設定する。
-                duct->SetRotation(objData.rotation);                               //回転を設定する。
+                auto duct = NewGO<Duct>(0, "duct");                                 //生成する。
+                duct->SetPosition(objData.position);                                //座標を設定する。
+                duct->SetScale(objData.scale);                                      //サイズを設定する。
+                duct->SetRotation(objData.rotation);                                //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"Energy") == true)
@@ -262,18 +247,18 @@ bool Stage_1::Start()
             }
             else if (objData.ForwardMatchName(L"Pipe") == true)
             {
-                auto pipe = NewGO<Pipe>(0, "pipe");                                    //生成する。
-                pipe->SetPosition(objData.position);                                 //座標を設定する。
-                pipe->SetScale(objData.scale);                                       //サイズを設定する。
-                pipe->SetRotation(objData.rotation);                                 //回転を設定する。
+                auto pipe = NewGO<Pipe>(0, "pipe");                                 //生成する。
+                pipe->SetPosition(objData.position);                                //座標を設定する。
+                pipe->SetScale(objData.scale);                                      //サイズを設定する。
+                pipe->SetRotation(objData.rotation);                                //回転を設定する。
             return true;
             }
             else if (objData.ForwardMatchName(L"ReSpawnPoint") == true)
             {
-                auto reSpawnPoint = NewGO<ReSpawnPoint>(0, "reSpawnPoint");                                    //生成する。
-                reSpawnPoint->SetPosition(objData.position);                                 //座標を設定する。
-                reSpawnPoint->SetScale(objData.scale);                                       //サイズを設定する。
-                reSpawnPoint->SetRotation(objData.rotation);                                 //回転を設定する。
+                auto reSpawnPoint = NewGO<ReSpawnPoint>(0, "reSpawnPoint");         //生成する。
+                reSpawnPoint->SetPosition(objData.position);                        //座標を設定する。
+                reSpawnPoint->SetScale(objData.scale);                              //サイズを設定する。
+                reSpawnPoint->SetRotation(objData.rotation);                        //回転を設定する。
             return true;
             }
             else if (objData.ForwardMatchName(L"Signboard") == true)
@@ -294,10 +279,10 @@ bool Stage_1::Start()
             }
             else if (objData.ForwardMatchName(L"Truck") == true)
             {
-            auto truck = NewGO<Truck>(0, "truck");            //生成する。
-            truck->SetPosition(objData.position);                         //座標を設定する。
-            truck->SetScale(objData.scale);                               //サイズを設定する。
-            truck->SetRotation(objData.rotation);                         //回転を設定する。
+            auto truck = NewGO<Truck>(0, "truck");                                  //生成する。
+            truck->SetPosition(objData.position);                                   //座標を設定する。
+            truck->SetScale(objData.scale);                                         //サイズを設定する。
+            truck->SetRotation(objData.rotation);                                   //回転を設定する。
             return true;
             }
             else if (objData.ForwardMatchName(L"Turret") == true)

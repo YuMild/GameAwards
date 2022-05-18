@@ -9,7 +9,6 @@
 #include "Player.h"
 #include "PowerCharge.h"
 #include "RockOn.h"
-#include "SonicBoom.h"
 #include "Stage_1.h"
 #include "TimeLimit.h"
 
@@ -20,6 +19,8 @@ Game::Game()
 
 Game::~Game()
 {
+	m_backGroundBGM->Stop();
+
 	//エフェクト
 	const auto& bounds = FindGOs<Bound>("bound");
 	int buondSize = bounds.size();
@@ -38,12 +39,6 @@ Game::~Game()
 	for (int i = 0; i < rockOnSize; i++)
 	{
 		DeleteGO(rockOns[i]);
-	}
-	const auto& sonicBooms = FindGOs<SonicBoom>("sonicBoom");
-	int sonicBoomSize = sonicBooms.size();
-	for (int i = 0; i < sonicBoomSize; i++)
-	{
-		DeleteGO(sonicBooms[i]);
 	}
 	DeleteGO(m_chargeShot);
 	DeleteGO(m_gameCamera);
@@ -64,6 +59,12 @@ bool Game::Start()
 	m_timeLimit = NewGO<TimeLimit>(0, "timeLimit");
 
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
+	g_soundEngine->ResistWaveFileBank(12, "Assets/sound/BackGround.wav");
+	m_backGroundBGM = NewGO<SoundSource>(12);
+	m_backGroundBGM->Init(12);
+	m_backGroundBGM->SetVolume(0.1f);
+	m_backGroundBGM->Play(true);
 
 	return true;
 }
