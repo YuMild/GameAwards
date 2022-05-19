@@ -29,7 +29,7 @@ namespace nsK2EngineLow {
 Camera lightCamera;
 */
 //カメラの位置を設定。これはライトの置。
-        m_lightCamera.SetPosition({ g_camera3D->GetTarget().x,g_camera3D->GetTarget().y + 500.0f,g_camera3D->GetTarget().z });
+        m_lightCamera.SetPosition({ g_camera3D->GetTarget().x,g_camera3D->GetTarget().y + 600.0f,g_camera3D->GetTarget().z });
         //カメラの注視点を設定。これがライトが照らしている場所。
         m_lightCamera.SetTarget(g_camera3D->GetTarget());
         //【注目】上方向を設定。今回はライトが真下を向いているので、X方向を上にしている。

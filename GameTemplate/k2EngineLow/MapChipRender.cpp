@@ -27,17 +27,19 @@ namespace nsK2EngineLow {
 
 	void MapChipRender::Init()
 	{
-		
-			m_modelRender.Init(*m_filePath.get(),true);
-			m_modelRender.SetCasterShadow(false);
-			auto& mapChipData = m_mapChipDataVector[0];
-			m_modelRender.SetTRS(mapChipData.position, mapChipData.rotation, mapChipData.scale);
-			m_modelRender.Update();
-			auto p = std::make_unique<PhysicsStaticObject>();
-			//静的物理オブジェクトを作成。
-			p->CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
-			m_physicsStaticObjectPtrVector.push_back(std::move(p));
-			return;
+		m_modelRender.SetDithering(en_normal);
+		m_modelRender.SetRecieveShadow(true);
+
+		m_modelRender.Init(*m_filePath.get());
+		m_modelRender.SetCasterShadow(false);
+		auto& mapChipData = m_mapChipDataVector[0];
+		m_modelRender.SetTRS(mapChipData.position, mapChipData.rotation, mapChipData.scale);
+		m_modelRender.Update();
+		auto p = std::make_unique<PhysicsStaticObject>();
+		//静的物理オブジェクトを作成。
+		p->CreateFromModel(m_modelRender.GetModel(), m_modelRender.GetModel().GetWorldMatrix());
+		m_physicsStaticObjectPtrVector.push_back(std::move(p));
+		return;
 	}
 
 	void MapChipRender::Update()

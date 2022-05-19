@@ -26,7 +26,7 @@ bool Turret::Start()
 	m_rockOn = FindGO<RockOn>("rockOn");
 	m_player = FindGO <Player>("player");
 
-	m_modelRender.Init("Assets/modelData/Stage_0/Turret.tkm",false);
+	m_modelRender.Init("Assets/modelData/Stage_0/Turret.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);

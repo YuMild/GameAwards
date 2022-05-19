@@ -154,7 +154,7 @@ bool Stage_1::Start()
             }
             else if (objData.ForwardMatchName(L"box") == true)
             {
-                m_levelRender.InitBoxCollider(objData);
+                m_levelRender.InitBoxCollider(objData,0.3f);
                 return true;
             }
             else if (objData.ForwardMatchName(L"BreakBox") == true)

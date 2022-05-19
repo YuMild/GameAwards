@@ -2,12 +2,12 @@
  * @brief	シンプルなモデルシェーダー。
  */
 
-// ディレクションライト
+ // ディレクションライト
 struct DirectionLight
 {
     float3 direction; // ライトの方向
     float3  color; // ライトのカラー
-    
+
 };
 
 // ポイントライト
@@ -32,10 +32,10 @@ struct SpotLight
 // 定数バッファ。
 ////////////////////////////////////////////////
 //モデル用の定数バッファ
-cbuffer ModelCb : register(b0){
-	float4x4 mWorld;
-	float4x4 mView;
-	float4x4 mProj;
+cbuffer ModelCb : register(b0) {
+    float4x4 mWorld;
+    float4x4 mView;
+    float4x4 mProj;
 };
 
 cbuffer LightCb : register(b1)
@@ -45,10 +45,12 @@ cbuffer LightCb : register(b1)
     SpotLight spotLight;
     //アンビエントライト。
     float3 ambientLight; //環境光。
-    
+
     float3 eyePos; //視点の位置。
-    
-    float4x4 mLVP;	
+
+    float4x4 mLVP;
+
+    float DitheringLength;
 };
 
 
@@ -56,27 +58,29 @@ cbuffer LightCb : register(b1)
 // 構造体
 ////////////////////////////////////////////////
 //スキニング用の頂点データをひとまとめ。
-struct SSkinVSIn{
-	int4  Indices  	: BLENDINDICES0;
+struct SSkinVSIn {
+    int4  Indices  	: BLENDINDICES0;
     float4 Weights  : BLENDWEIGHT0;
 };
 //頂点シェーダーへの入力。
-struct SVSIn{
-	float4 pos 		: POSITION;		//モデルの頂点座標。
-	float3 normal : NORMAL;
-	float2 uv 		: TEXCOORD0;	//UV座標。
-	SSkinVSIn skinVert;				//スキン用のデータ。
+struct SVSIn {
+    float4 pos 		: POSITION;		//モデルの頂点座標。
+    float3 normal : NORMAL;
+    float2 uv 		: TEXCOORD0;	//UV座標。
+    SSkinVSIn skinVert;				//スキン用のデータ。
 };
 //ピクセルシェーダーへの入力。
-struct SPSIn{
-	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
-	float3 normal		: NORMAL;       //法線。
-	float2 uv 			: TEXCOORD0;	//uv座標。
+struct SPSIn {
+    float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
+    float3 normal		: NORMAL;       //法線。
+    float2 uv 			: TEXCOORD0;	//uv座標。
     float3 worldPos : TEXCOORD1;
-    
+
     float3 normalInView : TEXCOORD2;     //カメラ空間の法線
-    
+
     float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
+
+    float distToEye : TEXCOORD4;    //視点との距離
 };
 ///////////////////////////////////////////
 // 関数宣言
@@ -86,7 +90,7 @@ float3 CalcPhongSpecular(float3 lightDirection, float3 lightColor, float3 worldP
 float3 CalcLigFromPointLight(SPSIn psIn);
 float3 CalcLigFromDirectionLight(SPSIn psIn);
 float3 CalcLigFromSpotLight(SPSIn psIn);
-float3 CalcRimLight(SPSIn psIn,float3 lightdirection,float3 lightcolor);
+float3 CalcRimLight(SPSIn psIn, float3 lightdirection, float3 lightcolor);
 
 
 ////////////////////////////////////////////////
@@ -112,17 +116,17 @@ static const int pattern[4][4] = {
 /// </summary>
 float4x4 CalcSkinMatrix(SSkinVSIn skinVert)
 {
-	float4x4 skinning = 0;	
-	float w = 0.0f;
-	[unroll]
+    float4x4 skinning = 0;
+    float w = 0.0f;
+    [unroll]
     for (int i = 0; i < 3; i++)
     {
         skinning += g_boneMatrix[skinVert.Indices[i]] * skinVert.Weights[i];
         w += skinVert.Weights[i];
     }
-    
+
     skinning += g_boneMatrix[skinVert.Indices[3]] * (1.0f - w);
-	
+
     return skinning;
 }
 
@@ -131,28 +135,33 @@ float4x4 CalcSkinMatrix(SSkinVSIn skinVert)
 /// </summary>
 SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 {
-	SPSIn psIn;
-	float4x4 m;
-	if( hasSkin ){
-		m = CalcSkinMatrix(vsIn.skinVert);
-	}else{
-		m = mWorld;
-	}
-	psIn.pos = mul(m, vsIn.pos);
+    SPSIn psIn;
+    float4x4 m;
+    if (hasSkin) {
+        m = CalcSkinMatrix(vsIn.skinVert);
+    }
+    else {
+        m = mWorld;
+    }
+    psIn.pos = mul(m, vsIn.pos);
     psIn.worldPos = psIn.pos;
-	psIn.pos = mul(mView, psIn.pos);
-  	psIn.pos = mul(mProj, psIn.pos);
+    psIn.pos = mul(mView, psIn.pos);
+    psIn.pos = mul(mProj, psIn.pos);
+    float4 objectPosInCamera = psIn.pos;
+    // カメラからの距離を計算する
+    psIn.distToEye = length(objectPosInCamera);
 
-	// 頂点法線をピクセルシェーダーに渡す。
-	psIn.normal = normalize(mul(m, vsIn.normal)); //法線を回転させる。
-	psIn.uv = vsIn.uv;
-    
+
+    // 頂点法線をピクセルシェーダーに渡す。
+    psIn.normal = normalize(mul(m, vsIn.normal)); //法線を回転させる。
+    psIn.uv = vsIn.uv;
+
     //カメラ空間の法線を求める。
     psIn.normalInView = normalize(mul(mView, psIn.normal));
-    
+
     psIn.posInLVP = mul(mLVP, float4(psIn.worldPos, 1.0f));
 
-	return psIn;
+    return psIn;
 }
 
 /// <summary>
@@ -160,14 +169,14 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 /// </summary>
 SPSIn VSMain(SVSIn vsIn)
 {
-	return VSMainCore(vsIn, false);
+    return VSMainCore(vsIn, false);
 }
 /// <summary>
 /// スキンありメッシュの頂点シェーダーのエントリー関数。
 /// </summary>
-SPSIn VSSkinMain( SVSIn vsIn ) 
+SPSIn VSSkinMain(SVSIn vsIn)
 {
-	return VSMainCore(vsIn, true);
+    return VSMainCore(vsIn, true);
 }
 /// <summary>
 /// Lambert拡散反射光を計算する
@@ -219,11 +228,11 @@ float3 CalcLigFromDirectionLight(SPSIn psIn)
 
     // ディレクションライトによるPhong鏡面反射光を計算する
     float3 specDirection = CalcPhongSpecular(directionLight.direction, directionLight.color, psIn.worldPos, psIn.normal);
-    
+
     //ディレクションライトによるリムライトを計算する。
     float3 rimDirection = CalcRimLight(psIn, directionLight.direction, directionLight.color);
-    
-    return diffDirection + specDirection +rimDirection;
+
+    return diffDirection + specDirection + rimDirection;
 }
 /// <summary>
 /// ポイントライトによる反射光を計算
@@ -280,7 +289,7 @@ float3 CalcLigFromPointLight(SPSIn psIn)
 //スポットライトによる反射光を計算。
 float3 CalcLigFromSpotLight(SPSIn psIn)
 {
-     // このサーフェイスに入射しているポイントライトの光の向きを計算する
+    // このサーフェイスに入射しているポイントライトの光の向きを計算する
     float3 ligDir = psIn.worldPos - spotLight.position;
 
     // 正規化して大きさ1のベクトルにする
@@ -325,43 +334,43 @@ float3 CalcLigFromSpotLight(SPSIn psIn)
     rimPoint *= affect;
     //入射光と射出方向の角度を求める。
     float angle = dot(ligDir, spotLight.direction);
-    
+
     angle = abs(acos(angle));
-    
+
     //角度に比例して小さくなっていく影響率を計算
     affect = 1.0f - 1.0f / spotLight.angle * angle;
     //影響率がマイナスにならないように補正。
-    if(affect<0.0f)
+    if (affect < 0.0f)
     {
         affect = 0.0f;
     }
-    
+
     //影響の仕方を指数関数的にする。
     affect = pow(affect, 0.5f);
-    
+
     //角度による影響率を反射光に乗算。
     diffPoint *= affect;
     specPoint *= affect;
     rimPoint *= affect;
-    
+
     return diffPoint + specPoint + rimPoint;
-    
+
 }
 //リムライトの計算。
-float3 CalcRimLight(SPSIn psIn, float3 direction,float3 color)
+float3 CalcRimLight(SPSIn psIn, float3 direction, float3 color)
 {
     //サーフェイスの法線と光の入射方向に依存するリムの強さを求める。
     float power1 = 1.0f - max(0.0f, dot(direction, psIn.normal));
     //サーフェイスの法線と視線の方向に依存するリムの強さを求める。
     float power2 = 1.0f - max(0.0f, psIn.normalInView.z * -1.0f);
-    
+
     //最終的なリムの強さを求める。
     float limpower = power1 * power2;
     //強さの変化を指数関数的にする。
     limpower = pow(limpower, 1.3f);
     //リムライトのカラーを計算する。
     float3 limcolor = limpower * color;
-    
+
     return limcolor;
 
 }
@@ -374,14 +383,14 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
 
     //ディレクションライトによるライティングを計算する
     float3 directionLig = CalcLigFromDirectionLight(psIn);
-	
+
     // ポイントライトによるライティングを計算する
     float3 pointLig = CalcLigFromPointLight(psIn);
 
     //スポットライトによるライティングを計算する。
     float3 spotLig = CalcLigFromSpotLight(psIn);
-    
-   
+
+
     // step-6 ライトビュースクリーン空間からUV空間に座標変換
     // 【注目】ライトビュースクリーン空間からUV座標空間に変換している
     float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
@@ -389,10 +398,10 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     shadowMapUV += 0.5f;
     //ライトビュースクリーン空間でのZ値を計算する
     float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
-    
+
     // step-7 UV座標を使ってシャドウマップから影情報をサンプリング
     float3 shadowMap = 1.0f;
-    
+
     if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
         && shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f)
     {
@@ -405,15 +414,53 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
             shadowMap.xyz *= 0.5f;
         }
     }
-   
-   
-	//ライティングの結果をすべて加算する。
-    float3 lig =  directionLig
+
+
+    //ライティングの結果をすべて加算する。
+    float3 lig = directionLig
                 + pointLig
                 + spotLig
                 + ambientLight;
-	
-    
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    //ディザリング処理
+    // このピクセルのスクリーン座標系でのX座標、Y座標を4で割った余りを求める
+    int x = (int)fmod(psIn.pos.x, 4.0f);
+    int y = (int)fmod(psIn.pos.y, 4.0f);
+
+    // 上で求めた、xとyを利用して、このピクセルのディザリング閾値を取得する
+    int dither = pattern[y][x];
+
+    // カメラがオブジェクトのクリップ範囲内に入ると、
+       // 完全にオブジェクトがクリップされる
+       // （この数値を変更すると、オブジェクトが完全に消える範囲が変わる）
+    float clipRange = DitheringLength;
+
+    // step-3 視点とクリップ範囲までの距離を計算する
+    // オブジェクトとカメラの距離が50以下になると、
+    // psIn.distToEye - clipRangeの結果がマイナスになるので、tに0が代入される
+    // psIn.distToEyeが50以上なら、tには視点からクリップ範囲までの距離が
+    // 計算される
+    float eyeToClipRange = max(0.0f, psIn.distToEye - clipRange);
+
+    // step-4 クリップ率を求める
+    // clipRateは0～1の値を取り、clipRateが1になると完全にクリップされる
+    // 下記のコードは、視点とクリップ範囲の距離が100以下になると、
+    // 線形にclipRateの1に近づいていき、eyeToClipRangeが0になると、
+    // clipRateが1になる計算になっている
+    float clipRate = 1.0f - min(1.0f, eyeToClipRange / 100.0f);
+
+    // step-5 clipRateを利用してピクセルキルを行う
+    // tの値は0～1の値をとる。tが0ならどのピクセルもクリップされない
+    // tの値が1になると、64以下のピクセルがクリップされるため、
+    // すべてのピクセルがキリップされる（ditherの値の最大値は62なので）
+    clip(dither - 64 * clipRate);
+    //ここまで
+    /////////////////////////////////////////////////////////////////////////////
     float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
 
 
@@ -423,7 +470,7 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
         albedoColor.xyz *= shadowMap;
     }
 
-	return albedoColor;
+    return albedoColor;
 }
 // モデル用のピクセルシェーダーのエントリーポイント
 float4 PSMain(SPSIn psIn) : SV_Target0

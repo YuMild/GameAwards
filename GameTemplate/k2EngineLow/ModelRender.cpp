@@ -36,19 +36,29 @@ namespace nsK2EngineLow {
 		g_renderingEngine.AddRenderObject(this);
 	}
 	void ModelRender::Init(const char* filePath,
-		bool shadowRecieve,
 		AnimationClip* animationClips,
 		int numAnimationClips,
 		EnModelUpAxis enModelUpAxis)
 	{
 		ModelInitData initData;
-		//シェーダーファイルのファイルパス。
-		initData.m_fxFilePath = "Assets/shader/model.fx";
-
-
+		if (m_modelRenderID.dithering==en_normal)
+		{
+			//シェーダーファイルのファイルパス。
+			initData.m_fxFilePath = "Assets/shader/model.fx";
+		}
+		else if (m_modelRenderID.dithering==en_dithering)
+		{
+			initData.m_fxFilePath = "Assets/shader/DitheringShader.fx";
+		}
+		else if(m_modelRenderID.dithering==en_pixeldithering)
+		{
+			initData.m_fxFilePath = "Assets/shader/PixelDithering.fx";
+		}
+		
+		
 		//モデルの定数バッファ用の情報をモデルの初期化情報として渡す。
-		initData.m_expandConstantBuffer = &g_renderingEngine.GetModelRenderCB();
-		initData.m_expandConstantBufferSize = sizeof(g_renderingEngine.GetModelRenderCB());
+		initData.m_expandConstantBuffer = &m_modelCB;
+		initData.m_expandConstantBufferSize = sizeof(m_modelCB);
 		if (animationClips == nullptr)
 		{
 			//ノンスキンメッシュ用の頂点シェーダーのエントリーポイントを指定する。
@@ -64,7 +74,7 @@ namespace nsK2EngineLow {
 			InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
 		}
 
-		if (shadowRecieve) {
+		if (m_modelRenderID.recieveShadow) {
 			initData.m_psEntryPointFunc = "PSMainShadowReciever";
 			m_isShadowCaster = false;
 		}

@@ -77,7 +77,7 @@ namespace nsK2EngineLow {
 		/// </summary>
 		/// <param name="scale">サイズ。</param>
 		/// <param name="resitutation">反発力。</param>
-		void InitBoxCollider(const LevelObjectData& objData,float const& restitution=0.3f);
+		void InitBoxCollider(const LevelObjectData& objData,float const& restitution=0.0f);
 		/// <summary>
 		/// boxColliderを廃棄する。
 		/// </summary>
@@ -105,11 +105,6 @@ namespace nsK2EngineLow {
 		TklFile m_tklFile;													//Tklファイル。
 		std::unique_ptr<BoxObjectData>	m_boxobject;
 		std::vector<std::unique_ptr<PhysicsStaticBox>> m_collider;
-
-		BoxObjectData objectData;
-
-		
-		int number = -1;
 
 		};
 

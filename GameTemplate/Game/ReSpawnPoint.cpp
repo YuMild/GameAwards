@@ -21,7 +21,7 @@ bool ReSpawnPoint::Start()
 
 	m_rockOn->AddRockOnObject(this);
 
-	m_modelRender.Init("Assets/modelData/Stage_0/RespawnPoint.tkm", false);
+	m_modelRender.Init("Assets/modelData/Stage_0/RespawnPoint.tkm");
 	m_modelRender.SetPosition(m_position.x, m_position.y, m_position.z);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);

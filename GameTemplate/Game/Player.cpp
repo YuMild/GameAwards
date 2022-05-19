@@ -31,7 +31,7 @@ bool Player::Start()
     m_reSpawnPosition = PLAYER_FIRST_POSITION;
     m_position = PLAYER_FIRST_POSITION;
     //‹…Œ`‚Ìƒ‚ƒfƒ‹‚ğ“Ç‚İ‚ŞB
-    m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm",false);
+    m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 

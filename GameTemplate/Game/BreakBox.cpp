@@ -23,7 +23,7 @@ bool BreakBox::Start()
 
 	EffectEngine::GetInstance()->ResistEffect(4, u"Assets/Effect/Selfmade/BrokenExplosion.efk");
 
-	m_modelRender.Init("Assets/modelData/Stage_0/BreakBox.tkm",false);
+	m_modelRender.Init("Assets/modelData/Stage_0/BreakBox.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);

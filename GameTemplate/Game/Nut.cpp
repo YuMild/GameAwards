@@ -13,7 +13,7 @@ Nut::~Nut()
 
 bool Nut::Start()
 {
-	m_modelRender.Init("Assets/modelData/Stage_0/Nut.tkm",false);
+	m_modelRender.Init("Assets/modelData/Stage_0/Nut.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);

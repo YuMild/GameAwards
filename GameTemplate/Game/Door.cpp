@@ -24,7 +24,7 @@ bool Door::Start()
 	m_open[enAnimationClip_Open].SetLoopFlag(false);
 	m_open[enAnimationClip_Idle].SetLoopFlag(false);
 
-	m_modelRender.Init("Assets/modelData/Stage_0/Door.tkm", true, m_open,enAnimationClip_Num);
+	m_modelRender.Init("Assets/modelData/Stage_0/Door.tkm", m_open,enAnimationClip_Num);
 
 	m_modelRender.SetPosition(m_position.x, m_position.y - 800.0f, m_position.z);
 	m_modelRender.SetScale(m_scale * 1.3f);

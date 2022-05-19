@@ -1,11 +1,22 @@
 ﻿#pragma once
 #include "RenderingEngine.h"
 namespace nsK2EngineLow {
+	enum Dithering
+	{
+		en_normal,
+		en_dithering,
+		en_pixeldithering
+	};
+	struct ModelRenderInitData
+	{
+		Dithering dithering = en_normal;
+		bool recieveShadow = false;
+	};
 	class ModelRender : public IRenderer
 	{
 
 
-
+		
 
 	public:
 		ModelRender();
@@ -16,15 +27,25 @@ namespace nsK2EngineLow {
 		/// 初期化処理。
 		/// </summary>
 		/// <param name="filePath">ファイルパス</param>
-		/// <param name="shadowRecieve">影の影響を受けるかどうか　trueだと受ける。ほぼ投影シャドウなので影を落とす物体は影を受けることはできない。</param>
 		/// <param name="animationClips">アニメーションクリップ</param>
-		/// <param name="numAnimationClips">アニメーションクリップの数</param>
+		/// <param name="numAnimationClips">アニメーションの数</param>
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
-			bool shadowRecieve,
 			AnimationClip* animationClips=nullptr,
 			int numAnimationClips=0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
+		void SetDithering(Dithering dt)
+		{
+			m_modelRenderID.dithering = dt;
+		}
+		void SetRecieveShadow(bool shadow)
+		{
+			m_modelRenderID.recieveShadow = shadow;
+		}
+		void SetModelRenderInitData(ModelRenderInitData modelRenderID)
+		{
+			m_modelRenderID = modelRenderID;
+		}
 		/// <summary>
 		/// 描画処理。
 		/// </summary>
@@ -156,9 +177,9 @@ namespace nsK2EngineLow {
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
 		bool					m_isShadowCaster = true;
 
-		RenderingEngine::ModelRenderCB* m_modelCB;
+		ModelRenderCB& m_modelCB = g_renderingEngine.GetModelRenderCB();
 
-		
+		ModelRenderInitData m_modelRenderID;
 
 		//bool offScreenRendaring = false;
 		

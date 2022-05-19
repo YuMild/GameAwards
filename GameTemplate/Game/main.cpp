@@ -26,21 +26,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	NewGO<First>(0, "first");
 
-	//step-2 ポストエフェクト実行用のスプライトを初期化する。
-	//スプライトの初期化オブジェクトを作成する。
-	SpriteInitData spriteInitData;
-	//【重要！！！】テクスチャはオフスクリーンレンダリングされた絵。
-	spriteInitData.m_textures[0] = &g_postEffect.mainRenderTarget.GetRenderTargetTexture();
-	//【重要！！！】全画面描画なのでスプライトのサイズはフレームバッファと同じにする。
-	spriteInitData.m_width = 1600;
-	spriteInitData.m_height = 900;
-	//【重要！！！】モノクロ用のシェーダーを指定する。
-	spriteInitData.m_fxFilePath = "Assets/shader/monochrome.fx";
-	//初期化オブジェクトを使って、スプライトを初期化する。
-	Sprite monochromeSprite;
-	monochromeSprite.Init(spriteInitData);
-
-
 	
 	// ここからゲームループ。
 	while (DispatchWindowMessage())

@@ -5,17 +5,16 @@
 
 namespace nsK2EngineLow
 {
+	struct ModelRenderCB
+	{
+	public:
+		Light m_light;          // ライト
+		Matrix mlvp; // ライトビュープロジェクション行列。
+		float DitheringLength=250.0f;
+	};
 	class RenderingEngine :public Noncopyable
 	{
 	public:
-		struct ModelRenderCB
-		{
-		public:
-			Light m_light;          // ライト
-			Matrix mlvp; // ライトビュープロジェクション行列。
-
-		};
-
 		void Init();
 		void AddRenderObject(IRenderer* renderobj)
 		{
@@ -24,7 +23,14 @@ namespace nsK2EngineLow
 
 		void Render2DDraw(RenderContext& rc);
 
-
+		/// <summary>
+		/// ディザリングのクリップ距離。デフォルトでは250.0f
+		/// </summary>
+		/// <param name="n">クリップ距離。</param>
+		void SetDitheringLength(float n)
+		{
+			m_modelRenderCB.DitheringLength = n;
+		}
 
 		void ShadowMapDraw(RenderContext& rc);
 
@@ -50,7 +56,7 @@ namespace nsK2EngineLow
 		RenderTarget m_mainRenderTarget;
 
 	};
-
+	
 	extern RenderingEngine g_renderingEngine;
 
 }
