@@ -66,6 +66,8 @@ bool Game::Start()
 	m_backGroundBGM->SetVolume(0.1f);
 	m_backGroundBGM->Play(true);
 
+	g_renderingEngine.SetDitheringLength(2000.0f);
+
 	return true;
 }
 

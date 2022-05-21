@@ -103,10 +103,10 @@ void GameCamera::Update()
 	//	注視点から視点までのベクトルを正規化する
 	Vector3 toPosDir = m_toCameraPos;
 	toPosDir.Normalize();
-	if (toPosDir.y < -0.25f) {
+	if (toPosDir.y < -0.1f) {
 		m_toCameraPos = toCameraPosOld;									//	カメラが上に向き過ぎるのを防ぐ
 	}
-	else if (toPosDir.y > 0.65f) {
+	else if (toPosDir.y > 0.55f) {
 		m_toCameraPos = toCameraPosOld;									//	カメラが下に向き過ぎるのを防ぐ
 	}
 

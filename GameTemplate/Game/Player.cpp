@@ -132,9 +132,7 @@ void Player::Death()
     m_reSpawn->SetScale(Vector3::One * 3.0f);
     m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
     m_reSpawn->Play();
-    DeleteGO(m_gameCamera);
-    m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
-    g_camera3D->SetPosition(0.0f, 100.0f, 100.0f);
+    g_camera3D->SetPosition(m_position);
     g_camera3D->SetTarget(m_position);
     m_state = 0;
 }
