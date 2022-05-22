@@ -35,6 +35,7 @@ bool Player::Start()
     m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 
+    //エフェクト
     EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
     m_reSpawn = NewGO<EffectEmitter>(2);
     m_reSpawn->Init(2);
@@ -47,6 +48,11 @@ bool Player::Start()
     m_fireImpact->Init(10);
     m_fireImpact->SetScale(Vector3::One * 300.0f);
     m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+
+    //サウンド
+    g_soundEngine->ResistWaveFileBank(8, "Assets/sound/Shot.wav");
+
+    g_soundEngine->ResistWaveFileBank(15, "Assets/sound/ReSpawn.wav");
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -127,11 +133,20 @@ void Player::Death()
     m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
     m_isRockOnFire = false;
     m_scale = 0.0f;
+
+    //エフェクト
     m_reSpawn = NewGO<EffectEmitter>(2);
     m_reSpawn->Init(2);
     m_reSpawn->SetScale(Vector3::One * 3.0f);
     m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
     m_reSpawn->Play();
+
+    //サウンド
+    m_reSpawnSE = NewGO<SoundSource>(15);
+    m_reSpawnSE->Init(15);
+    m_reSpawnSE->SetVolume(0.05f);
+    m_reSpawnSE->Play(false);
+
     g_camera3D->SetPosition(m_position);
     g_camera3D->SetTarget(m_position);
     m_state = 0;
@@ -242,12 +257,21 @@ void Player::NormalMove()
     m_isRockOnFire == false;                                                //ロックオンアタックを無効化
     m_isPress = false;                                                      //ボタンが押されていない
     m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
+
+    //エフェクト
     m_fireImpact = NewGO<EffectEmitter>(10);
     m_fireImpact->Init(10);
     m_fireImpact->SetScale(Vector3::One * 50.0f);
     m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
     m_fireImpact->SetRotation(m_effectRotation);
     m_fireImpact->Play();
+
+    //サウンド
+    m_shotSE = NewGO<SoundSource>(8);
+    m_shotSE->Init(8);
+    m_shotSE->SetVolume(0.1f);
+    m_shotSE->Play(false);
+
     m_moveSpeed = (m_forward * PLAYER_SPEED_DEFAULT) * m_charge;            //前後
     m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
 }
@@ -268,12 +292,21 @@ void Player::RockOnMove()
         m_isRockOnFire = true;                                              //ロックオンアタックを有効化
         m_isPress = false;                                                  //ボタンが押されていない
         m_isPowerCharge = true;
+
+        //エフェクト
         m_fireImpact = NewGO<EffectEmitter>(10);
         m_fireImpact->Init(10);
         m_fireImpact->SetScale(Vector3::One * 50.0f);
         m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
         m_fireImpact->SetRotation(m_effectRotation);
         m_fireImpact->Play();
+
+        //サウンド
+        m_shotSE = NewGO<SoundSource>(8);
+        m_shotSE->Init(8);
+        m_shotSE->SetVolume(0.1f);
+        m_shotSE->Play(false);
+
         m_moveSpeed = (m_target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);//前後 (通常の二倍の速さで射出)
         m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
         m_delay = 0.0f;                                                     //ディレイをリセット

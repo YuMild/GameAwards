@@ -157,40 +157,40 @@ private:
     
     EffectEmitter*      m_reSpawn;
     EffectEmitter*      m_fireImpact;
-    SoundSource*        m_sound;
+    SoundSource*        m_shotSE;
+    SoundSource*        m_reSpawnSE;
 
-    FontRender          m_fontRenderX;              //フォントレンダー
-    FontRender          m_fontRenderY;              //フォントレンダー
-    FontRender          m_fontRenderZ;              //フォントレンダー
-    SpriteRender        m_gaugeRender;              //画像
-    ModelRender         m_modelRender;              //モデルレンダー
-    SphereCollider      m_sphereCollider;           //円型のコライダー
-    Vector3             m_positionDeltaValue;       //1フレームでの座標の変位量
-    Vector3             m_position;                 //ポジション
-    Vector3             m_reSpawnPosition;          //リスポーンポイント
-    Vector3             m_cameraForward;            //カメラの前方向
-    Vector3             m_cameraRight;              //カメラの左右方向
-    Vector3             m_moveSpeed;                //プレイヤーの移動速度
+    FontRender          m_fontRenderX;                  //フォントレンダー
+    FontRender          m_fontRenderY;                  //フォントレンダー
+    FontRender          m_fontRenderZ;                  //フォントレンダー
+    ModelRender         m_modelRender;                  //モデルレンダー
+    SphereCollider      m_sphereCollider;               //円型のコライダー
+    Vector3             m_positionDeltaValue;           //1フレームでの座標の変位量
+    Vector3             m_position;                     //ポジション
+    Vector3             m_reSpawnPosition;              //リスポーンポイント
+    Vector3             m_cameraForward;                //カメラの前方向
+    Vector3             m_cameraRight;                  //カメラの左右方向
+    Vector3             m_moveSpeed;                    //プレイヤーの移動速度
     Vector3             m_rockOnTarget;
     Vector3             m_forward;
     Vector3             m_target;
 
-    Quaternion          m_rotation;                 //回転
-    Quaternion          m_effectRotation;           //エフェクトの回転
+    Quaternion          m_rotation;                     //回転
+    Quaternion          m_effectRotation;               //エフェクトの回転
 
-    bool                m_isEffectStart = true;     //エフェクトを一回だけ再生させる
-    bool                m_isPress = false;          //ボタンが押されているか否かの判定
-    bool                m_isRockOnFire = false;     //ロックオン時に発射されたか否かの判定
-    bool                m_isPowerCharge = true;     //パワーチャージエフェクト
+    bool                m_isEffectStart = true;         //エフェクトを一回だけ再生させる
+    bool                m_isPress = false;              //ボタンが押されているか否かの判定
+    bool                m_isRockOnFire = false;         //ロックオン時に発射されたか否かの判定
+    bool                m_isPowerCharge = true;         //パワーチャージエフェクト
     bool                m_stopNormal = false;
     bool                m_stopRockOn = false;
     bool                m_isPressState = false;
-    int                 m_state;                    //ステート
-    float               m_scale = 0.0f;             //サイズ
-    float               m_charge = 0.0f;            //チャージ
-    float               m_delay = 0.0f;             //ディレイ
+    int                 m_state;                        //ステート
+    float               m_scale = 0.0f;                 //サイズ
+    float               m_charge = 0.0f;                //チャージ
+    float               m_delay = 0.0f;                 //ディレイ
     float               m_stopTimer = 0.0f;
-    float               m_rotCameraRightAngle = 0.0f;       // カメラの右方向を軸とした回転角度。
+    float               m_rotCameraRightAngle = 0.0f;   //カメラの右方向を軸とした回転角度。
    
     Game*               m_game;
     GameCamera*         m_gameCamera;
