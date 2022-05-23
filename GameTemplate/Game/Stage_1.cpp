@@ -137,6 +137,7 @@ Stage_1::~Stage_1()
     {
         DeleteGO(volts[i]);
     }
+    m_levelRender.ReleaseBoxCollider();
 }
 
 bool Stage_1::Start()

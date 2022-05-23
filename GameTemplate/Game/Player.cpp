@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Player.h"
 
+#include "BreakBox.h"
+#include "Bumper.h"
 #include "Game.h"
 #include "GameCamera.h"
 #include "PowerCharge.h"
@@ -26,6 +28,8 @@ namespace
 
 bool Player::Start()
 {
+    m_breakBox = FindGO<BreakBox>("breakBox");
+    m_bumper = FindGO<Bumper>("bumper");
     m_gameCamera = FindGO<GameCamera>("gameCamera");
 
     m_reSpawnPosition = PLAYER_FIRST_POSITION;
@@ -128,6 +132,20 @@ void Player::Render(RenderContext& rc)
 
 void Player::Death()
 {
+    /*const auto& bumpers = FindGOs<Bumper>("bumper");
+    int bumperSize = bumpers.size();
+    for (int i = 0; i < bumperSize; i++)
+    {
+        m_bumper->SetReSetState(true);
+    }
+    
+    const auto& breakBoxs = FindGOs<BreakBox>("breakBox");
+    int breakBoxSize = breakBoxs.size();
+    for (int i = 0; i < breakBoxSize; i++)
+    {
+        breakBoxs[i]->SetReSetState(true);
+    }*/
+
     m_position = m_reSpawnPosition;
     m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
     m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
@@ -256,14 +274,17 @@ void Player::NormalMove()
     m_isPressState = true;
     m_isRockOnFire == false;                                                //ロックオンアタックを無効化
     m_isPress = false;                                                      //ボタンが押されていない
-    m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
 
-    //エフェクト
+    Vector3 effectpos = { m_position.x,m_position.y + 10.0f,m_position.z };
+    Quaternion rot;
+    rot.SetRotationYFromDirectionXZ(g_camera3D->GetForward());
+
+    m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
     m_fireImpact = NewGO<EffectEmitter>(10);
     m_fireImpact->Init(10);
     m_fireImpact->SetScale(Vector3::One * 50.0f);
-    m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
-    m_fireImpact->SetRotation(m_effectRotation);
+    m_fireImpact->SetPosition(effectpos);
+    m_fireImpact->SetRotation(rot);
     m_fireImpact->Play();
 
     //サウンド
@@ -293,12 +314,16 @@ void Player::RockOnMove()
         m_isPress = false;                                                  //ボタンが押されていない
         m_isPowerCharge = true;
 
-        //エフェクト
+        Vector3 effectpos = { m_position.x,m_position.y + 10.0f,m_position.z };
+        Quaternion rot;
+        rot.SetRotationYFromDirectionXZ(g_camera3D->GetForward());
+
+        m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
         m_fireImpact = NewGO<EffectEmitter>(10);
         m_fireImpact->Init(10);
         m_fireImpact->SetScale(Vector3::One * 50.0f);
-        m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
-        m_fireImpact->SetRotation(m_effectRotation);
+        m_fireImpact->SetPosition(effectpos);
+        m_fireImpact->SetRotation(rot);
         m_fireImpact->Play();
 
         //サウンド

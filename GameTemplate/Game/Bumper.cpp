@@ -39,6 +39,11 @@ void Bumper::Update()
 {
 	m_modelRender.Update();
 	Hit();
+
+	if (m_reSetState == true)
+	{
+		ReSet();
+	}
 }
 
 void Bumper::Render(RenderContext& rc)
@@ -76,4 +81,13 @@ void Bumper::Hit()
 		m_ghostCollider.Release();
 		m_isHit = false;
 	}
+}
+
+void Bumper::ReSet()
+{
+	m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 0.05f);
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 220.0f,220.0f,220.0f });
+	m_state = 0;
+	m_reSetState = false;
+	m_aliveTime = 0.0f;
 }

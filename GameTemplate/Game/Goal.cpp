@@ -38,10 +38,13 @@ void Goal::Update()
 {
 	m_modelRender.Update();
 	Hit();
+	Length();
 }
 
 void Goal::Render(RenderContext& rc)
 {
+	m_fontRender.Draw(rc);
+
 	if (m_state != 1)
 	{
 		m_modelRender.Draw(rc);
@@ -63,4 +66,14 @@ void Goal::Hit()
 	{
 		m_game->SetGameState(2);
 	}
+}
+
+void Goal::Length()
+{
+	m_length = m_player->GetPosition() - m_position;
+
+	wchar_t x[256];
+	swprintf_s(x, 256, L"Length=%f", m_length.Length());
+	m_fontRender.SetText(x);
+	m_fontRender.SetPosition({ -500.0f, 200.0f,0.0f });
 }

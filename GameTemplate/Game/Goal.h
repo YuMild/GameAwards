@@ -53,15 +53,22 @@ public:
 private:
 
 	/// <summary>
+	/// ƒS[ƒ‹‚Ü‚Å‚Ì‹——£‚ğ”»’èB
+	/// </summary>
+	void Length();
+
+	/// <summary>
 	/// “–‚½‚è”»’è‚ÌŠÇ—B
 	/// </summary>
 	void Hit();
 
+	FontRender						m_fontRender;
 	ModelRender						m_modelRender;
 	PhysicsGhostObject				m_ghostCollider;
 
 	Vector3							m_position;
 	Vector3							m_scale;
+	Vector3							m_length;
 	Quaternion						m_rotation;
 
 	Game*							m_game;

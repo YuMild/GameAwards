@@ -37,7 +37,13 @@ public:
 
 private:
 
+	enum EnAnimationClip {
+		enAnimationClip_Rot,
+		enAnimationClip_Num
+	};
+
 	ModelRender						m_modelRender;
+	AnimationClip					m_animation[enAnimationClip_Num];
 	Vector3							m_position;
 	Vector3							m_scale;
 	Quaternion						m_rotation;

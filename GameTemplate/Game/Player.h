@@ -1,5 +1,7 @@
 #pragma once
 
+class BreakBox;
+class Bumper;
 class Game;
 class GameCamera;
 class PowerCharge;
@@ -192,6 +194,8 @@ private:
     float               m_stopTimer = 0.0f;
     float               m_rotCameraRightAngle = 0.0f;   //カメラの右方向を軸とした回転角度。
    
+    BreakBox*           m_breakBox;
+    Bumper*             m_bumper;
     Game*               m_game;
     GameCamera*         m_gameCamera;
     PowerCharge*        m_powerCharge;
