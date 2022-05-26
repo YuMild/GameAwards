@@ -22,7 +22,7 @@ bool BreakBox::Start()
 	m_rockOn->AddRockOnObject(this);
 
 	EffectEngine::GetInstance()->ResistEffect(4, u"Assets/Effect/Selfmade/BrokenExplosion.efk");
-
+	m_modelRender.SetDithering(en_dithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/BreakBox.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
@@ -41,11 +41,6 @@ void BreakBox::Update()
 {
 	m_modelRender.Update();
 	Hit();
-
-	if (m_reSetState == true)
-	{
-		ReSet();
-	}
 }
 
 void BreakBox::Render(RenderContext& rc)
@@ -89,13 +84,4 @@ void BreakBox::Hit()
 		m_ghostCollider.Release();
 		m_isHit = false;
 	}
-}
-
-void BreakBox::ReSet()
-{
-	m_boxCollider.BoxInit({ 200.0f,200.0f,200.0f }, m_position, 0.05f);
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 220.0f,220.0f,220.0f });
-	m_state = 0;
-	m_reSetState = false;
-	m_aliveTime = 0.0f;
 }

@@ -13,6 +13,7 @@ Pipe::~Pipe()
 
 bool Pipe::Start()
 {
+	m_modelRender.SetDithering(en_pixeldithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/Pipe.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);

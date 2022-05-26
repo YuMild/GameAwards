@@ -16,7 +16,7 @@ bool Engine::Start()
 	m_animation[enAnimationClip_Rot].Load("Assets/animData/Engine_Rotation.tka");
 	m_animation[enAnimationClip_Rot].SetLoopFlag(true);
 
-	m_modelRender.Init("Assets/modelData/Stage_0/Engine.tkm");
+	m_modelRender.Init("Assets/modelData/Stage_0/Engine.tkm",m_animation,enAnimationClip_Num);
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);

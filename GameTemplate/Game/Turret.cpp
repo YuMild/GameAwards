@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Turret.h"
 
 #include "Player.h"
@@ -25,7 +25,7 @@ bool Turret::Start()
 {
 	m_rockOn = FindGO<RockOn>("rockOn");
 	m_player = FindGO <Player>("player");
-
+	m_modelRender.SetDithering(en_dithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/Turret.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
@@ -71,9 +71,9 @@ void Turret::Hit()
 			m_chargeEffectCoolTime = true;
 		}
 
-		if (m_coolTime >= COOL_TIME)													//ƒN[ƒ‹ƒ^ƒCƒ€‚ªI‚í‚Á‚½‚ç
+		if (m_coolTime >= COOL_TIME)													//ã‚¯ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ ãŒçµ‚ã‚ã£ãŸã‚‰
 		{
-			if (m_beamEffectCoolTime == false)												//ƒGƒtƒFƒNƒg‚ğÄ¶
+			if (m_beamEffectCoolTime == false)												//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿ
 			{
 				m_beam = NewGO<EffectEmitter>(5);
 				m_beam->Init(5);
@@ -83,7 +83,7 @@ void Turret::Hit()
 				m_beam->Play();
 				m_beamEffectCoolTime = true;
 			}
-			m_beamCollider.CreateBox(m_position, m_rotation, { 3000.0f,300.0f,50.0f });	//“–‚½‚è”»’è‚ğ¶¬
+			m_beamCollider.CreateBox(m_position, m_rotation, { 3000.0f,300.0f,50.0f });	//å½“ãŸã‚Šåˆ¤å®šã‚’ç”Ÿæˆ
 			m_state = 1;
 			m_aliveTime += g_gameTime->GetFrameDeltaTime();
 		}
@@ -98,17 +98,16 @@ void Turret::Hit()
 		m_coolTime = 0.0f;
 		m_aliveTime = 0.0f;
 	}
-
-	//ƒLƒƒƒ‰ƒNƒ^ƒRƒ“ƒgƒ[ƒ‰[‚ÆƒS[ƒXƒgƒIƒuƒWƒFƒNƒg‚Ì‚ ‚½‚è”»’è‚ğs‚¤B
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã¨ã‚´ãƒ¼ã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚ãŸã‚Šåˆ¤å®šã‚’è¡Œã†ã€‚
 	PhysicsWorld::GetInstance()->ContactTest(m_player->m_rigidBody, [&](const btCollisionObject& contactObject) {
 		if (m_beamCollider.IsSelf(contactObject) == true) {
-			//m_physicsGhostObject‚Æ‚Ô‚Â‚©‚Á‚½B
-			//ƒtƒ‰ƒO‚ğtrue‚É‚·‚éB
+			//m_physicsGhostObjectã¨ã¶ã¤ã‹ã£ãŸã€‚
+			//ãƒ•ãƒ©ã‚°ã‚’trueã«ã™ã‚‹ã€‚
 			m_isHit = true;
 		}
 		});
 
-	if (m_isHit == true)					//ƒr[ƒ€‚ªƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½‚ç
+	if (m_isHit == true)					//ãƒ“ãƒ¼ãƒ ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å½“ãŸã£ãŸã‚‰
 	{
 		m_player->SetState(1);
 		m_isHit = false;

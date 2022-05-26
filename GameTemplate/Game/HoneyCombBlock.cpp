@@ -13,6 +13,7 @@ HoneyCombBlock::~HoneyCombBlock()
 
 bool HoneyCombBlock::Start()
 {
+	m_modelRender.SetDithering(en_dithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/HoneyCombBlock.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);

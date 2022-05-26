@@ -23,7 +23,7 @@ bool SpeedUpRail::Start()
 	m_rockOn = FindGO<RockOn>("rockOn");
 
 	m_rockOn->AddRockOnObject(this);
-
+	m_modelRender.SetDithering(en_dithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/SpeedUpRail.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
@@ -52,11 +52,9 @@ void SpeedUpRail::Render(RenderContext& rc)
 {
 	if (m_coolTime <= 1.0f)
 	{
-#ifdef K2_DEBUG
 		m_fontRender.Draw(rc);
-#endif
 	}
-	
+
 	m_modelRender.Draw(rc);
 }
 

@@ -6,7 +6,6 @@
 #include "First.h"
 #include "GameCamera.h"
 #include "GameLight.h"
-#include "Length.h"
 #include "Player.h"
 #include "PowerCharge.h"
 #include "RockOn.h"
@@ -44,7 +43,6 @@ Game::~Game()
 	DeleteGO(m_chargeShot);
 	DeleteGO(m_gameCamera);
 	DeleteGO(m_gameLight);
-	DeleteGO(m_length);
 	DeleteGO(m_player);
 	DeleteGO(m_stage_1);
 	DeleteGO(m_timeLimit);
@@ -55,7 +53,6 @@ bool Game::Start()
 	m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 	m_gameLight = NewGO<GameLight>(0, "gameLight");
-	m_length = NewGO<Length>(0, "length");
 	m_player = NewGO<Player>(0, "player");
 	m_rockOn = NewGO<RockOn>(0, "rockOn");
 	m_stage_1 = NewGO<Stage_1>(0, "stage_1");
@@ -69,7 +66,7 @@ bool Game::Start()
 	m_backGroundBGM->SetVolume(0.1f);
 	m_backGroundBGM->Play(true);
 
-	g_renderingEngine.SetDitheringLength(2000.0f);
+	g_renderingEngine.SetDitheringLength(1500.0f);
 
 	return true;
 }
