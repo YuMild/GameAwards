@@ -24,11 +24,18 @@ bool TimeLimit::Start()
 
     m_limitTimer = SET_TIMELIMIT;
 
+    m_2dAnimation.Init("Assets/sprite/ChargeAnimation/", 340.0f, 340.0f, 29);
+    m_2dAnimation.SetLoopFlag(true);
+    m_2dAnimation.SetDrawSpeed(2);
+    m_2dAnimation.Play();
+
     return true;
 }
 
 void TimeLimit::Update()
 {
+    m_2dAnimation.Update();
+
     m_limitTimer -= g_gameTime->GetFrameDeltaTime();
 
     if (m_limitTimer <= 0)
@@ -44,6 +51,8 @@ void TimeLimit::Update()
 
 void TimeLimit::Render(RenderContext& rc)
 {
+    m_2dAnimation.Draw(rc);
+
 #ifdef K2_DEBUG
     m_fontRender.Draw(rc);
 #endif

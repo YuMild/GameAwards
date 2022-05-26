@@ -29,7 +29,7 @@ bool PowerCharge::Start()
     m_powerChargeSE->Init(2);
     m_powerChargeSE->SetVolume(0.1f);
     m_powerChargeSE->Play(false);
-
+  
     return true;
 }
 

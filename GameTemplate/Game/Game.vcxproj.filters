@@ -137,6 +137,9 @@
     <ClCompile Include="Window.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Stage_1_Wall.cpp">
+      <Filter>Stage\Stage_1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_1_Wall.h">
+      <Filter>Stage\Stage_1</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

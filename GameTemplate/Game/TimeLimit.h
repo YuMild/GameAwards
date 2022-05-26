@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SerialNumberSpriteRender.h>
+
 class Game;
 
 class TimeLimit : public IGameObject
@@ -18,6 +20,8 @@ public:
 	}
 
 private:
+
+	SerialNumberSpriteRender	m_2dAnimation;
 
 	FontRender	m_fontRender;
 

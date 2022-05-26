@@ -1,4 +1,5 @@
 #pragma once
+
 class Player;
 
 /// <summary>
@@ -15,10 +16,11 @@ public:
 
 private:
 
-	Vector3				m_position;
-	EffectEmitter*		m_powerCharge;
-	SoundSource*		m_powerChargeSE;
-	Player*				m_player;
+	Vector3						m_position;
 
-	float				m_aliveTimer = 0.0f;
+	EffectEmitter*				m_powerCharge;
+	SoundSource*				m_powerChargeSE;
+	Player*						m_player;
+
+	float						m_aliveTimer = 0.0f;
 };

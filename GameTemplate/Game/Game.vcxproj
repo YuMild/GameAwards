@@ -255,6 +255,7 @@
     <ClCompile Include="Stage_1.cpp" />
     <ClCompile Include="First.cpp" />
     <ClCompile Include="Stage_1_Stage.cpp" />
+    <ClCompile Include="Stage_1_Wall.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -300,6 +301,7 @@
     <ClInclude Include="Stage_1.h" />
     <ClInclude Include="First.h" />
     <ClInclude Include="Stage_1_Stage.h" />
+    <ClInclude Include="Stage_1_Wall.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TimeLimit.h" />

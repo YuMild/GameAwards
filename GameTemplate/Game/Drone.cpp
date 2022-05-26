@@ -25,7 +25,7 @@ bool Drone::Start()
 	m_modelRender.SetDithering(en_dithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/Drone.tkm");
 	m_modelRender.SetPosition(m_position);
-	m_modelRender.SetScale(m_scale * 0.5);
+	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 

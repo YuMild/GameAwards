@@ -18,6 +18,7 @@
 #include "SignBoard.h"
 #include "SpeedUpRail.h"
 #include "Stage_1_Stage.h"
+#include "Stage_1_Wall.h"
 #include "Truck.h"
 #include "Turret.h"
 #include "Volt.h"
@@ -29,6 +30,9 @@ Stage_1::Stage_1()
 
 Stage_1::~Stage_1()
 {
+    DeleteGO(m_stage_1_Stage);
+    DeleteGO(m_stage_1_Wall);
+
     const auto& breakBoxs = FindGOs<BreakBox>("breakBox");
     int breakBoxSize = breakBoxs.size();
     for (int i = 0; i < breakBoxSize; i++)
@@ -145,12 +149,20 @@ bool Stage_1::Start()
     m_levelRender.Init("Assets/modelData/Stage_0/Stage_1.tkl",
         [&](LevelObjectData& objData)
         {
-            if (objData.EqualObjectName(L"Stage_1") == true)
+            if (objData.EqualObjectName(L"Stage_1_ground") == true)
             {
                 m_stage_1_Stage = NewGO<Stage_1_Stage>(0, "stage_1_Stage");         //生成する。
                 m_stage_1_Stage->SetPosition(objData.position);                     //座標を設定する。
                 m_stage_1_Stage->SetScale(objData.scale);                           //サイズを設定する。
                 m_stage_1_Stage->SetRotation(objData.rotation);                     //回転を設定する。
+                return true;
+            }
+            if (objData.EqualObjectName(L"Stage_1_wall") == true)
+            {
+                m_stage_1_Wall = NewGO<Stage_1_Wall>(0, "stage_1_Wall");         //生成する。
+                m_stage_1_Wall->SetPosition(objData.position);                     //座標を設定する。
+                m_stage_1_Wall->SetScale(objData.scale);                           //サイズを設定する。
+                m_stage_1_Wall->SetRotation(objData.rotation);                     //回転を設定する。
                 return true;
             }
             else if (objData.ForwardMatchName(L"box") == true)

@@ -200,11 +200,11 @@ float3 CalcPhongSpecular(float3 lightDirection, float3 lightColor, float3 worldP
     float t = dot(refVec, toEye);
 
     // 鏡面反射の強さを0以上の数値にする
-    t = max(0.0f, t);
+    t = max(0.0f, t) ;
 
     // 鏡面反射の強さを絞る
-    t = pow(t, 5.0f);
-
+    t = pow(t, 5.0f) * 5.5f;
+ 
     // 鏡面反射光を求める
     return lightColor * t;
 }
@@ -216,14 +216,17 @@ float3 CalcLigFromDirectionLight(SPSIn psIn)
 {
     // ディレクションライトによるLambert拡散反射光を計算する
     float3 diffDirection = CalcLambertDiffuse(directionLight.direction, directionLight.color, psIn.normal);
-
+    float3 dir = directionLight.direction;
+    dir.xz *= -1.0f;
+    diffDirection += CalcLambertDiffuse(dir, directionLight.color, psIn.normal);
     // ディレクションライトによるPhong鏡面反射光を計算する
     float3 specDirection = CalcPhongSpecular(directionLight.direction, directionLight.color, psIn.worldPos, psIn.normal);
+    specDirection += CalcPhongSpecular(dir, directionLight.color, psIn.worldPos, psIn.normal);
     
     //ディレクションライトによるリムライトを計算する。
-    float3 rimDirection = CalcRimLight(psIn, directionLight.direction, directionLight.color);
+   //  float3 rimDirection = CalcRimLight(psIn, directionLight.direction, directionLight.color);
     
-    return diffDirection + specDirection +rimDirection;
+    return diffDirection + specDirection ;
 }
 /// <summary>
 /// ポイントライトによる反射光を計算

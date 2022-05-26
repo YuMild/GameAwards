@@ -9,6 +9,7 @@ class JumpBoard;
 class Nut;
 class Player;
 class Stage_1_Stage;
+class Stage_1_Wall;
 
 class Stage_1 : public IGameObject
 {
@@ -25,4 +26,5 @@ private:
 
 	//インスタンス
 	Stage_1_Stage*				m_stage_1_Stage;
+	Stage_1_Wall*				m_stage_1_Wall;
 };
