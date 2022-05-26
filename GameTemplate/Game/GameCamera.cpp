@@ -52,7 +52,9 @@ bool GameCamera::Start()
 
 void GameCamera::Render(RenderContext& rc)
 {
+#ifdef K2_DEBUG
 	m_fontRender.Draw(rc);
+#endif
 }
 
 void GameCamera::NotifyStartDash()

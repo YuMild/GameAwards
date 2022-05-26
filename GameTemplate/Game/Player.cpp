@@ -124,10 +124,11 @@ void Player::Render(RenderContext& rc)
 {
     //ƒ‚ƒfƒ‹‚Ì•`‰æB
     m_modelRender.Draw(rc);
-
+#ifdef K2_DEBUG
     m_fontRenderX.Draw(rc);
     m_fontRenderY.Draw(rc);
     m_fontRenderZ.Draw(rc);
+#endif
 }
 
 void Player::Death()

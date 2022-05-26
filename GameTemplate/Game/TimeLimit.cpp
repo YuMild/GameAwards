@@ -5,7 +5,7 @@
 
 namespace
 {
-    float SET_TIMELIMIT = 1000.0f;
+    float SET_TIMELIMIT = 200.0f;
 }
 
 TimeLimit::TimeLimit()
@@ -44,5 +44,7 @@ void TimeLimit::Update()
 
 void TimeLimit::Render(RenderContext& rc)
 {
+#ifdef K2_DEBUG
     m_fontRender.Draw(rc);
+#endif
 }

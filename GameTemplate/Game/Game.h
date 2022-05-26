@@ -2,9 +2,10 @@
 
 class Bound;
 class ChargeShot;
+class First;
 class GameCamera;
 class GameLight;
-class First;
+class Length;
 class Player;
 class PowerCharge;
 class RockOn;
@@ -46,9 +47,10 @@ private:
 	SoundSource*			m_backGroundBGM;
 	Bound*					m_bound;
 	ChargeShot*				m_chargeShot;
+	First*					m_first;
 	GameCamera*				m_gameCamera;
 	GameLight*				m_gameLight;
-	First*					m_first;
+	Length*					m_length;
 	Player*					m_player;
 	PowerCharge*			m_powerCharge;
 	RockOn*					m_rockOn;

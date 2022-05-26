@@ -17,6 +17,11 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
+	float GetLength()
+	{
+		return m_length.Length();
+	}
+
 	/// <summary>
 	/// À•W‚ğİ’èB
 	/// </summary>

@@ -43,7 +43,9 @@ void Goal::Update()
 
 void Goal::Render(RenderContext& rc)
 {
+#ifdef K2_DEBUG
 	m_fontRender.Draw(rc);
+#endif
 
 	if (m_state != 1)
 	{

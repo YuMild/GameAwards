@@ -25,7 +25,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_renderingEngine.Init();
 	
 	NewGO<First>(0, "first");
-
 	
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
@@ -38,12 +37,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// ゲームオブジェクトマネージャーの更新処理を呼び出す。
 		g_k2EngineLow->ExecuteUpdate();
 
-		
-
 		g_renderingEngine.Execute(renderContext);
 
 		EffectEngine::GetInstance()->Draw();
-		
 		
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();

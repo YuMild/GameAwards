@@ -227,6 +227,7 @@
     <ClCompile Include="BreakBox.cpp" />
     <ClCompile Include="Bumper.cpp" />
     <ClCompile Include="ChargeShot.cpp" />
+    <ClCompile Include="Clear.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Drone.cpp" />
     <ClCompile Include="Duct.cpp" />
@@ -234,10 +235,12 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="HoneyCombBlock.cpp" />
     <ClCompile Include="JumpBoard.cpp" />
     <ClCompile Include="GameLight.cpp" />
+    <ClCompile Include="Length.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nut.cpp" />
     <ClCompile Include="Pipe.cpp" />
@@ -263,12 +266,14 @@
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Volt.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bound.h" />
     <ClInclude Include="BreakBox.h" />
     <ClInclude Include="Bumper.h" />
     <ClInclude Include="ChargeShot.h" />
+    <ClInclude Include="Clear.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Drone.h" />
     <ClInclude Include="Duct.h" />
@@ -276,10 +281,12 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="HoneyCombBlock.h" />
     <ClInclude Include="JumpBoard.h" />
     <ClInclude Include="GameLight.h" />
+    <ClInclude Include="Length.h" />
     <ClInclude Include="Nut.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Player.h" />
@@ -300,6 +307,7 @@
     <ClInclude Include="Truck.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Volt.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
