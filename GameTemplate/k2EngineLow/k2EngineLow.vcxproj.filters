@@ -248,6 +248,9 @@
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="PhysicsStaticBox.cpp" />
     <ClCompile Include="SerialNumberSpriteRender.cpp" />
+    <ClCompile Include="HID\GamePadVIbration.cpp">
+      <Filter>HID</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -546,6 +549,9 @@
     <ClInclude Include="PhysicsStaticBox.h" />
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="SerialNumberSpriteRender.h" />
+    <ClInclude Include="HID\GamePadVibration.h">
+      <Filter>HID</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">

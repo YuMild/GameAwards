@@ -294,6 +294,9 @@ void Player::NormalMove()
     m_shotSE->SetVolume(0.1f);
     m_shotSE->Play(false);
 
+    //バイブレーション
+    g_pad[0]->SetVibration(0.2f, 0.05f);
+
     m_moveSpeed = (m_forward * PLAYER_SPEED_DEFAULT) * m_charge;            //前後
     m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
 }
@@ -332,6 +335,8 @@ void Player::RockOnMove()
         m_shotSE->Init(8);
         m_shotSE->SetVolume(0.1f);
         m_shotSE->Play(false);
+
+        g_pad[0]->SetVibration(0.2f, 0.05f);
 
         m_moveSpeed = (m_target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);//前後 (通常の二倍の速さで射出)
         m_charge = CHARGE_DEFAULT;                                          //チャージをリセット

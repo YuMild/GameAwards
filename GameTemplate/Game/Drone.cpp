@@ -83,5 +83,7 @@ void Drone::Hit()
 		m_boxCollider.RemoveRigidBoby();
 		m_ghostCollider.Release();
 		m_isHit = false;
+
+		g_pad[0]->SetVibration(0.5f, 0.5f);
 	}
 }

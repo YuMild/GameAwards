@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "HID/GamePadVibration.h"
+#include <HID/GamePadVibration.h>
 
 namespace nsK2EngineLow {	
 	/// <summary>

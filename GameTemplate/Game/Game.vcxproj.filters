@@ -19,11 +19,11 @@
     <Filter Include="Stage\Parts">
       <UniqueIdentifier>{a15a7260-2d6c-4a62-aea3-db5fdd25d9d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Stage\Stage_0">
-      <UniqueIdentifier>{6ac483c1-00fc-4041-a5ce-f139a19f550e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Windows">
       <UniqueIdentifier>{d0b9c04a-7030-486b-bb60-bd9b85c6c4c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\Stage_1">
+      <UniqueIdentifier>{6ac483c1-00fc-4041-a5ce-f139a19f550e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +49,7 @@
       <Filter>Stage\Parts</Filter>
     </ClCompile>
     <ClCompile Include="Stage_1.cpp">
-      <Filter>Stage\Stage_0</Filter>
+      <Filter>Stage\Stage_1</Filter>
     </ClCompile>
     <ClCompile Include="Bumper.cpp">
       <Filter>Stage\Parts</Filter>
@@ -105,7 +105,7 @@
       <Filter>Stage\Parts</Filter>
     </ClCompile>
     <ClCompile Include="Stage_1_Stage.cpp">
-      <Filter>Stage\Stage_0</Filter>
+      <Filter>Stage\Stage_1</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
       <Filter>Stage\Parts</Filter>
@@ -158,7 +158,7 @@
       <Filter>Stage\Parts</Filter>
     </ClInclude>
     <ClInclude Include="Stage_1.h">
-      <Filter>Stage\Stage_0</Filter>
+      <Filter>Stage\Stage_1</Filter>
     </ClInclude>
     <ClInclude Include="Bumper.h">
       <Filter>Stage\Parts</Filter>
@@ -214,7 +214,7 @@
       <Filter>Stage\Parts</Filter>
     </ClInclude>
     <ClInclude Include="Stage_1_Stage.h">
-      <Filter>Stage\Stage_0</Filter>
+      <Filter>Stage\Stage_1</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
       <Filter>Stage\Parts</Filter>

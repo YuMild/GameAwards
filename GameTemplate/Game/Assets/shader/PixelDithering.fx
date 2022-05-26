@@ -452,7 +452,7 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     // 下記のコードは、視点とクリップ範囲の距離が100以下になると、
     // 線形にclipRateの1に近づいていき、eyeToClipRangeが0になると、
     // clipRateが1になる計算になっている
-    float clipRate = 1.0f - min(1.0f, eyeToClipRange / 100.0f);
+    float clipRate = 0.5f - min(1.0f, eyeToClipRange / 100.0f);
 
     // step-5 clipRateを利用してピクセルキルを行う
     // tの値は0～1の値をとる。tが0ならどのピクセルもクリップされない
