@@ -13,6 +13,7 @@ class SonicBoom;
 class Stage_1;
 class Title;
 class TimeLimit;
+class Window;
 
 class Game : public IGameObject
 {
@@ -57,6 +58,7 @@ private:
 	SonicBoom*				m_sonicBoom;
 	Stage_1*				m_stage_1;
 	TimeLimit*				m_timeLimit;
+	Window*					m_window;
 
 	int						m_state;
 };

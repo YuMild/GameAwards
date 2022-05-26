@@ -11,6 +11,7 @@
 #include "RockOn.h"
 #include "Stage_1.h"
 #include "TimeLimit.h"
+#include "Window.h"
 
 Game::Game()
 {
@@ -46,6 +47,7 @@ Game::~Game()
 	DeleteGO(m_player);
 	DeleteGO(m_stage_1);
 	DeleteGO(m_timeLimit);
+	DeleteGO(m_window);
 }
 
 bool Game::Start()
@@ -57,6 +59,7 @@ bool Game::Start()
 	m_rockOn = NewGO<RockOn>(0, "rockOn");
 	m_stage_1 = NewGO<Stage_1>(0, "stage_1");
 	m_timeLimit = NewGO<TimeLimit>(0, "timeLimit");
+	m_window = NewGO<Window>(0, "window");
 
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 

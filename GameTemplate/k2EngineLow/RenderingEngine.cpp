@@ -7,13 +7,11 @@ namespace nsK2EngineLow
 	void RenderingEngine::Render2DDraw(RenderContext& rc)
 	{
 		for (auto& renderObj : m_renderobject) {
-			renderObj->OnRenderFont2D(rc);
-		}
-		for (auto& renderObj : m_renderobject) {
 			renderObj->OnRenderSprite2D(rc);
 		}
-
-
+		for (auto& renderObj : m_renderobject) {
+			renderObj->OnRenderFont2D(rc);
+		}
 	}
 
 	void RenderingEngine::ShadowMapDraw(RenderContext& rc)

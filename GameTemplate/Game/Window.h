@@ -1,9 +1,7 @@
 #pragma once
 
-class Player;
-
 /// <summary>
-/// ゲーム画面の青いライン
+/// チャージゲージ
 /// </summary>
 class Window : public IGameObject
 {
@@ -17,4 +15,6 @@ public:
 
 private:
 
+	//画像
+	SpriteRender m_window2D;
 };

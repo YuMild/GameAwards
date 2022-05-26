@@ -3,11 +3,6 @@
 
 #include "Player.h"
 
-namespace
-{
-
-}
-
 ChargeShot::ChargeShot()
 {
 
