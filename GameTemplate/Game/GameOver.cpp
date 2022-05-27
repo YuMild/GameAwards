@@ -22,9 +22,10 @@ bool GameOver::Start()
 
 void GameOver::Update()
 {
+
+
 	if (g_pad[0]->IsTrigger(enButtonB))
 	{
-		
 		DeleteGO(this);
 	}
 }

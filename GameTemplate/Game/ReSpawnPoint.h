@@ -3,6 +3,7 @@
 #include <RockOnObject.h>
 #include <physics/PhysicsGhostObject.h>
 
+class Game;
 class Player;
 class RockOn;
 
@@ -64,6 +65,9 @@ private:
 	/// </summary>
 	void Hit();
 
+	EffectEmitter*					m_reSpawnPointEF;
+	EffectEmitter*					m_reSpawnPointDeleteEF;
+
 	ModelRender						m_modelRender;
 	PhysicsGhostObject				m_ghostCollider;
 
@@ -71,10 +75,12 @@ private:
 	Vector3							m_scale;
 	Quaternion						m_rotation;
 
+	Game*							m_game;
 	Player*							m_player;
 	RockOn*							m_rockOn;
 
 	int								m_state = 0;
+	bool							m_isStart = true;
 	bool							m_isHit = false;
 	float							m_aliveTime = 0.0f;
 };

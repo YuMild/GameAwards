@@ -52,7 +52,9 @@ void SpeedUpRail::Render(RenderContext& rc)
 {
 	if (m_coolTime <= 1.0f)
 	{
+#ifdef K2_DEBUG
 		m_fontRender.Draw(rc);
+#endif
 	}
 
 	m_modelRender.Draw(rc);

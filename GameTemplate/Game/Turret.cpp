@@ -25,6 +25,7 @@ bool Turret::Start()
 {
 	m_rockOn = FindGO<RockOn>("rockOn");
 	m_player = FindGO <Player>("player");
+
 	m_modelRender.SetDithering(en_dithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/Turret.tkm");
 	m_modelRender.SetPosition(m_position);

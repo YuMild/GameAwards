@@ -30,10 +30,9 @@ public:
 	/// </summary>
 	/// <param name="state"></param>
 	/// <returns></returns>
-	int SetGameState(const int& state)
+	void SetGameState(const int& state)
 	{
 		m_state = state;
-		return 0;
 	}
 
 	int GetGameState() const
@@ -60,6 +59,5 @@ private:
 	TimeLimit*				m_timeLimit;
 	Window*					m_window;
 
-	int						m_state;
+	int						m_state = 1;
 };
-

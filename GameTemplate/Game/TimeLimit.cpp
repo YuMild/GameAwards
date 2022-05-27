@@ -38,6 +38,11 @@ void TimeLimit::Update()
 
     m_limitTimer -= g_gameTime->GetFrameDeltaTime();
 
+    if (g_pad[0]->IsTrigger(enButtonX))
+    {
+        m_limitTimer -= 1.0f;
+    }
+
     if (m_limitTimer <= 0)
     {
         m_game->SetGameState(2);
