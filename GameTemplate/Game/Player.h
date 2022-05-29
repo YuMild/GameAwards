@@ -83,16 +83,29 @@ public:
         m_reSpawnPosition = reSpawnPosition;
     }
 
+    /// <summary>
+    /// ステートを取得
+    /// </summary>
+    /// <returns></returns>
     int GetState() const
     {
         return m_state;
     }
 
+    /// <summary>
+    /// ボタンの入力情報を取得
+    /// </summary>
+    /// <returns></returns>
     bool GetIsPressState() const
     {
         return m_isPressState;
     }
 
+    /// <summary>
+    /// ボタンの入力情報を設定
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
     bool SetIsPressState(const bool& state)
     {
         m_isPressState = state;

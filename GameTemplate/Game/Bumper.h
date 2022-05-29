@@ -17,17 +17,6 @@ public:
 	void Render(RenderContext& rc);
 
 	/// <summary>
-	/// リセットステートを設定。trueでリセット。
-	/// </summary>
-	/// <param name="state"></param>
-	/// <returns></returns>
-	bool SetReSetState(const bool& state)
-	{
-		m_reSetState = state;
-		return 0;
-	}
-
-	/// <summary>
 	/// 座標を設定。
 	/// </summary>
 	/// <param name="position"></param>
@@ -93,7 +82,6 @@ private:
 	RockOn*							m_rockOn;
 
 	int								m_state = 0;
-	bool							m_reSetState = false;
 	bool							m_isHit = false;
 	float							m_aliveTime = 0.0f;
 };

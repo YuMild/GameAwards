@@ -1,5 +1,6 @@
 #pragma once
 
+class Game;
 class Player;
 /// <summary>
 /// チャージゲージ
@@ -27,17 +28,18 @@ private:
 	void Speed();
 
 	//画像
-	SpriteRender m_charge2D;
-	SpriteRender m_chargeInside2D;
+	SpriteRender	m_charge2D;
+	SpriteRender	m_chargeInside2D;
 
 	//フォント
-	FontRender m_fontRender;
+	FontRender		m_fontRender;
 
-	bool m_isPress = false;
+	bool			m_isPress = false;
 
-	float m_timer = 0.0f;
-	float m_charge = 0.0f;
-	float m_speed = 0.0f;
+	float			m_timer = 0.0f;
+	float			m_charge = 0.0f;
+	float			m_speed = 0.0f;
 
-	Player* m_player;
+	Game*			m_game;
+	Player*			m_player;
 };

@@ -11,7 +11,7 @@
 namespace
 {
     //プレイヤー
-    Vector3 PLAYER_FIRST_POSITION = { 0.0f,200.0f,0.0f };       //スポーン座標
+    Vector3 PLAYER_FIRST_POSITION = { 0.0f,250.0f,0.0f };       //スポーン座標
     float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
     float PLAYER_COLLISION_SCALE = 50.0f;                       //当たり判定のサイズ
     float PLAYER_GRAVITY = -200000.0f;                          //重力
@@ -30,8 +30,10 @@ bool Player::Start()
 {
     m_breakBox = FindGO<BreakBox>("breakBox");
     m_bumper = FindGO<Bumper>("bumper");
+    m_game = FindGO<Game>("game");
     m_gameCamera = FindGO<GameCamera>("gameCamera");
-
+    m_rockOn = FindGO<RockOn>("rockOn");
+    
     m_reSpawnPosition = PLAYER_FIRST_POSITION;
     m_position = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
@@ -55,7 +57,6 @@ bool Player::Start()
 
     //サウンド
     g_soundEngine->ResistWaveFileBank(8, "Assets/sound/Shot.wav");
-
     g_soundEngine->ResistWaveFileBank(15, "Assets/sound/ReSpawn.wav");
 
     //コライダーを初期化。
@@ -87,9 +88,6 @@ bool Player::Start()
     //0を指定した軸は移動しない。
     //例えばyを0に指定すると、y座標は移動しなくなる。
     m_rigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
-
-    m_game = FindGO<Game>("game");
-    m_rockOn = FindGO<RockOn>("rockOn");
 
     return true;
 }
@@ -133,20 +131,6 @@ void Player::Render(RenderContext& rc)
 
 void Player::Death()
 {
-    /*const auto& bumpers = FindGOs<Bumper>("bumper");
-    int bumperSize = bumpers.size();
-    for (int i = 0; i < bumperSize; i++)
-    {
-        m_bumper->SetReSetState(true);
-    }
-    
-    const auto& breakBoxs = FindGOs<BreakBox>("breakBox");
-    int breakBoxSize = breakBoxs.size();
-    for (int i = 0; i < breakBoxSize; i++)
-    {
-        breakBoxs[i]->SetReSetState(true);
-    }*/
-
     m_position = m_reSpawnPosition;
     m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
     m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });
@@ -173,6 +157,14 @@ void Player::Death()
 
 void Player::Move()
 {
+    //ゲームステートが1(行動不能)だったら
+    if (m_game->GetGameState() != 0)
+    {
+        //早期リターン
+        m_rigidBody.SetLinearVelocity(Vector3::Zero);
+        return;
+    }
+
     if (m_scale <= 1.0f)
     {
         m_scale += 0.1;
@@ -199,8 +191,6 @@ void Player::Move()
     m_forward.Normalize();
 
     m_target = m_rockOn->GetDifference();                                       //ロックオンしているオブジェクトの方向
-
-    //m_moveSpeed.y = PLAYER_GRAVITY;
 
     if (g_pad[0]->IsPress(enButtonLB2))                                         //ボタンを押している時
     {
@@ -250,31 +240,33 @@ void Player::Move()
         m_rigidBody.SetLinearVelocity(m_rigidBody.GetLinearVelocity() * pow(PLAYER_SPEED_DECREASE, 2));
     }
 
+    //落下したかStartボタンが押されたら
     if (m_position.y <= -100 || g_pad[0]->IsTrigger(enButtonStart))
     {
+        //ステートを移行
         m_state = 1;
     }
 
     if (m_state == 1)
     {
+        //死亡
         Death();
     }
 
+    //Serectボタンが押されたら
     if (g_pad[0]->IsTrigger(enButtonSelect))
     {
         m_game->SetGameState(2);
     }
 
-    m_moveSpeed.x = 0.0f;                                                       //スピードの初期化
-    m_moveSpeed.y = 0.0f;                                                       //スピードの初期化
-    m_moveSpeed.z = 0.0f;                                                       //スピードの初期化
+    m_moveSpeed = { Vector3::Zero };                                            //スピードの初期化
 }
 
 void Player::NormalMove()
 {
     m_isPressState = true;
-    m_isRockOnFire == false;                                                //ロックオンアタックを無効化
-    m_isPress = false;                                                      //ボタンが押されていない
+    m_isRockOnFire == false;                                                    //ロックオンアタックを無効化
+    m_isPress = false;                                                          //ボタンが押されていない
 
     Vector3 effectpos = { m_position.x,m_position.y + 10.0f,m_position.z };
     Quaternion rot;

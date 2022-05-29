@@ -2,10 +2,11 @@
 #include "TimeLimit.h"
 
 #include "Game.h"
+#include "GameOver.h"
 
 namespace
 {
-    float SET_TIMELIMIT = 60.0f;
+    float SET_TIMELIMIT = 5.0f;
 }
 
 TimeLimit::TimeLimit()
@@ -45,7 +46,9 @@ void TimeLimit::Update()
 
     if (m_limitTimer <= 0)
     {
-        m_game->SetGameState(2);
+        m_game->SetGameState(1);
+        m_gameOver = NewGO<GameOver>(0, "gameOver");
+        DeleteGO(this);
     }
 
     wchar_t x[256];

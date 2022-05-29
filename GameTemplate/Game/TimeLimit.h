@@ -3,6 +3,7 @@
 #include <SerialNumberSpriteRender.h>
 
 class Game;
+class GameOver;
 
 class TimeLimit : public IGameObject
 {
@@ -26,6 +27,7 @@ private:
 	FontRender	m_fontRender;
 
 	Game*		m_game;
+	GameOver*	m_gameOver;
 
 	float		m_limitTimer = 0.0f;
 };

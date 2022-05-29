@@ -13,7 +13,6 @@ Stage_1_Stage::~Stage_1_Stage()
 
 bool Stage_1_Stage::Start()
 {
-	m_modelRender.SetDithering(en_pixeldithering);
 	m_modelRender.Init("Assets/modelData/Stage_0/Stage_1_Ground.tkm");
 	m_modelRender.Update();
 

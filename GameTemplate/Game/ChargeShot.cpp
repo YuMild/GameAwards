@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ChargeShot.h"
 
+#include "Game.h"
 #include "Player.h"
 
 ChargeShot::ChargeShot()
@@ -15,6 +16,9 @@ ChargeShot::~ChargeShot()
 
 bool ChargeShot::Start()
 {
+	m_game = FindGO<Game>("game");
+	m_player = FindGO<Player>("player");
+
 	m_charge2D.Init("Assets/sprite/Charge/Charge.dds", 700.0f, 700.0f);
 	m_charge2D.SetPosition(Vector3(-400.0f, -250.0f, 0.0f));
 	m_charge2D.Update();
@@ -22,8 +26,6 @@ bool ChargeShot::Start()
 	m_chargeInside2D.Init("Assets/sprite/Charge/ChargeInside.dds", 315.0f, 315.0f);
 	m_chargeInside2D.SetPosition(Vector3(-295.0f, -288.0f, 0.0f));
 	m_chargeInside2D.Update();
-
-	m_player = FindGO<Player>("player");
 
 	return true;
 }
@@ -55,10 +57,18 @@ void ChargeShot::Speed()
 {
 	m_speed = m_player->GetPlayerSpeed();
 
-	wchar_t wcsbuf[256];
-	swprintf_s(wcsbuf, 256, L"%03d", int(m_speed * 60 / 1000));
-
-	m_fontRender.SetText(wcsbuf);
+	if (m_game->GetGameState() == 0)
+	{
+		wchar_t wcsbuf[256];
+		swprintf_s(wcsbuf, 256, L"%03d", int(m_speed * 60 / 1000));
+		m_fontRender.SetText(wcsbuf);
+	}
+	else
+	{
+		wchar_t wcsbuf[256];
+		swprintf_s(wcsbuf, 256, L"%03d", int(0));
+		m_fontRender.SetText(wcsbuf);
+	}
 
 	//フォントの位置を設定。
 	m_fontRender.SetPosition({ -630.0f, -330.0f, 0.0f });

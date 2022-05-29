@@ -83,10 +83,16 @@ void GameCamera::Update()
 	Vector3 toCameraPosOld = m_toCameraPos;
 
 	//	パッドの入力を使ってカメラを回す
-	if (m_game->GetGameState() != 1)
+	if (m_game->GetGameState() == 0)
 	{
 		m_rotationX = g_pad[0]->GetRStickXF();
 		m_rotationY = g_pad[0]->GetRStickYF();
+	}
+
+	else
+	{
+		m_rotationX = 0.0f;
+		m_rotationY = 0.0f;
 	}
 
 	//	Y軸周りの回転
