@@ -74,13 +74,14 @@ bool Game::Start()
 	m_backGroundBGM->SetVolume(0.1f);
 	m_backGroundBGM->Play(true);
 
-	g_renderingEngine.SetDitheringLength(1500.0f);
+	
 
 	return true;
 }
 
 void Game::Update()
 {
+	g_renderingEngine.SetPlayerPosition(m_player->GetPosition());
 	Death();
 }
 
