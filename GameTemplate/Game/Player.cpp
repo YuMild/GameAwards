@@ -121,7 +121,10 @@ void Player::UpdateOnStop()
 void Player::Render(RenderContext& rc)
 {
     //ƒ‚ƒfƒ‹‚Ì•`‰æB
-    m_modelRender.Draw(rc);
+    if (m_game->GetGameState() == 0)
+    {
+        m_modelRender.Draw(rc);
+    }
 #ifdef K2_DEBUG
     m_fontRenderX.Draw(rc);
     m_fontRenderY.Draw(rc);

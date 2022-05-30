@@ -27,12 +27,17 @@ bool ChargeShot::Start()
 	m_chargeInside2D.SetPosition(Vector3(-295.0f, -288.0f, 0.0f));
 	m_chargeInside2D.Update();
 
+	m_fontRender.SetScale(2.0f);
+	m_fontRender.SetPivot(1.0f, 0.5f);
+	m_fontRender.SetPosition({ -630.0f, -330.0f, 0.0f });
+
 	return true;
 }
 
 void ChargeShot::Update()
 {
 	Cut();
+	Fade();
 	Speed();
 	m_charge2D.Update();
 	m_chargeInside2D.Update();
@@ -40,11 +45,41 @@ void ChargeShot::Update()
 
 void ChargeShot::Render(RenderContext& rc)
 {
-	//フォントを描画する。
-	m_fontRender.Draw(rc);
+	if (m_game->GetGameState() == 0)
+	{
+		m_fadeState = enState_FadeOut;
 
-	m_charge2D.Draw(rc);
-	m_chargeInside2D.Draw(rc);
+		m_charge2D.SetMulColor({ 1.0f, 1.0f, 1.0f, m_currentAlpha });
+		m_charge2D.Draw(rc);
+
+		m_chargeInside2D.SetMulColor({ 1.0f, 1.0f, 1.0f, m_currentAlpha });
+		m_chargeInside2D.Draw(rc);
+
+		m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f, m_currentAlpha });
+		m_fontRender.Draw(rc);
+	}
+}
+
+void ChargeShot::Fade()
+{
+	switch (m_fadeState) {
+	case enState_FadeIn:
+		m_currentAlpha -= g_gameTime->GetFrameDeltaTime();
+		if (m_currentAlpha <= 0.0f) {
+			m_currentAlpha = 0.0f;
+			m_fadeState = enState_Idle;
+		}
+		break;
+	case enState_FadeOut:
+		m_currentAlpha += g_gameTime->GetFrameDeltaTime();
+		if (m_currentAlpha >= 1.0f) {
+			m_currentAlpha = 1.0f;
+			m_fadeState = enState_Idle;
+		}
+		break;
+	case enState_Idle:
+		break;
+	}
 }
 
 void ChargeShot::Cut()
@@ -69,12 +104,4 @@ void ChargeShot::Speed()
 		swprintf_s(wcsbuf, 256, L"%03d", int(0));
 		m_fontRender.SetText(wcsbuf);
 	}
-
-	//フォントの位置を設定。
-	m_fontRender.SetPosition({ -630.0f, -330.0f, 0.0f });
-
-	//フォントの大きさを設定。
-	m_fontRender.SetScale(2.0f);
-	m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f,0.0f });
-	m_fontRender.SetPivot(1.0f, 0.5f);
 }

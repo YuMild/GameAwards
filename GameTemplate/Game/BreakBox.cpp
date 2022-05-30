@@ -70,7 +70,7 @@ void BreakBox::Hit()
 	{
 		m_explosion = NewGO<EffectEmitter>(4);
 		m_explosion->Init(4);
-		m_explosion->SetScale(Vector3::One * 40.0f);
+		m_explosion->SetScale(Vector3::One * 50.0f);
 		m_explosion->SetPosition({ m_position.x,m_position.y += 10.0f,m_position.z });
 		m_explosion->Play();
 

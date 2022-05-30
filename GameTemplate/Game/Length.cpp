@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Length.h"
 
+#include "Game.h"
 #include "Goal.h"
 
 namespace
@@ -20,6 +21,7 @@ Length::~Length()
 
 bool Length::Start()
 {
+	m_game = FindGO<Game>("game");
 	m_goal = FindGO<Goal>("goal");
 
 	m_length2D.Init("Assets/sprite/Length/Length.dds", 700.0f, 700.0f);
@@ -43,13 +45,41 @@ void Length::Update()
 
 void Length::Render(RenderContext& rc)
 {
-	//フォントを描画する。
-#ifdef K2_DEBUG
-	m_fontRender.Draw(rc);
-#endif
+	if (m_game->GetGameState() == 0)
+	{
+		m_fadeState = enState_FadeOut;
 
-	m_length2D.Draw(rc);
-	m_lengthInside2D.Draw(rc);
+		m_length2D.SetMulColor({ 1.0f, 1.0f, 1.0f, m_currentAlpha });
+		m_length2D.Draw(rc);
+
+		m_lengthInside2D.SetMulColor({ 1.0f, 1.0f, 1.0f, m_currentAlpha });
+		m_lengthInside2D.Draw(rc);
+
+		m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f, m_currentAlpha });
+		m_fontRender.Draw(rc);
+	}
+}
+
+void Length::Fade()
+{
+	switch (m_fadeState) {
+	case enState_FadeIn:
+		m_currentAlpha -= g_gameTime->GetFrameDeltaTime();
+		if (m_currentAlpha <= 0.0f) {
+			m_currentAlpha = 0.0f;
+			m_fadeState = enState_Idle;
+		}
+		break;
+	case enState_FadeOut:
+		m_currentAlpha += g_gameTime->GetFrameDeltaTime();
+		if (m_currentAlpha >= 1.0f) {
+			m_currentAlpha = 1.0f;
+			m_fadeState = enState_Idle;
+		}
+		break;
+	case enState_Idle:
+		break;
+	}
 }
 
 void Length::Cut()

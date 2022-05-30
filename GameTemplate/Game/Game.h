@@ -23,7 +23,6 @@ public:
 	~Game();
 	bool Start() override;
 	void Update() override;
-	void Render(RenderContext& rc) override;
 
 	/// <summary>
 	/// ゲームのステートを管理。1は操作不能。2はゲーム終了。
@@ -35,6 +34,10 @@ public:
 		m_state = state;
 	}
 
+	/// <summary>
+	/// ステートを取得。
+	/// </summary>
+	/// <returns></returns>
 	int GetGameState() const
 	{
 		return m_state;
@@ -42,8 +45,11 @@ public:
 
 private:
 
+	/// <summary>
+	/// 死亡の判定
+	/// </summary>
 	void Death();
-	
+
 	SoundSource*			m_backGroundBGM;
 	Bound*					m_bound;
 	ChargeShot*				m_chargeShot;
