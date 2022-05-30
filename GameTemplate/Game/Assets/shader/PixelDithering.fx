@@ -49,8 +49,10 @@ cbuffer LightCb : register(b1)
     float3 eyePos; //視点の位置。
 
     float4x4 mLVP;
-
+    
     float DitheringLength;
+
+    float red;
 };
 
 
@@ -469,9 +471,19 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     {
         albedoColor.xyz *= shadowMap;
     }
-
-    return albedoColor;
+    if (red < 0.75)
+    {
+        return albedoColor;
+    }
+    else
+    {
+        float4 Color = { albedoColor.z * red, albedoColor.xyw };
+        Color = Color + albedoColor;
+        Color /= 2;
+        return Color;
+    }
 }
+      
 // モデル用のピクセルシェーダーのエントリーポイント
 float4 PSMain(SPSIn psIn) : SV_Target0
 {

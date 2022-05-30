@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "RockOn.h"
+#include "TimeLimit.h"
 
 namespace
 {
@@ -25,6 +26,7 @@ bool ReSpawnPoint::Start()
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
 	m_rockOn = FindGO<RockOn>("rockOn");
+	m_timeLimit = FindGO<TimeLimit>("timeLimit");
 
 	m_rockOn->AddRockOnObject(this);
 
@@ -50,7 +52,6 @@ bool ReSpawnPoint::Start()
 void ReSpawnPoint::Update()
 {
 	Hit();
-	Effect();
 }
 
 void ReSpawnPoint::Render(RenderContext& rc)
@@ -83,6 +84,9 @@ void ReSpawnPoint::Hit()
 		m_reSpawnPointDeleteEF->Init(17);
 		m_reSpawnPointDeleteEF->SetScale(Vector3::One * EFFECT_SIZE);
 		m_reSpawnPointDeleteEF->Play();
+
+		//Žc‚èŽžŠÔ‚É10•b‰ÁŽZ
+		m_timeLimit->AddTime(10.0f);
 
 		m_player->SetReSpawnPosition(m_position);
 		m_state = 1;

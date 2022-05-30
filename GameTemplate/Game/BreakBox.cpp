@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "RockOn.h"
+#include "TimeLimit.h"
 
 BreakBox::BreakBox()
 {
@@ -18,6 +19,7 @@ bool BreakBox::Start()
 {
 	m_player = FindGO<Player>("player");
 	m_rockOn = FindGO<RockOn>("rockOn");
+	m_timeLimit = FindGO<TimeLimit>("timeLimit");
 
 	m_rockOn->AddRockOnObject(this);
 
@@ -68,16 +70,21 @@ void BreakBox::Hit()
 	}
 	if (m_aliveTime >= 0.05f && m_isHit == true)
 	{
+		//爆発エフェクト
 		m_explosion = NewGO<EffectEmitter>(4);
 		m_explosion->Init(4);
 		m_explosion->SetScale(Vector3::One * 50.0f);
 		m_explosion->SetPosition({ m_position.x,m_position.y += 10.0f,m_position.z });
 		m_explosion->Play();
 
+		//爆発サウンド
 		m_explosionSE = NewGO<SoundSource>(5);
 		m_explosionSE->Init(5);
-		m_explosionSE->SetVolume(0.1f);
+		m_explosionSE->SetVolume(0.3f);
 		m_explosionSE->Play(false);
+
+		//残り時間に2秒加算
+		m_timeLimit->AddTime(2.0f);
 
 		m_state = 1;
 		m_boxCollider.RemoveRigidBoby();

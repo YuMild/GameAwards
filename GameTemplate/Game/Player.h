@@ -156,6 +156,11 @@ private:
     void Death();
 
     /// <summary>
+    /// リスポーン
+    /// </summary>
+    void ReSpawn();
+
+    /// <summary>
     /// 動作を管理
     /// </summary>
     void Move();
@@ -170,14 +175,17 @@ private:
     /// </summary>
     void RockOnMove();
     
-    EffectEmitter*      m_reSpawn;
-    EffectEmitter*      m_fireImpact;
+    EffectEmitter*      m_deathEF;
+    EffectEmitter*      m_reSpawnEF;
+    EffectEmitter*      m_fireImpactEF;
     SoundSource*        m_shotSE;
+    SoundSource*        m_deathSE;
     SoundSource*        m_reSpawnSE;
-
+   
     FontRender          m_fontRenderX;                  //フォントレンダー
     FontRender          m_fontRenderY;                  //フォントレンダー
     FontRender          m_fontRenderZ;                  //フォントレンダー
+    FontRender          m_fpsFont;
     ModelRender         m_modelRender;                  //モデルレンダー
     SphereCollider      m_sphereCollider;               //円型のコライダー
     Vector3             m_positionDeltaValue;           //1フレームでの座標の変位量
@@ -204,6 +212,7 @@ private:
     float               m_scale = 0.0f;                 //サイズ
     float               m_charge = 0.0f;                //チャージ
     float               m_delay = 0.0f;                 //ディレイ
+    float               m_deathTime = 0.0f;
     float               m_stopTimer = 0.0f;
     float               m_rotCameraRightAngle = 0.0f;   //カメラの右方向を軸とした回転角度。
    

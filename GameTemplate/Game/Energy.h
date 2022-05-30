@@ -65,6 +65,7 @@ private:
 	void Hit();
 
 	EffectEmitter*					m_explosion;
+	EffectEmitter*					m_energy;
 	ModelRender						m_modelRender;
 	PhysicsGhostObject				m_ghostCollider;
 

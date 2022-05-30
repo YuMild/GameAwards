@@ -82,7 +82,7 @@ void Door::Hit()
 	{
 		m_openSE = NewGO<SoundSource>(4);
 		m_openSE->Init(4);
-		m_openSE->SetVolume(0.1f);
+		m_openSE->SetVolume(0.2f);
 		m_openSE->Play(false);
 		m_modelRender.PlayAnimation(enAnimationClip_Open, 0.0f);
 		m_ghostCollider.Release();

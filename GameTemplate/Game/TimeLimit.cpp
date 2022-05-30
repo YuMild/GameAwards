@@ -6,7 +6,11 @@
 
 namespace
 {
-    float SET_TIMELIMIT = 50.0f;
+    const Vector3 SET_1_DIGIT_POSITION = { 133.0f, 405.0f, 0.0f };
+    const Vector3 SET_2_DIGIT_POSITION = { 120.0f, 405.0f, 0.0f };
+    const Vector3 SET_COLOR = { 0.0f,230.0f,255.0f };
+    const float SET_TIMELIMIT = 30.0f;
+    const float SET_DEFAULT_SCALE = 1.5f;
 }
 
 TimeLimit::TimeLimit()
@@ -25,15 +29,10 @@ bool TimeLimit::Start()
 
     m_limitTimer = SET_TIMELIMIT;
 
-    m_fontRender.SetPosition({ 120.0f, 405.0f, 0.0f });
-    m_fontRender.SetScale(1.5f);
-    m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f,0.0f });
-    m_fontRender.SetPivot(1.0f, 0.5f);
-
-    //m_2dAnimation.Init("Assets/sprite/ChargeAnimation/", 340.0f, 340.0f, 29);
-    //m_2dAnimation.SetLoopFlag(true);
-    //m_2dAnimation.SetDrawSpeed(1);
-    //m_2dAnimation.Play();
+    m_fontRender.SetPosition(SET_1_DIGIT_POSITION);
+    m_fontRender.SetScale(SET_DEFAULT_SCALE);
+    m_fontRender.SetColor(SET_COLOR);
+    m_fontRender.SetPivot(1.0f, 1.0f);
 
     return true;
 }
@@ -42,7 +41,29 @@ void TimeLimit::Update()
 {
     Time();
 
-    //m_2dAnimation.Update();
+    if (m_isRed)
+    {
+        g_renderingEngine.SetRed(g_renderingEngine.GetRed() + 0.05f);
+    }
+    else
+    {
+        g_renderingEngine.SetRed(g_renderingEngine.GetRed() - 0.05f);
+    }
+    if (m_limitTimer <= 20.0f)
+    {
+        if (g_renderingEngine.GetRed() <= 1.0f)
+        {
+            m_isRed = true;
+        }
+        if (g_renderingEngine.GetRed() >= 2.5f)
+        {
+            m_isRed = false;
+        }
+    }
+    else
+    {
+        g_renderingEngine.SetRed(0.7f);
+    }
 }
 
 void TimeLimit::Render(RenderContext& rc)
@@ -79,11 +100,20 @@ void TimeLimit::Fade()
 
 void TimeLimit::Time()
 {
+    //操作不能の時
     if (m_game->GetGameState() == 1)
     {
+        //早期リターン
         return;
     }
 
+    //デバッグ用
+    if (g_pad[0]->IsTrigger(enButtonX))
+    {
+        m_limitTimer += 2.0f;
+    }
+
+    //残り時間を減らす
     m_limitTimer -= g_gameTime->GetFrameDeltaTime();
 
     //時間切れになったら
@@ -96,9 +126,32 @@ void TimeLimit::Time()
         DeleteGO(this);
     }
 
+    //残り時間が2桁の時
     if (m_limitTimer < 10)
     {
-        m_fontRender.SetPosition({ 130.0f,405.0f,0.0f });
+        //ポジションを2桁用に
+        m_fontRender.SetPosition(SET_1_DIGIT_POSITION);
+        if (m_isSetScale == true)
+        {
+            if (m_fontYPosition > 0.0f)
+            {
+                m_fontYPosition -= 5.0f;
+            }
+            m_fontRender.SetPosition({ SET_1_DIGIT_POSITION.x, SET_1_DIGIT_POSITION.y + m_fontYPosition,SET_1_DIGIT_POSITION.z });
+        }
+    }
+    //残り時間が1桁の時
+    else
+    {   //ポジションを1桁用に
+        m_fontRender.SetPosition(SET_2_DIGIT_POSITION);
+        if (m_isSetScale == true)
+        {
+            if (m_fontYPosition > 0.0f)
+            {
+                m_fontYPosition -= 5.0f;
+            }
+            m_fontRender.SetPosition({ SET_2_DIGIT_POSITION.x, SET_2_DIGIT_POSITION.y + m_fontYPosition,SET_2_DIGIT_POSITION.z });
+        }
     }
 
     wchar_t x[256];

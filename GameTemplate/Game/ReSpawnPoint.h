@@ -6,6 +6,7 @@
 class Game;
 class Player;
 class RockOn;
+class TimeLimit;
 
 class ReSpawnPoint : public RockOnObject
 {
@@ -78,6 +79,7 @@ private:
 	Game*							m_game;
 	Player*							m_player;
 	RockOn*							m_rockOn;
+	TimeLimit*						m_timeLimit;
 
 	int								m_state = 0;
 	bool							m_isStart = true;

@@ -38,26 +38,27 @@ bool Player::Start()
     m_position = PLAYER_FIRST_POSITION;
     //球形のモデルを読み込む。
     m_modelRender.Init("Assets/modelData/Stage_0/Player.tkm");
-    m_modelRender.SetScale(Vector3::One * PLAYER_MODEL_SCALE);
     m_modelRender.SetPosition(m_position);
 
     //エフェクト
     EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
-    m_reSpawn = NewGO<EffectEmitter>(2);
-    m_reSpawn->Init(2);
-    m_reSpawn->SetScale(Vector3::One * 3.0f);
-    m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
-    m_reSpawn->Play();
+    m_reSpawnEF = NewGO<EffectEmitter>(2);
+    m_reSpawnEF->Init(2);
+    m_reSpawnEF->SetScale(Vector3::One * 3.0f);
+    m_reSpawnEF->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
 
     EffectEngine::GetInstance()->ResistEffect(10, u"Assets/Effect/Selfmade/FireImpact.efk");
-    m_fireImpact = NewGO<EffectEmitter>(10);
-    m_fireImpact->Init(10);
-    m_fireImpact->SetScale(Vector3::One * 300.0f);
-    m_fireImpact->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+    m_fireImpactEF = NewGO<EffectEmitter>(10);
+    m_fireImpactEF->Init(10);
+    m_fireImpactEF->SetScale(Vector3::One * 300.0f);
+    m_fireImpactEF->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+
+    EffectEngine::GetInstance()->ResistEffect(22, u"Assets/Effect/Selfmade/Death.efk");
 
     //サウンド
     g_soundEngine->ResistWaveFileBank(8, "Assets/sound/Shot.wav");
     g_soundEngine->ResistWaveFileBank(15, "Assets/sound/ReSpawn.wav");
+    g_soundEngine->ResistWaveFileBank(22, "Assets/sound/Death.wav");
 
     //コライダーを初期化。
     m_sphereCollider.Create(PLAYER_COLLISION_SCALE);
@@ -111,6 +112,12 @@ void Player::Update()
     swprintf_s(z, 256, L"Z=%f", m_position.z);
     m_fontRenderZ.SetText(z);
     m_fontRenderZ.SetPosition({ 500.0f, 200.0f, 0.0f });
+
+    float time = g_gameTime->GetFrameDeltaTime();
+    wchar_t text[256];
+    swprintf(text, L"FPS = %0.2f", 1.0f / time);
+
+    m_fpsFont.SetText(text);
 }
 
 void Player::UpdateOnStop()
@@ -121,7 +128,7 @@ void Player::UpdateOnStop()
 void Player::Render(RenderContext& rc)
 {
     //モデルの描画。
-    if (m_game->GetGameState() == 0)
+    if (m_game->GetGameState() == 0 && m_state == 0)
     {
         m_modelRender.Draw(rc);
     }
@@ -130,9 +137,41 @@ void Player::Render(RenderContext& rc)
     m_fontRenderY.Draw(rc);
     m_fontRenderZ.Draw(rc);
 #endif
+    m_fpsFont.Draw(rc);
 }
 
 void Player::Death()
+{
+    m_deathTime += g_gameTime->GetFrameDeltaTime();
+
+    if (m_isEffectStart == true)
+    {
+        //エフェクト
+        m_deathEF = NewGO<EffectEmitter>(22);
+        m_deathEF->Init(22);
+        m_deathEF->SetScale(Vector3::One * 20.0f);
+        m_deathEF->Play();
+
+        //サウンド
+        m_reSpawnSE = NewGO<SoundSource>(22);
+        m_reSpawnSE->Init(22);
+        m_reSpawnSE->SetVolume(0.2f);
+        m_reSpawnSE->Play(false);
+
+        m_isEffectStart = false;
+    }
+
+    m_deathEF->SetPosition(m_position);
+
+    if (m_deathTime >= 1.0f)
+    {
+        ReSpawn();
+        m_deathTime = 0.0f;
+        m_isEffectStart = true;
+    }
+}
+
+void Player::ReSpawn()
 {
     m_position = m_reSpawnPosition;
     m_rigidBody.SetPositionAndRotation(m_position, m_rotation);
@@ -141,16 +180,16 @@ void Player::Death()
     m_scale = 0.0f;
 
     //エフェクト
-    m_reSpawn = NewGO<EffectEmitter>(2);
-    m_reSpawn->Init(2);
-    m_reSpawn->SetScale(Vector3::One * 3.0f);
-    m_reSpawn->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
-    m_reSpawn->Play();
+    m_reSpawnEF = NewGO<EffectEmitter>(2);
+    m_reSpawnEF->Init(2);
+    m_reSpawnEF->SetScale(Vector3::One * 3.0f);
+    m_reSpawnEF->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
+    m_reSpawnEF->Play();
 
     //サウンド
     m_reSpawnSE = NewGO<SoundSource>(15);
     m_reSpawnSE->Init(15);
-    m_reSpawnSE->SetVolume(0.05f);
+    m_reSpawnSE->SetVolume(0.25f);
     m_reSpawnSE->Play(false);
 
     g_camera3D->SetPosition(m_position);
@@ -276,12 +315,12 @@ void Player::NormalMove()
     rot.SetRotationYFromDirectionXZ(g_camera3D->GetForward());
 
     m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
-    m_fireImpact = NewGO<EffectEmitter>(10);
-    m_fireImpact->Init(10);
-    m_fireImpact->SetScale(Vector3::One * 50.0f);
-    m_fireImpact->SetPosition(effectpos);
-    m_fireImpact->SetRotation(rot);
-    m_fireImpact->Play();
+    m_fireImpactEF = NewGO<EffectEmitter>(10);
+    m_fireImpactEF->Init(10);
+    m_fireImpactEF->SetScale(Vector3::One * 50.0f);
+    m_fireImpactEF->SetPosition(effectpos);
+    m_fireImpactEF->SetRotation(rot);
+    m_fireImpactEF->Play();
 
     //サウンド
     m_shotSE = NewGO<SoundSource>(8);
@@ -318,12 +357,12 @@ void Player::RockOnMove()
         rot.SetRotationYFromDirectionXZ(g_camera3D->GetForward());
 
         m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
-        m_fireImpact = NewGO<EffectEmitter>(10);
-        m_fireImpact->Init(10);
-        m_fireImpact->SetScale(Vector3::One * 50.0f);
-        m_fireImpact->SetPosition(effectpos);
-        m_fireImpact->SetRotation(rot);
-        m_fireImpact->Play();
+        m_fireImpactEF = NewGO<EffectEmitter>(10);
+        m_fireImpactEF->Init(10);
+        m_fireImpactEF->SetScale(Vector3::One * 50.0f);
+        m_fireImpactEF->SetPosition(effectpos);
+        m_fireImpactEF->SetRotation(rot);
+        m_fireImpactEF->Play();
 
         //サウンド
         m_shotSE = NewGO<SoundSource>(8);

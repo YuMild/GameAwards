@@ -5,6 +5,7 @@
 
 class Player;
 class RockOn;
+class TimeLimit;
 
 class BreakBox : public RockOnObject
 {
@@ -92,6 +93,7 @@ private:
 	SoundSource*					m_explosionSE;
 	Player*							m_player;
 	RockOn*							m_rockOn;
+	TimeLimit*						m_timeLimit;
 
 	int								m_state = 0;
 	bool							m_reSetState = false;

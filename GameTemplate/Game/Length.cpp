@@ -32,12 +32,17 @@ bool Length::Start()
 	m_lengthInside2D.SetPosition(Vector3(295.0f, -288.0f, 0.0f));
 	m_lengthInside2D.Update();
 
+	m_fontRender.SetScale(2.0f);
+	m_fontRender.SetPivot(1.0f, 0.5f);
+	m_fontRender.SetPosition({ 630.0f, -330.0f, 0.0f });
+
 	return true;
 }
 
 void Length::Update()
 {
-	//Cut();
+	Cut();
+	Fade();
 	LengthFont();
 	m_length2D.Update();
 	m_lengthInside2D.Update();

@@ -76,7 +76,7 @@ void Drone::Hit()
 
 		m_explosionSE = NewGO<SoundSource>(5);
 		m_explosionSE->Init(5);
-		m_explosionSE->SetVolume(0.1f);
+		m_explosionSE->SetVolume(0.3f);
 		m_explosionSE->Play(false);
 
 		m_state = 1;

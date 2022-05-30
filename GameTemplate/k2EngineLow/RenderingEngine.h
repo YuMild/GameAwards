@@ -11,6 +11,7 @@ namespace nsK2EngineLow
 		Light m_light;          // ライト
 		Matrix mlvp; // ライトビュープロジェクション行列。
 		float DitheringLength=250.0f;
+		float red;
 	};
 	class RenderingEngine :public Noncopyable
 	{
@@ -30,6 +31,15 @@ namespace nsK2EngineLow
 		void SetDitheringLength(float n)
 		{
 			m_modelRenderCB.DitheringLength = n;
+		}
+
+		void SetRed(float n)
+		{
+			m_modelRenderCB.red = n;
+		}
+		const float GetRed()const
+		{
+			return m_modelRenderCB.red;
 		}
 
 		void ShadowMapDraw(RenderContext& rc);

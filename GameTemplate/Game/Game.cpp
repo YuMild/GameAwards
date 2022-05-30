@@ -59,10 +59,10 @@ bool Game::Start()
 	m_chargeShot = NewGO<ChargeShot>(0, "chargeShot");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 	m_gameLight = NewGO<GameLight>(0, "gameLight");
-	m_length = NewGO<Length>(0, "length");
 	m_player = NewGO<Player>(0, "player");
 	m_rockOn = NewGO<RockOn>(0, "rockOn");
 	m_stage_1 = NewGO<Stage_1>(0, "stage_1");
+	m_length = NewGO<Length>(0, "length");
 	m_timeLimit = NewGO<TimeLimit>(0, "timeLimit");
 	m_window = NewGO<Window>(0, "window");
 

@@ -6,6 +6,9 @@
 class Player;
 class RockOn;
 
+/// <summary>
+/// Žg‚Á‚Ä‚È‚¢
+/// </summary>
 class Bumper : public RockOnObject
 {
 public:

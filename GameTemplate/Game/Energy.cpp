@@ -22,14 +22,21 @@ bool Energy::Start()
 	m_timeLimit = FindGO<TimeLimit>("timeLimit");
 
 	EffectEngine::GetInstance()->ResistEffect(4, u"Assets/Effect/Selfmade/BrokenExplosion.efk");
+	EffectEngine::GetInstance()->ResistEffect(20, u"Assets/Effect/Selfmade/Energy.efk");
 
-	m_modelRender.Init("Assets/modelData/Stage_0/Item.tkm");
+	m_energy = NewGO<EffectEmitter>(20);
+	m_energy->Init(20);
+	m_energy->SetScale(Vector3::One * 70.0f);
+	m_energy->SetPosition({ m_position.x,m_position.y,m_position.z });
+	m_energy->Play();
+
+	m_modelRender.Init("Assets/modelData/Stage_0/Energy.tkm");
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.SetScale(m_scale);
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
-	m_ghostCollider.CreateBox(m_position, m_rotation, { 105.0f,105.0f,105.0f });
+	m_ghostCollider.CreateBox(m_position, m_rotation, { 205.0f,205.0f,205.0f });
 
 	return true;
 }
@@ -61,12 +68,21 @@ void Energy::Hit()
 
 	if (m_isHit == true)
 	{
-		m_timeLimit->AddTime(1.0f);
+		//爆発エフェクト
 		m_explosion = NewGO<EffectEmitter>(4);
 		m_explosion->Init(4);
-		m_explosion->SetScale(Vector3::One * 5.0f);
-		m_explosion->SetPosition({ m_position.x,m_position.y,m_position.z });
+		m_explosion->SetScale(Vector3::One * 30.0f);
+		m_explosion->SetPosition(m_position);
 		m_explosion->Play();
+
+		//残り時間に2秒加算
+		m_timeLimit->AddTime(2.0f);
+
+		//エフェクトストップ
+		m_energy->Stop();
+		m_energy->Dead();
+		m_energy->Deactivate();
+
 		m_state = 1;
 		m_ghostCollider.Release();
 		m_isHit = false;

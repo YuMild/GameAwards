@@ -22,6 +22,8 @@ public:
 	void AddTime(const float addTime)
 	{
 		m_limitTimer += addTime;
+		m_isSetScale = true;
+		m_fontYPosition = 30.0f;
 	}
 
 private:
@@ -50,6 +52,10 @@ private:
 	Game*						m_game;
 	GameOver*					m_gameOver;
 
+	bool						m_isRed;
+	bool						m_isSetScale = false;
+
+	float						m_fontYPosition = 30.0f;
 	float						m_limitTimer = 0.0f;
 	float						m_currentAlpha = 0.0f;		//aílÅB
 };
