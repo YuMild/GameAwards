@@ -49,9 +49,11 @@ cbuffer LightCb : register(b1)
     float3 eyePos; //視点の位置。
 
     float4x4 mLVP;
-    
+#if 0
     float DitheringLength;
-
+#else
+    float3 targetPosition;
+#endif
     float red;
 };
 
@@ -72,17 +74,20 @@ struct SVSIn {
     SSkinVSIn skinVert;				//スキン用のデータ。
 };
 //ピクセルシェーダーへの入力。
-struct SPSIn {
-    float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
-    float3 normal		: NORMAL;       //法線。
-    float2 uv 			: TEXCOORD0;	//uv座標。
+struct SPSIn
+{
+    float4 pos : SV_POSITION; //スクリーン空間でのピクセルの座標。
+    float3 normal : NORMAL; //法線。
+    float2 uv : TEXCOORD0; //uv座標。
     float3 worldPos : TEXCOORD1;
 
-    float3 normalInView : TEXCOORD2;     //カメラ空間の法線
+    float3 normalInView : TEXCOORD2; //カメラ空間の法線
 
     float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
 
-    float distToEye : TEXCOORD4;    //視点との距離
+    float distToEye : TEXCOORD4; //視点との距離
+    float4 targetPosInProj : TEXCOORD5; //スクリーン空間でのターゲットの座標。
+    float4 posInProj : TEXCOORD6;
 };
 ///////////////////////////////////////////
 // 関数宣言
@@ -149,9 +154,15 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     psIn.worldPos = psIn.pos;
     psIn.pos = mul(mView, psIn.pos);
     psIn.pos = mul(mProj, psIn.pos);
+    psIn.posInProj = psIn.pos;
+        
     float4 objectPosInCamera = psIn.pos;
     // カメラからの距離を計算する
     psIn.distToEye = length(objectPosInCamera);
+    
+
+    psIn.targetPosInProj = mul(mView, float4(targetPosition, 1.0f));
+    psIn.targetPosInProj = mul(mProj, psIn.targetPosInProj);
 
 
     // 頂点法線をピクセルシェーダーに渡す。
@@ -426,41 +437,33 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
 
 
 
-
+    
 
     ///////////////////////////////////////////////////////////////////////////////
     //ディザリング処理
-    // このピクセルのスクリーン座標系でのX座標、Y座標を4で割った余りを求める
-    int x = (int)fmod(psIn.pos.x, 4.0f);
-    int y = (int)fmod(psIn.pos.y, 4.0f);
+    float targetZInProj = psIn.targetPosInProj.z / psIn.targetPosInProj.w;
+    float pixelZInProj = psIn.pos.z;
+    
 
-    // 上で求めた、xとyを利用して、このピクセルのディザリング閾値を取得する
-    int dither = pattern[y][x];
+    if (targetZInProj > pixelZInProj + 0.0004f)
+    {
+        // このピクセルのスクリーン座標系でのX座標、Y座標を4で割った余りを求める
+        int x = (int) fmod(psIn.pos.x, 4.0f);
+        int y = (int) fmod(psIn.pos.y, 4.0f);
 
-    // カメラがオブジェクトのクリップ範囲内に入ると、
-       // 完全にオブジェクトがクリップされる
-       // （この数値を変更すると、オブジェクトが完全に消える範囲が変わる）
-    float clipRange = DitheringLength;
+        float lengthToPxelFromCenter = min(1.0f, length(psIn.posInProj.xy / psIn.posInProj.w));
+        float clipRate = 1.0f - pow(lengthToPxelFromCenter, 10.0);
 
-    // step-3 視点とクリップ範囲までの距離を計算する
-    // オブジェクトとカメラの距離が50以下になると、
-    // psIn.distToEye - clipRangeの結果がマイナスになるので、tに0が代入される
-    // psIn.distToEyeが50以上なら、tには視点からクリップ範囲までの距離が
-    // 計算される
-    float eyeToClipRange = max(0.0f, psIn.distToEye - clipRange);
+        // 上で求めた、xとyを利用して、このピクセルのディザリング閾値を取得する
+        int dither = pattern[y][x];
 
-    // step-4 クリップ率を求める
-    // clipRateは0～1の値を取り、clipRateが1になると完全にクリップされる
-    // 下記のコードは、視点とクリップ範囲の距離が100以下になると、
-    // 線形にclipRateの1に近づいていき、eyeToClipRangeが0になると、
-    // clipRateが1になる計算になっている
-    float clipRate = 0.5f - min(1.0f, eyeToClipRange / 100.0f);
-
-    // step-5 clipRateを利用してピクセルキルを行う
-    // tの値は0～1の値をとる。tが0ならどのピクセルもクリップされない
-    // tの値が1になると、64以下のピクセルがクリップされるため、
-    // すべてのピクセルがキリップされる（ditherの値の最大値は62なので）
-    clip(dither - 64 * clipRate);
+        // step-5 clipRateを利用してピクセルキルを行う
+        // tの値は0～1の値をとる。tが0ならどのピクセルもクリップされない
+        // tの値が1になると、64以下のピクセルがクリップされるため、
+        // すべてのピクセルがキリップされる（ditherの値の最大値は62なので）
+        clip(dither - 64 * clipRate);
+    }
+    
     //ここまで
     /////////////////////////////////////////////////////////////////////////////
     float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);

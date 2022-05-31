@@ -49,9 +49,11 @@ cbuffer LightCb : register(b1)
     float3 eyePos; //視点の位置。
 
     float4x4 mLVP;
-
+#if 0
     float DitheringLength;
-    
+#else
+    float3 targetPosition;
+#endif
     float red;
 };
 
@@ -440,6 +442,7 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     int x = (int)fmod(psIn.pos.x, 4.0f);
     int y = (int)fmod(psIn.pos.y, 4.0f);
 
+    #if 0
     // 上で求めた、xとyを利用して、このピクセルのディザリング閾値を取得する
     int dither = pattern[y][x];
 
@@ -467,6 +470,7 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     // tの値が1になると、64以下のピクセルがクリップされるため、
     // すべてのピクセルがキリップされる（ditherの値の最大値は62なので）
     clip(dither - 64 * clipRate);
+#endif
     //ここまで
     /////////////////////////////////////////////////////////////////////////////
     float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);

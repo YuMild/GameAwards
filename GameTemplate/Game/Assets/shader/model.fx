@@ -50,7 +50,7 @@ cbuffer LightCb : register(b1)
     
     float4x4 mLVP;
     
-    float DitheringLength;
+    float3 targetPosition;;
     
     float red;
 };

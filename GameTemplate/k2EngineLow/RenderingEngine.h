@@ -10,7 +10,7 @@ namespace nsK2EngineLow
 	public:
 		Light m_light;          // ライト
 		Matrix mlvp; // ライトビュープロジェクション行列。
-		float DitheringLength=250.0f;
+		Vector3 PlayerPosition = { 0.0f,0.0f,0.0f };
 		float red;
 	};
 	class RenderingEngine :public Noncopyable
@@ -24,13 +24,10 @@ namespace nsK2EngineLow
 
 		void Render2DDraw(RenderContext& rc);
 
-		/// <summary>
-		/// ディザリングのクリップ距離。デフォルトでは250.0f
-		/// </summary>
-		/// <param name="n">クリップ距離。</param>
-		void SetDitheringLength(float n)
+
+		void SetPlayerPosition(Vector3 pos)
 		{
-			m_modelRenderCB.DitheringLength = n;
+			m_modelRenderCB.PlayerPosition = pos;
 		}
 
 		void SetRed(float n)
