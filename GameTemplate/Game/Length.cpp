@@ -91,19 +91,19 @@ void Length::Cut()
 {
 	m_length = m_goal->GetLength();
 
-	m_lengthInside2D.SetIsDisplayRestrictionRightSide(true);
-	m_lengthInside2D.SetLimitedX(m_length);
+	m_lengthInside2D.SetIsDisplayRestrictionLeftSide(true);
+	m_lengthInside2D.SetLimitedX(1.0-(m_length / 181038.531));
 }
 
 void Length::LengthFont()
 {
 	wchar_t wcsbuf[256];
-	swprintf_s(wcsbuf, 256, L"%03d", int(m_length));
+	swprintf_s(wcsbuf, 256, L"%03d", int(m_length/1000));
 
 	m_fontRender.SetText(wcsbuf);
 
 	//フォントの位置を設定。
-	m_fontRender.SetPosition({ 7500.0f, -330.0f, 0.0f });
+	m_fontRender.SetPosition({ 775.0f, -330.0f, 0.0f });
 
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(2.0f);

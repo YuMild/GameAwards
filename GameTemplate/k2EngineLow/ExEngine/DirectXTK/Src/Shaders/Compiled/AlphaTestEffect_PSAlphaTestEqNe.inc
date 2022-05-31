@@ -5,7 +5,9 @@
 //
 // Input signature:
 //
-// Name                 Index   Mask Register SysValue  Format   Used
+// Name                 Index   Mask 
+
+er SysValue  Format   Used
 // -------------------- ----- ------ -------- -------- ------- ------
 // COLOR                    0   xyzw        0     NONE   float   xyzw
 // COLOR                    1   xyzw        1     NONE   float      w

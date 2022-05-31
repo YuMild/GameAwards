@@ -82,4 +82,6 @@ private:
 
 	int								m_state = 0;
 	bool							m_isHit = false;
+
+	EffectEmitter*					m_goalEffect;
 };
