@@ -20,7 +20,7 @@ bool Pipe::Start()
 	m_modelRender.SetRotation(m_rotation);
 	m_modelRender.Update();
 
-	m_boxCollider.BoxInit({ 200.0f,4000.0f,200.0f }, m_position, 0.5);
+	m_boxCollider.BoxInit({ 0.0f,0.0f,0.0f }, m_position, 0.5);
 
 	return true;
 }

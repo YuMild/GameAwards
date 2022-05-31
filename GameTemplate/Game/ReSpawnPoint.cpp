@@ -41,8 +41,11 @@ bool ReSpawnPoint::Start()
 	m_reSpawnPointEF->Init(16);
 	m_reSpawnPointEF->SetPosition({ m_position.x, m_position.y + 150.0f, m_position.z });
 	m_reSpawnPointEF->SetScale(Vector3::One * EFFECT_SIZE);
-
 	EffectEngine::GetInstance()->ResistEffect(17, u"Assets/Effect/Selfmade/CheckPointDelete.efk");
+
+	m_spriteRender.Init("Assets/sprite/CheckPoint/CheckPoint.dds", 400.0f, 400.0f);
+	m_spriteRender.SetPosition({ 0.0f,250.0f,0.0f });
+	m_spriteRender.Update();
 
 	m_ghostCollider.CreateBox(m_position, m_rotation, { 220.0f,220.0f,220.0f });
 
@@ -51,12 +54,61 @@ bool ReSpawnPoint::Start()
 
 void ReSpawnPoint::Update()
 {
+	Sprite();
 	Hit();
 }
 
 void ReSpawnPoint::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);
+	if (m_isSpriteRenderStart == true)
+	{
+		m_spriteRender.Draw(rc);
+	}
+}
+
+void ReSpawnPoint::Sprite()
+{
+	//プレイヤーがチェックポイントを通過したら
+	if (m_isSpriteRenderStart == true && m_isSpriteRenderEnd == false)
+	{
+		//画像を徐々に描画する
+		if (m_spriteScale <= 0.05f)
+		{
+			m_spriteScale += 0.01f;
+		}
+		else if (m_spriteScale >= 0.05f && m_spriteScale < 1.0f)
+		{
+			m_spriteScale += 0.1f;
+		}
+		//画像が完全に描画されたら
+		else if (m_spriteScale >= 1.0f)
+		{
+			//画像の終了処理を開始する
+			m_isSpriteRenderEnd = true;
+		}
+	}
+
+	if (m_isSpriteRenderEnd == true)
+	{
+		//時間を計る
+		m_spriteAliveTime += g_gameTime->GetFrameDeltaTime();
+	}
+
+	//2秒以上経過したら
+	if (m_spriteAliveTime > 2.0f)
+	{
+		//徐々に画像を閉じる
+		m_spriteScale -= 0.1f;
+
+		if (m_spriteScale <= 0.0f)
+		{
+			m_isSpriteRenderStart = false;
+		}
+	}
+
+	m_spriteRender.SetScale({ 1.0f,m_spriteScale,1.0f });
+	m_spriteRender.Update();
 }
 
 void ReSpawnPoint::Hit()
@@ -73,6 +125,7 @@ void ReSpawnPoint::Hit()
 	if (m_isHit == true)
 	{
 		m_aliveTime += g_gameTime->GetFrameDeltaTime();
+		m_isSpriteRenderStart = true;
 	}
 	if (m_aliveTime >= 0.05f && m_isHit == true)
 	{

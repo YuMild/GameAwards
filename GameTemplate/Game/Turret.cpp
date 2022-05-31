@@ -7,7 +7,7 @@
 namespace
 {
 	float CHARGE_TIME = 2.0f;
-	float COOL_TIME = 3.0f;
+	float COOL_TIME = 3.1f;
 	float ALIVE_TIME = 1.0f;
 }
 

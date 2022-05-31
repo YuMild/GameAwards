@@ -63,6 +63,11 @@ void Energy::Hit()
 			//m_physicsGhostObjectとぶつかった。
 			//フラグをtrueにする。
 			m_isHit = true;
+
+			//エフェクトストップ
+			m_energy->Stop();
+			m_energy->Dead();
+			m_energy->Deactivate();
 		}
 		});
 
@@ -77,11 +82,6 @@ void Energy::Hit()
 
 		//残り時間に2秒加算
 		m_timeLimit->AddTime(2.0f);
-
-		//エフェクトストップ
-		m_energy->Stop();
-		m_energy->Dead();
-		m_energy->Deactivate();
 
 		m_state = 1;
 		m_ghostCollider.Release();
