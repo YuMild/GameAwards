@@ -83,6 +83,9 @@ void Energy::Hit()
 		//残り時間に2秒加算
 		m_timeLimit->AddTime(2.0f);
 
+		//バイブレーション
+		g_pad[0]->SetVibration(0.5f, 0.1f);
+
 		m_state = 1;
 		m_ghostCollider.Release();
 		m_isHit = false;

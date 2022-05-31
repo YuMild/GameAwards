@@ -87,6 +87,6 @@ void JumpBoard::Hit()
 		m_player->SetMoveSpeed(shoot);
 		m_isHit = false;
 
-		g_pad[0]->SetVibration(0.5f, 0.5f);
+		g_pad[0]->SetVibration(3.0f, 0.5f);
 	}
 }

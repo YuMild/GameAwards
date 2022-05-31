@@ -136,8 +136,8 @@ void Player::Render(RenderContext& rc)
     m_fontRenderX.Draw(rc);
     m_fontRenderY.Draw(rc);
     m_fontRenderZ.Draw(rc);
-#endif
     m_fpsFont.Draw(rc);
+#endif
 }
 
 void Player::Death()
@@ -189,8 +189,11 @@ void Player::ReSpawn()
     //サウンド
     m_reSpawnSE = NewGO<SoundSource>(15);
     m_reSpawnSE->Init(15);
-    m_reSpawnSE->SetVolume(0.25f);
+    m_reSpawnSE->SetVolume(0.175f);
     m_reSpawnSE->Play(false);
+
+    //バイブレーション
+    g_pad[0]->SetVibration(0.3f, 0.05f);
 
     g_camera3D->SetPosition(m_position);
     g_camera3D->SetTarget(m_position);

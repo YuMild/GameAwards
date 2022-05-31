@@ -52,6 +52,7 @@ private:
 	float			m_timer = 0.0f;
 	float			m_charge = 0.0f;
 	float			m_length = 0.0f;
+	float			m_InitialLength = 0.0f;
 	float			m_currentAlpha = 0.0f;		//aílÅB
 
 	Game*			m_game;

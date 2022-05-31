@@ -111,6 +111,8 @@ void Turret::Hit()
 	if (m_isHit == true)					//ビームがプレイヤーに当たったら
 	{
 		m_player->SetState(1);
+		//バイブレーション
+		g_pad[0]->SetVibration(0.4f, 0.1f);
 		m_isHit = false;
 	}
 }
