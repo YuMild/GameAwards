@@ -342,6 +342,7 @@
     <ClCompile Include="sound\WaveFileBank.cpp" />
     <ClCompile Include="SpringCamera.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
+    <ClCompile Include="Ssr.cpp" />
     <ClCompile Include="tkFile\TkaFile.cpp" />
     <ClCompile Include="tkFile\TkmFile.cpp" />
     <ClCompile Include="tkFile\TknFile.cpp" />
@@ -449,6 +450,7 @@
     <ClInclude Include="sound\WaveFileBank.h" />
     <ClInclude Include="SpringCamera.h" />
     <ClInclude Include="SpriteRender.h" />
+    <ClInclude Include="Ssr.h" />
     <ClInclude Include="time\FPSLimitter.h" />
     <ClInclude Include="time\GameTime.h" />
     <ClInclude Include="time\Stopwatch.h" />

@@ -9,7 +9,7 @@ namespace
     const Vector3 SET_1_DIGIT_POSITION = { 133.0f, 405.0f, 0.0f };
     const Vector3 SET_2_DIGIT_POSITION = { 120.0f, 405.0f, 0.0f };
     const Vector3 SET_COLOR = { 0.0f,230.0f,255.0f };
-    const float SET_TIMELIMIT = 60.0f;
+    const float SET_TIMELIMIT = 30.0f;
     const float SET_DEFAULT_SCALE = 1.5f;
 }
 

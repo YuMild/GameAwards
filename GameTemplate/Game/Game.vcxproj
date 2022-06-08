@@ -235,6 +235,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="HoneyCombBlock.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="HoneyCombBlock.h" />

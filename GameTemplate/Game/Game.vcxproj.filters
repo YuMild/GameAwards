@@ -140,6 +140,9 @@
     <ClCompile Include="Bumper.cpp">
       <Filter>Stage\Parts</Filter>
     </ClCompile>
+    <ClCompile Include="GameClear.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="Bumper.h">
       <Filter>Stage\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClear.h">
+      <Filter>Windows</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
