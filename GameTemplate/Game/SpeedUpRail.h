@@ -6,6 +6,9 @@
 class Player;
 class RockOn;
 
+/// <summary>
+/// ‰Á‘¬”ÂyƒƒbƒNƒIƒ“z
+/// </summary>
 class SpeedUpRail : public RockOnObject
 {
 public:

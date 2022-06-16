@@ -6,11 +6,11 @@
 
 namespace
 {
-    const Vector3 SET_1_DIGIT_POSITION = { 133.0f, 405.0f, 0.0f };
-    const Vector3 SET_2_DIGIT_POSITION = { 120.0f, 405.0f, 0.0f };
-    const Vector3 SET_COLOR = { 0.0f,230.0f,255.0f };
-    const float SET_TIMELIMIT = 30.0f;
-    const float SET_DEFAULT_SCALE = 1.5f;
+    const Vector3 SET_1_DIGIT_POSITION = { 133.0f, 405.0f, 0.0f };          //残り時間が1桁の時のフォントの位置
+    const Vector3 SET_2_DIGIT_POSITION = { 120.0f, 405.0f, 0.0f };          //残り時間が2桁の時のフォントの位置
+    const Vector3 SET_COLOR = { 0.0f,230.0f,255.0f };                       //フォントのカラー
+    const float SET_TIMELIMIT = 30.0f;                                      //タイムリミット
+    const float SET_DEFAULT_SCALE = 1.5f;                                   //フォントのサイズ
 }
 
 TimeLimit::TimeLimit()
@@ -49,6 +49,7 @@ void TimeLimit::Update()
     {
         g_renderingEngine.SetRed(g_renderingEngine.GetRed() - 0.05f);
     }
+    //残り時間が20秒を切ったら画面に赤みを出す
     if (m_limitTimer <= 20.0f)
     {
         if (g_renderingEngine.GetRed() <= 1.0f)
@@ -107,12 +108,6 @@ void TimeLimit::Time()
         return;
     }
 
-    //デバッグ用
-    if (g_pad[0]->IsTrigger(enButtonX))
-    {
-        m_limitTimer += 2.0f;
-    }
-
     //残り時間を減らす
     m_limitTimer -= g_gameTime->GetFrameDeltaTime();
 
@@ -131,8 +126,10 @@ void TimeLimit::Time()
     {
         //ポジションを2桁用に
         m_fontRender.SetPosition(SET_1_DIGIT_POSITION);
+        //プレイヤーがアイテムを取ったら
         if (m_isSetScale == true)
         {
+            //フォントを上下に動かす
             if (m_fontYPosition > 0.0f)
             {
                 m_fontYPosition -= 5.0f;
@@ -144,8 +141,10 @@ void TimeLimit::Time()
     else
     {   //ポジションを1桁用に
         m_fontRender.SetPosition(SET_2_DIGIT_POSITION);
+        //プレイヤーがアイテムを取ったら
         if (m_isSetScale == true)
         {
+            //フォントを上下に動かす
             if (m_fontYPosition > 0.0f)
             {
                 m_fontYPosition -= 5.0f;

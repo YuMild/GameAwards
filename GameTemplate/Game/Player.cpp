@@ -11,19 +11,23 @@
 namespace
 {
     //プレイヤー
-    Vector3 PLAYER_FIRST_POSITION = { 0.0f,250.0f,0.0f };       //スポーン座標
-    float PLAYER_MODEL_SCALE = 1.0f;                            //サイズ
-    float PLAYER_COLLISION_SCALE = 50.0f;                       //当たり判定のサイズ
-    float PLAYER_GRAVITY = -200000.0f;                          //重力
-    float PLAYER_ROLL = 1.0f;                                   //転がりやすさ
-    float PLAYER_FRICTION = 1.0f;                               //摩擦力
-    float PLAYER_SPEED_DECREASE = 0.997;                        //スピードの減衰率
-    float PLAYER_SPEED_DEFAULT = 50000000.0f;                   //スピードデフォルト
-    float PLAYER_SPEED_MAX = 10000.0f;                          //スピード上限値
+    const Vector3 PLAYER_FIRST_POSITION = { 0.0f,250.0f,0.0f };             //スポーン座標
+    const float PLAYER_MODEL_SCALE = 1.0f;                                  //サイズ
+    const float PLAYER_COLLISION_SCALE = 50.0f;                             //当たり判定のサイズ
+    const float PLAYER_GRAVITY = -200000.0f;                                //重力
+    const float PLAYER_ROLL = 1.0f;                                         //転がりやすさ
+    const float PLAYER_FRICTION = 1.0f;                                     //摩擦力
+    const float PLAYER_SPEED_DECREASE = 0.997;                              //スピードの減衰率
+    const float PLAYER_SPEED_DEFAULT = 50000000.0f;                         //スピードデフォルト
+    const float PLAYER_SPEED_MAX = 10000.0f;                                //スピード上限値
 
     //チャージ
-    float CHARGE_DEFAULT = 0.0f;                                //チャージリセット値
-    float CHARGE_ADD = 0.05f;                                   //1f毎にチャージされる値
+    const float CHARGE_DEFAULT = 0.0f;                                      //sチャージリセット値
+    const float CHARGE_ADD = 0.05f;                                         //1f毎にチャージされる値
+
+    //エフェクト
+    const float EFFECT_RESPWAN_SIZE = 3.0f;                                 //リスポーンエフェクトのサイズ
+    const float EFFECT_FIRE_IMPACT_SIZE = 50.0f;                            //発射時のエフェクトのサイズ
 }
 
 bool Player::Start()
@@ -44,7 +48,7 @@ bool Player::Start()
     EffectEngine::GetInstance()->ResistEffect(2, u"Assets/Effect/Selfmade/PowerCharge.efk");
     m_reSpawnEF = NewGO<EffectEmitter>(2);
     m_reSpawnEF->Init(2);
-    m_reSpawnEF->SetScale(Vector3::One * 3.0f);
+    m_reSpawnEF->SetScale(Vector3::One * EFFECT_RESPWAN_SIZE);
     m_reSpawnEF->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
 
     EffectEngine::GetInstance()->ResistEffect(10, u"Assets/Effect/Selfmade/FireImpact.efk");
@@ -182,7 +186,7 @@ void Player::ReSpawn()
     //エフェクト
     m_reSpawnEF = NewGO<EffectEmitter>(2);
     m_reSpawnEF->Init(2);
-    m_reSpawnEF->SetScale(Vector3::One * 3.0f);
+    m_reSpawnEF->SetScale(Vector3::One * EFFECT_RESPWAN_SIZE);
     m_reSpawnEF->SetPosition({ m_position.x,m_position.y + 10.0f,m_position.z });
     m_reSpawnEF->Play();
 
@@ -334,25 +338,25 @@ void Player::NormalMove()
     //バイブレーション
     g_pad[0]->SetVibration(0.2f, 0.05f);
 
-    m_moveSpeed = (m_forward * PLAYER_SPEED_DEFAULT) * m_charge;            //前後
-    m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
+    m_moveSpeed = (m_forward * PLAYER_SPEED_DEFAULT) * m_charge;                //前後
+    m_charge = CHARGE_DEFAULT;                                                  //チャージをリセット
 }
 
 void Player::RockOnMove()
 {
     if (m_isPowerCharge == true)
     {
-        m_powerCharge = NewGO<PowerCharge>(0, "powerCharge");               //エフェクトを再生
+        m_powerCharge = NewGO<PowerCharge>(0, "powerCharge");                   //エフェクトを再生
     }
     m_isPressState = true;
     m_isPowerCharge = false;
-    m_delay += 0.1;                                                         //ディレイしてから射出
-    m_rigidBody.SetLinearVelocity({ 0.0f,0.0f,0.0f });                      //スピードを初期化
+    m_delay += 0.1;                                                             //ディレイしてから射出
+    m_rigidBody.SetLinearVelocity(Vector3::Zero);                               //スピードを初期化
 
-    if (m_delay > 2.0f)                                                     //ボタンが離されて2.0fが経ったら
+    if (m_delay > 2.0f)                                                         //ボタンが離されて2.0fが経ったら
     {
-        m_isRockOnFire = true;                                              //ロックオンアタックを有効化
-        m_isPress = false;                                                  //ボタンが押されていない
+        m_isRockOnFire = true;                                                  //ロックオンアタックを有効化
+        m_isPress = false;                                                      //ボタンが押されていない
         m_isPowerCharge = true;
 
         Vector3 effectpos = { m_position.x,m_position.y + 10.0f,m_position.z };
@@ -362,7 +366,7 @@ void Player::RockOnMove()
         m_effectRotation.SetRotationYFromDirectionXZ(m_cameraRight);
         m_fireImpactEF = NewGO<EffectEmitter>(10);
         m_fireImpactEF->Init(10);
-        m_fireImpactEF->SetScale(Vector3::One * 50.0f);
+        m_fireImpactEF->SetScale(Vector3::One * EFFECT_FIRE_IMPACT_SIZE);
         m_fireImpactEF->SetPosition(effectpos);
         m_fireImpactEF->SetRotation(rot);
         m_fireImpactEF->Play();
@@ -375,8 +379,8 @@ void Player::RockOnMove()
 
         g_pad[0]->SetVibration(0.2f, 0.05f);
 
-        m_moveSpeed = (m_target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);//前後 (通常の二倍の速さで射出)
-        m_charge = CHARGE_DEFAULT;                                          //チャージをリセット
-        m_delay = 0.0f;                                                     //ディレイをリセット
+        m_moveSpeed = (m_target * PLAYER_SPEED_DEFAULT) * (m_charge * 2.0f);    //前後 (通常の二倍の速さで射出)
+        m_charge = CHARGE_DEFAULT;                                              //チャージをリセット
+        m_delay = 0.0f;                                                         //ディレイをリセット
     }
 }

@@ -29,6 +29,7 @@ void Window::Update()
 
 void Window::Render(RenderContext& rc)
 {
+	//ƒQ[ƒ€‚ªŽn‚Ü‚Á‚Ä‚È‚©‚Á‚½‚ç•`‰æ‚µ‚È‚¢
 	if (m_game->GetGameState() == 0)
 	{
 		m_fadeState = enState_FadeOut;

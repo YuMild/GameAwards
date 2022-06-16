@@ -1,4 +1,8 @@
 #pragma once
+
+/// <summary>
+/// パイプ【非ロックオン】
+/// </summary>
 class Pipe : public IGameObject
 {
 public:

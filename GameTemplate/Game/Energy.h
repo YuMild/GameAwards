@@ -6,6 +6,9 @@ class Player;
 class RockOn;
 class TimeLimit;
 
+/// <summary>
+/// エネルギー【ロックオン】
+/// </summary>
 class Energy : public IGameObject
 {
 public:

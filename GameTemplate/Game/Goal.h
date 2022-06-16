@@ -7,6 +7,9 @@ class Game;
 class Player;
 class RockOn;
 
+/// <summary>
+/// ゴール【ロックオン】
+/// </summary>
 class Goal : public RockOnObject
 {
 public:

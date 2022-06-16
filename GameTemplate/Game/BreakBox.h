@@ -7,6 +7,9 @@ class Player;
 class RockOn;
 class TimeLimit;
 
+/// <summary>
+/// 破壊可能なボックス【ロックオン】
+/// </summary>
 class BreakBox : public RockOnObject
 {
 public:

@@ -5,6 +5,9 @@
 class Bumper;
 class Player;
 
+/// <summary>
+/// ロックオン
+/// </summary>
 class RockOn : public IGameObject
 {
 public:
@@ -14,16 +17,28 @@ public:
 	void Render(RenderContext& rc);
 	void Update();
 
+	/// <summary>
+	/// ロックオンしてるか否かの判定を取得
+	/// </summary>
+	/// <returns></returns>
 	bool GetRockOnJudge() const
 	{
 		return m_isRockOn;
 	}
 
+	/// <summary>
+	/// ロックオンオブジェクトとプレイヤーの直線距離を取得
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetDifference() const
 	{
 		return m_difference;
 	}
 
+	/// <summary>
+	/// ロックオン出来るオブジェクトとして登録
+	/// </summary>
+	/// <param name="addObject"></param>
 	void AddRockOnObject(RockOnObject* addObject)
 	{
 		m_rockOnObject.push_back(addObject);

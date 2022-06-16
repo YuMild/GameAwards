@@ -6,8 +6,10 @@
 
 namespace
 {
-	float FONT_SIZE = 200.0f;
-	float LOGO_SIZE = 40.0f;
+	const float FONT_SIZE = 200.0f;
+	const float LOGO_SIZE = 40.0f;
+
+	const float CHOISE_SOUND_SIZE = 0.3f;
 }
 
 Title::Title()
@@ -64,11 +66,13 @@ bool Title::Start()
 
 void Title::Update()
 {
+	//スタートにカーソルがあっている時
 	if (m_choiceState == 0 && g_pad[0]->IsTrigger(enButtonB))
 	{
 		m_game->SetGameState(0);
 		DeleteGO(this);
 	}
+	//スタートにカーソルがあっている時
 	if (m_choiceState == 1 && g_pad[0]->IsTrigger(enButtonB))
 	{
 		NewGO<Setting>(0, "setting");
@@ -127,7 +131,7 @@ void Title::Choice()
 		m_choiceState += 1;
 		m_choiceSE = NewGO<SoundSource>(1);
 		m_choiceSE->Init(1);
-		m_choiceSE->SetVolume(0.3f);
+		m_choiceSE->SetVolume(CHOISE_SOUND_SIZE);
 		m_choiceSE->Play(false);
 	}
 
@@ -137,7 +141,7 @@ void Title::Choice()
 		m_choiceState -= 1;
 		m_choiceSE = NewGO<SoundSource>(1);
 		m_choiceSE->Init(1);
-		m_choiceSE->SetVolume(0.3f);
+		m_choiceSE->SetVolume(CHOISE_SOUND_SIZE);
 		m_choiceSE->Play(false);
 	}
 }

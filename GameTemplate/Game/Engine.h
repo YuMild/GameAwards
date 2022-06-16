@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// ステージ上部に設置されているエンジン【非ロックオン】
+/// </summary>
 class Engine : public IGameObject
 {
 public:

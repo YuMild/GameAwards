@@ -1,4 +1,8 @@
 #pragma once
+
+/// <summary>
+/// ダクト【非ロックオン】
+/// </summary>
 class Duct : public IGameObject
 {
 public:

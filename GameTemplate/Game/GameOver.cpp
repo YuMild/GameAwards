@@ -27,8 +27,10 @@ void GameOver::Update()
 {
 	Sprite();
 
+	//Bボタンを押すと
 	if (g_pad[0]->IsTrigger(enButtonB))
 	{
+		//タイトルに戻す
 		m_game->SetGameState(2);
 		DeleteGO(this);
 	}

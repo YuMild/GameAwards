@@ -1,4 +1,8 @@
 #pragma once
+
+/// <summary>
+/// ハニカムブロック【非ロックオン】
+/// </summary>
 class HoneyCombBlock : public IGameObject
 {
 public:

@@ -5,6 +5,9 @@
 class Player;
 class RockOn;
 
+/// <summary>
+/// ドア【非ロックオン】
+/// </summary>
 class Door : public IGameObject
 {
 public:

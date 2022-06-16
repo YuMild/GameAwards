@@ -6,6 +6,9 @@
 class Player;
 class RockOn;
 
+/// <summary>
+/// ドローン【ロックオン】
+/// </summary>
 class Drone : public RockOnObject
 {
 public:

@@ -125,9 +125,6 @@
     <ClCompile Include="GameOver.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Clear.cpp">
-      <Filter>Windows</Filter>
-    </ClCompile>
     <ClCompile Include="Length.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -238,9 +235,6 @@
       <Filter>Stage\Parts</Filter>
     </ClInclude>
     <ClInclude Include="GameOver.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="Clear.h">
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="Length.h">
