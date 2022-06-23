@@ -11,8 +11,6 @@ namespace nsK2EngineLow
 		Light m_light;          // ライト
 		Matrix mlvp; // ライトビュープロジェクション行列。
 		Vector3 PlayerPosition = { 0.0f,0.0f,0.0f };
-		Matrix mlvp;			// ライトビュープロジェクション行列。
-		float DitheringLength=250.0f;
 		float red;
 	};
 	class RenderingEngine :public Noncopyable
@@ -45,6 +43,8 @@ namespace nsK2EngineLow
 
 		void Execute(RenderContext& rc);
 
+		void DrawModelAndDepth(RenderContext& rc);
+
 		Texture& GetShadowMap()
 		{
 			return m_shadowMapRender.GetShadowMap();
@@ -60,6 +60,10 @@ namespace nsK2EngineLow
 		RenderTarget& GetDepthRenderTarget()
 		{
 			return m_depthRenderTarget;
+		}
+		RenderTarget& GetmainRenderTarget()
+		{
+			return m_mainRenderTarget;
 		}
 	private:
 		std::vector<IRenderer*> m_renderobject;

@@ -8,21 +8,9 @@ namespace nsK2EngineLow {
 	void PostEffect::Init()
 	{
 		
-		//step-1 オフスクリーン描画用のレンダリングターゲットを作成。
-		//RenderTargetクラスのオブジェクトを定義。
 		
-		//RenderTarget::Create()を利用して、レンダリングターゲットを作成する。
-		mainRenderTarget.Create(
-			1600,												//テクスチャの幅。
-			900,												//テクスチャの高さ。
-			1,													//Mipmapレベル。
-			1,													//テクスチャ配列のサイズ。
-			DXGI_FORMAT_R32G32B32A32_FLOAT,
-			DXGI_FORMAT_D32_FLOAT				//デプスステンシルバッファのフォーマット。
-		);
-
 		//解像度、ミップマップレベル
-		luminnceRenderTarget.Create(
+		luminanceRenderTarget.Create(
 			1600,		//解像度はメインレンダリングターゲットと同じ。
 			900,		//解像度はメインレンダリングターゲットと同じ。
 			1,
@@ -36,64 +24,21 @@ namespace nsK2EngineLow {
 
 	void PostEffect::Render(RenderContext& rc)
 	{
-		RenderTarget* rts[] = {
-		&mainRenderTarget,
-		&g_renderingEngine.GetDepthRenderTarget()
-		};
-
-		//レンダリングターゲットとして利用できるまで待つ
-		rc.WaitUntilToPossibleSetRenderTargets(2, rts);
-		//レンダリングターゲットを設定。
-		rc.SetRenderTargetsAndViewport(2, rts);
-		// レンダリングターゲットをクリア
-		rc.ClearRenderTargetViews(2, rts);
-		//モデルをドロー。
-		g_engine->ExecuteRender();
-		// レンダリングターゲットへの書き込み終了待ち
-		rc.WaitUntilFinishDrawingToRenderTargets(2, rts);
-
-
-
-
-
-
-
-
-		//// レンダリングターゲットとして利用できるまで待つ
-		//rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.mainRenderTarget);
-
-		//// レンダリングターゲットを設定
-		//rc.SetRenderTarget(g_postEffect.mainRenderTarget);
-
-		//// レンダリングターゲットをクリア
-		//rc.ClearRenderTargetView(g_postEffect.mainRenderTarget);
-
-		//g_engine->ExecuteRender();
-
-		//// レンダリングターゲットへの書き込み終了待ち
-		//rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.mainRenderTarget);
-
-
-
-
-
-
 		// レンダリングターゲットとして利用できるまで待つ
-		rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.luminnceRenderTarget);
-
+		rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.luminanceRenderTarget);
 		// レンダリングターゲットを設定
-		rc.SetRenderTarget(g_postEffect.luminnceRenderTarget);
+		rc.SetRenderTarget(g_postEffect.luminanceRenderTarget);
 		// レンダリングターゲットをクリア
-		rc.ClearRenderTargetView(g_postEffect.luminnceRenderTarget);
+		rc.ClearRenderTargetView(g_postEffect.luminanceRenderTarget);
 
 		g_bloom.LuminanceSpriteDraw(rc);
 
 		// レンダリングターゲットへの書き込み終了待ち
-		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.luminnceRenderTarget);
+		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.luminanceRenderTarget);
 
 		g_bloom.Blur(rc);
 
-		g_bloom.Render(rc, mainRenderTarget);
+		g_bloom.Render(rc, g_renderingEngine.GetmainRenderTarget());
 		// step-5 画面に表示されるレンダリングターゲットに戻す
 		rc.SetRenderTarget(
 			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),

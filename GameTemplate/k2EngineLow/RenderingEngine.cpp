@@ -29,10 +29,31 @@ namespace nsK2EngineLow
 		
 		ShadowMapDraw(rc);
 		
+		DrawModelAndDepth(rc);
+
 		m_postEffect->Render(rc);
 
 		Render2DDraw(rc);
 		m_renderobject.clear();
+	}
+	void RenderingEngine::DrawModelAndDepth(RenderContext& rc)
+	{
+		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
+		RenderTarget* rts[] = {
+			&g_renderingEngine.GetmainRenderTarget(),
+			&g_renderingEngine.GetDepthRenderTarget()
+		};
+
+		//レンダリングターゲットとして利用できるまで待つ
+		rc.WaitUntilToPossibleSetRenderTargets(2, rts);
+		//レンダリングターゲットを設定。
+		rc.SetRenderTargetsAndViewport(2, rts);
+		// レンダリングターゲットをクリア
+		rc.ClearRenderTargetViews(2, rts);
+		//モデルをドロー。
+		g_engine->ExecuteRender();
+		// レンダリングターゲットへの書き込み終了待ち
+		rc.WaitUntilFinishDrawingToRenderTargets(2, rts);
 	}
 	void RenderingEngine::Init()
 	{
@@ -40,7 +61,15 @@ namespace nsK2EngineLow
 		m_shadowMapRender.Init();
 		m_modelRenderCB.m_light = g_sceneLight.GetLight();
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
-
+		//RenderTarget::Create()を利用して、レンダリングターゲットを作成する。
+		m_mainRenderTarget.Create(
+			1600,												//テクスチャの幅。
+			900,												//テクスチャの高さ。
+			1,													//Mipmapレベル。
+			1,													//テクスチャ配列のサイズ。
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_D32_FLOAT				//デプスステンシルバッファのフォーマット。
+		);
 		m_depthRenderTarget.Create(
 			1600,
 			900,

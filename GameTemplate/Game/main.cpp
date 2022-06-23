@@ -20,9 +20,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 	g_sceneLight.SeteyePosition(g_camera3D->GetPosition());
 
+	g_renderingEngine.Init();
 	g_postEffect.Init();
 	g_bloom.Init();
-	g_renderingEngine.Init();
+	
 	
 	NewGO<First>(0, "first");
 	

@@ -9,7 +9,7 @@ namespace nsK2EngineLow {
 	{
 		//ガウシアンブラーを作成
 		GaussianBlur blur;
-		blur.Init(&g_postEffect.mainRenderTarget.GetRenderTargetTexture());
+		blur.Init(&g_renderingEngine.GetmainRenderTarget().GetRenderTargetTexture());
 
 		//合成用のボケた画像を作成
 		SpriteInitData combineBokeSpriteInitData;
@@ -31,7 +31,7 @@ namespace nsK2EngineLow {
 
 		SpriteInitData spriteInitData;
 
-		spriteInitData.m_textures[0] = &g_postEffect.mainRenderTarget.GetRenderTargetTexture();
+		spriteInitData.m_textures[0] = &g_renderingEngine.GetmainRenderTarget().GetRenderTargetTexture();
 
 		//フレームバッファに合成するので解像度は同じにする
 		spriteInitData.m_width = 1600;

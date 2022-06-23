@@ -20,7 +20,7 @@ namespace nsK2EngineLow {
 		//スプライトの初期化オブジェクトを作成する。
 		SpriteInitData spriteInitData;
 		//テクスチャはmainRenderTargetのカラーバッファ。
-		spriteInitData.m_textures[0] = &g_postEffect.mainRenderTarget.GetRenderTargetTexture();
+		spriteInitData.m_textures[0] = &g_renderingEngine.GetmainRenderTarget().GetRenderTargetTexture();
 		spriteInitData.m_width = 1600;
 		spriteInitData.m_height = 900;
 		//モノクロ用のシェーダーを指定する。
@@ -49,7 +49,7 @@ namespace nsK2EngineLow {
 		luminanceSpriteInitData.m_width = 1600;
 		luminanceSpriteInitData.m_height = 900;
 		//テクスチャはメインレンダリングターゲットのカラーバッファ。
-		luminanceSpriteInitData.m_textures[0] = &g_postEffect.mainRenderTarget.GetRenderTargetTexture();
+		luminanceSpriteInitData.m_textures[0] = &g_renderingEngine.GetmainRenderTarget().GetRenderTargetTexture();
 		//描き込むレンダリングターゲットのフォーマットを指定する。
 		luminanceSpriteInitData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
@@ -63,7 +63,7 @@ namespace nsK2EngineLow {
 		//step-1 ガウシアンブラーを初期化。
 		
 		//gaussianBlur[0]は輝度テクスチャにガウシアンブラーをかける。
-		gaussianBlur[0].Init(&g_postEffect.luminnceRenderTarget.GetRenderTargetTexture());
+		gaussianBlur[0].Init(&g_postEffect.luminanceRenderTarget.GetRenderTargetTexture());
 		//gaussianBlur[1]はgaussianBlur[0]のテクスチャにガウシアンブラーをかける。
 		gaussianBlur[1].Init(&gaussianBlur[0].GetBokeTexture());
 		//gaussianBlur[2]はgaussianBlur[1]のテクスチャにガウシアンブラーをかける。
