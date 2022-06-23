@@ -5,6 +5,9 @@
 class Player;
 class RockOn;
 
+/// <summary>
+/// ジャンプ台【非ロックオン】
+/// </summary>
 class JumpBoard : public IGameObject
 {
 public:

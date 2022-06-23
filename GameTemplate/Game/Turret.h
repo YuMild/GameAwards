@@ -6,6 +6,9 @@
 class Player;
 class RockOn;
 
+/// <summary>
+/// タレット【非ロックオン】
+/// </summary>
 class Turret : public RockOnObject
 {
 public:

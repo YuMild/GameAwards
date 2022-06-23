@@ -6,7 +6,8 @@
 
 namespace
 {
-
+	const Vector3 SET_COLOR = { 0.0f,230.0f,255.0f };                       //フォントのカラー
+	const float GOAL_LENGTH = 181038.531f;
 }
 
 Length::Length()
@@ -50,6 +51,7 @@ void Length::Update()
 
 void Length::Render(RenderContext& rc)
 {
+	//ゲームが始まってなかったら
 	if (m_game->GetGameState() == 0)
 	{
 		m_fadeState = enState_FadeOut;
@@ -60,7 +62,7 @@ void Length::Render(RenderContext& rc)
 		m_lengthInside2D.SetMulColor({ 1.0f, 1.0f, 1.0f, m_currentAlpha });
 		m_lengthInside2D.Draw(rc);
 
-		m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f, m_currentAlpha });
+		m_fontRender.SetColor({ SET_COLOR.x, SET_COLOR.y, SET_COLOR.z, m_currentAlpha });
 		m_fontRender.Draw(rc);
 	}
 }
@@ -89,10 +91,11 @@ void Length::Fade()
 
 void Length::Cut()
 {
+	//プレイヤーとゴールの直線距離を代入
 	m_length = m_goal->GetLength();
 
 	m_lengthInside2D.SetIsDisplayRestrictionLeftSide(true);
-	m_lengthInside2D.SetLimitedX(1.0-(m_length / 181038.531));
+	m_lengthInside2D.SetLimitedX(1.0-(m_length / GOAL_LENGTH));
 }
 
 void Length::LengthFont()
@@ -107,6 +110,6 @@ void Length::LengthFont()
 
 	//フォントの大きさを設定。
 	m_fontRender.SetScale(2.0f);
-	m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f,0.0f });
+	m_fontRender.SetColor({ SET_COLOR.x, SET_COLOR.y, SET_COLOR.z,0.0f });
 	m_fontRender.SetPivot(1.0f, 0.5f);
 }

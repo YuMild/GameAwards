@@ -1,4 +1,8 @@
 #pragma once
+
+/// <summary>
+/// トラック【非ロックオン】
+/// </summary>
 class Truck : public IGameObject
 {
 public:

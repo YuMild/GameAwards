@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// ボルト【非ロックオン】
+/// </summary>
 class Volt : public IGameObject
 {
 public:

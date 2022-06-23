@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// ナット【非ロックオン】
+/// </summary>
 class Nut : public IGameObject
 {
 public:

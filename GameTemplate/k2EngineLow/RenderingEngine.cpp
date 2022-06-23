@@ -26,7 +26,7 @@ namespace nsK2EngineLow
 		m_modelRenderCB.m_light = g_sceneLight.GetLight();
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
-		g_engine->ExecuteRender();
+		
 		ShadowMapDraw(rc);
 		
 		m_postEffect->Render(rc);
@@ -41,5 +41,13 @@ namespace nsK2EngineLow
 		m_modelRenderCB.m_light = g_sceneLight.GetLight();
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
 
+		m_depthRenderTarget.Create(
+			1600,
+			900,
+			1,
+			1,
+			DXGI_FORMAT_R32_FLOAT,
+			DXGI_FORMAT_UNKNOWN
+		);
 	}
 }

@@ -8,6 +8,9 @@ class Player;
 class RockOn;
 class TimeLimit;
 
+/// <summary>
+/// リスポーン地点【ロックオン】
+/// </summary>
 class ReSpawnPoint : public RockOnObject
 {
 public:

@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// 進行方向を示す掲示板【非ロックオン】
+/// </summary>
 class SignBoard : public IGameObject
 {
 public:

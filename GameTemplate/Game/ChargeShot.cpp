@@ -4,6 +4,17 @@
 #include "Game.h"
 #include "Player.h"
 
+namespace
+{
+	//画像
+	const Vector3 CHARGE_2D_POSITION = { -400.0f, -250.0f, 0.0f };
+	const Vector3 CHARGE_INSIDE_2D_POSITION = { -295.0f, -288.0f, 0.0f };
+	
+	//フォント
+	const Vector3 FONT_SIZE = { -630.0f, -330.0f, 0.0f };
+	const Vector3 FONT_COLOR = { 0.0f, 230.0f, 255.0f };
+}
+
 ChargeShot::ChargeShot()
 {
 
@@ -20,16 +31,16 @@ bool ChargeShot::Start()
 	m_player = FindGO<Player>("player");
 
 	m_charge2D.Init("Assets/sprite/Charge/Charge.dds", 700.0f, 700.0f);
-	m_charge2D.SetPosition(Vector3(-400.0f, -250.0f, 0.0f));
+	m_charge2D.SetPosition(CHARGE_2D_POSITION);
 	m_charge2D.Update();
 
 	m_chargeInside2D.Init("Assets/sprite/Charge/ChargeInside.dds", 315.0f, 315.0f);
-	m_chargeInside2D.SetPosition(Vector3(-295.0f, -288.0f, 0.0f));
+	m_chargeInside2D.SetPosition(CHARGE_INSIDE_2D_POSITION);
 	m_chargeInside2D.Update();
 
 	m_fontRender.SetScale(2.0f);
 	m_fontRender.SetPivot(1.0f, 0.5f);
-	m_fontRender.SetPosition({ -630.0f, -330.0f, 0.0f });
+	m_fontRender.SetPosition(FONT_SIZE);
 
 	return true;
 }
@@ -45,6 +56,7 @@ void ChargeShot::Update()
 
 void ChargeShot::Render(RenderContext& rc)
 {
+	//ゲームが始まってなかったら
 	if (m_game->GetGameState() == 0)
 	{
 		m_fadeState = enState_FadeOut;
@@ -55,7 +67,7 @@ void ChargeShot::Render(RenderContext& rc)
 		m_chargeInside2D.SetMulColor({ 1.0f, 1.0f, 1.0f, m_currentAlpha });
 		m_chargeInside2D.Draw(rc);
 
-		m_fontRender.SetColor({ 0.0f, 230.0f, 255.0f, m_currentAlpha });
+		m_fontRender.SetColor({ FONT_COLOR.x, FONT_COLOR.y, FONT_COLOR.z, m_currentAlpha });
 		m_fontRender.Draw(rc);
 	}
 }

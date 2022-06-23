@@ -3,14 +3,13 @@
 class Game;
 
 /// <summary>
-/// ゲームオーバー
+/// ゲームクリア
 /// </summary>
-class GameOver : public IGameObject
+class GameClear
 {
 public:
-
-	GameOver();
-	~GameOver();
+	GameClear();
+	~GameClear();
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);

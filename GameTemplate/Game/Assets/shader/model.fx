@@ -55,7 +55,6 @@ cbuffer LightCb : register(b1)
     float red;
 };
 
-
 ////////////////////////////////////////////////
 // 構造体
 ////////////////////////////////////////////////
@@ -64,6 +63,7 @@ struct SSkinVSIn{
 	int4  Indices  	: BLENDINDICES0;
     float4 Weights  : BLENDWEIGHT0;
 };
+
 //頂点シェーダーへの入力。
 struct SVSIn{
 	float4 pos 		: POSITION;		//モデルの頂点座標。
@@ -71,6 +71,7 @@ struct SVSIn{
 	float2 uv 		: TEXCOORD0;	//UV座標。
 	SSkinVSIn skinVert;				//スキン用のデータ。
 };
+
 //ピクセルシェーダーへの入力。
 struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
@@ -81,7 +82,15 @@ struct SPSIn{
     float3 normalInView : TEXCOORD2;     //カメラ空間の法線
     
     float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
+
+    float depthInView : TEXCOORD4;
 };
+
+struct SPSOut {
+    float4 color:SV_Target0;
+    float depth : SV_Target1;
+};
+
 ///////////////////////////////////////////
 // 関数宣言
 ///////////////////////////////////////////
@@ -91,7 +100,6 @@ float3 CalcLigFromPointLight(SPSIn psIn);
 float3 CalcLigFromDirectionLight(SPSIn psIn);
 float3 CalcLigFromSpotLight(SPSIn psIn);
 float3 CalcRimLight(SPSIn psIn,float3 lightdirection,float3 lightcolor);
-
 
 ////////////////////////////////////////////////
 // グローバル変数。
@@ -146,6 +154,7 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     psIn.worldPos = psIn.pos;
 	psIn.pos = mul(mView, psIn.pos);
   	psIn.pos = mul(mProj, psIn.pos);
+    psIn.depthInView = psIn.pos.z;//Z値を入れる
 
 	// 頂点法線をピクセルシェーダーに渡す。
 	psIn.normal = normalize(mul(m, vsIn.normal)); //法線を回転させる。
@@ -376,7 +385,7 @@ float3 CalcRimLight(SPSIn psIn, float3 direction,float3 color)
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
-float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
+float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive)
 {
 
     //ディレクションライトによるライティングを計算する
@@ -387,7 +396,6 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
 
     //スポットライトによるライティングを計算する。
     float3 spotLig = CalcLigFromSpotLight(psIn);
-    
    
     // step-6 ライトビュースクリーン空間からUV空間に座標変換
     // 【注目】ライトビュースクリーン空間からUV座標空間に変換している
@@ -442,11 +450,21 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     }
 }
 // モデル用のピクセルシェーダーのエントリーポイント
-float4 PSMain(SPSIn psIn) : SV_Target0
+SPSOut PSMain(SPSIn psIn)
 {
-    return  PSMainCore(psIn,false);
+    SPSOut psOut;
+
+    psOut.color = PSMainCore(psIn, false);
+
+    psOut.depth = psIn.depthInView;
+    return psOut;
 }
-float4 PSMainShadowReciever(SPSIn psIn) : SV_Target0
+SPSOut PSMainShadowReciever(SPSIn psIn) 
 {
-    return PSMainCore(psIn,true);
+    SPSOut psOut;
+
+    psOut.color = PSMainCore(psIn, true);
+
+    psOut.depth = psIn.depthInView;
+    return psOut;
 }
