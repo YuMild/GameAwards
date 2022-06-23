@@ -83,7 +83,15 @@ struct SPSIn {
     float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
 
     float distToEye : TEXCOORD4;    //視点との距離
+
+    float depthInView : TEXCOORD5;
 };
+
+struct SPSOut {
+    float4 color:SV_Target0;
+    float depth : SV_Target1;
+};
+
 ///////////////////////////////////////////
 // 関数宣言
 ///////////////////////////////////////////
@@ -149,6 +157,7 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     psIn.worldPos = psIn.pos;
     psIn.pos = mul(mView, psIn.pos);
     psIn.pos = mul(mProj, psIn.pos);
+    psIn.depthInView = psIn.pos.z;//Z値を入れる
     float4 objectPosInCamera = psIn.pos;
 
 
@@ -386,7 +395,7 @@ float3 CalcRimLight(SPSIn psIn, float3 direction, float3 color)
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
-float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
+float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive)
 {
 
     //ディレクションライトによるライティングを計算する
@@ -490,11 +499,21 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     }
 }
 // モデル用のピクセルシェーダーのエントリーポイント
-float4 PSMain(SPSIn psIn) : SV_Target0
+SPSOut PSMain(SPSIn psIn)
 {
-    return  PSMainCore(psIn,false);
+    SPSOut psOut;
+
+    psOut.color = PSMainCore(psIn, false);
+
+    psOut.depth = psIn.depthInView;
+    return psOut;
 }
-float4 PSMainShadowReciever(SPSIn psIn) : SV_Target0
+SPSOut PSMainShadowReciever(SPSIn psIn)
 {
-    return PSMainCore(psIn,true);
+    SPSOut psOut;
+
+    psOut.color = PSMainCore(psIn, true);
+
+    psOut.depth = psIn.depthInView;
+    return psOut;
 }

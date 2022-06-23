@@ -8,9 +8,7 @@ namespace nsK2EngineLow {
 		void Render(RenderContext& rc);
 		RenderTarget mainRenderTarget;
 		RenderTarget luminnceRenderTarget;
-		
 	};
 
 	extern PostEffect g_postEffect;
-
 }

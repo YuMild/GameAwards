@@ -9,7 +9,7 @@ namespace nsK2EngineLow
 	{
 	public:
 		Light m_light;          // ライト
-		Matrix mlvp; // ライトビュープロジェクション行列。
+		Matrix mlvp;			// ライトビュープロジェクション行列。
 		float DitheringLength=250.0f;
 		float red;
 	};
@@ -58,15 +58,18 @@ namespace nsK2EngineLow
 		{
 			return m_modelRenderCB;
 		}
+		RenderTarget& GetDepthRenderTarget()
+		{
+			return m_depthRenderTarget;
+		}
 	private:
 		std::vector<IRenderer*> m_renderobject;
 		ShadowMapRender m_shadowMapRender;
 		PostEffect* m_postEffect = &g_postEffect;
 		ModelRenderCB m_modelRenderCB;
 		RenderTarget m_mainRenderTarget;
-
+		RenderTarget m_depthRenderTarget;
 	};
 	
 	extern RenderingEngine g_renderingEngine;
-
 }

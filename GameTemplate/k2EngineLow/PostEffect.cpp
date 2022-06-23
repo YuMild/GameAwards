@@ -36,24 +36,47 @@ namespace nsK2EngineLow {
 
 	void PostEffect::Render(RenderContext& rc)
 	{
-		// step-3 レンダリングターゲットを変更する
-		
+		RenderTarget* rts[] = {
+		&mainRenderTarget,
+		&g_renderingEngine.GetDepthRenderTarget()
+		};
 
-		// レンダリングターゲットとして利用できるまで待つ
-		rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.mainRenderTarget);
-
-		// レンダリングターゲットを設定
-		rc.SetRenderTarget(g_postEffect.mainRenderTarget);
-
+		//レンダリングターゲットとして利用できるまで待つ
+		rc.WaitUntilToPossibleSetRenderTargets(2, rts);
+		//レンダリングターゲットを設定。
+		rc.SetRenderTargetsAndViewport(2, rts);
 		// レンダリングターゲットをクリア
-		rc.ClearRenderTargetView(g_postEffect.mainRenderTarget);
-
+		rc.ClearRenderTargetViews(2, rts);
+		//モデルをドロー。
 		g_engine->ExecuteRender();
-
 		// レンダリングターゲットへの書き込み終了待ち
-		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.mainRenderTarget);
+		rc.WaitUntilFinishDrawingToRenderTargets(2, rts);
 
-		
+
+
+
+
+
+
+
+		//// レンダリングターゲットとして利用できるまで待つ
+		//rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.mainRenderTarget);
+
+		//// レンダリングターゲットを設定
+		//rc.SetRenderTarget(g_postEffect.mainRenderTarget);
+
+		//// レンダリングターゲットをクリア
+		//rc.ClearRenderTargetView(g_postEffect.mainRenderTarget);
+
+		//g_engine->ExecuteRender();
+
+		//// レンダリングターゲットへの書き込み終了待ち
+		//rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.mainRenderTarget);
+
+
+
+
+
 
 		// レンダリングターゲットとして利用できるまで待つ
 		rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.luminnceRenderTarget);
@@ -77,5 +100,16 @@ namespace nsK2EngineLow {
 			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
 		);
 		g_bloom.Draw(rc);
+
+		SpriteInitData spriteInitData;
+
+		spriteInitData.m_textures[0] = &g_renderingEngine.GetDepthRenderTarget().GetRenderTargetTexture();
+		spriteInitData.m_width = 1000;
+		spriteInitData.m_height = 600;
+		spriteInitData.m_fxFilePath = "Assets/shader/sprite.fx";
+		
+		Sprite spsp;
+		spsp.Init(spriteInitData);
+		spsp.Draw(rc);
 	}
 }
