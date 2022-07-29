@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
 
-#include "Bound.h"
 #include "ChargeShot.h"
 #include "First.h"
 #include "GameCamera.h"
@@ -24,12 +23,6 @@ Game::~Game()
 	m_backGroundBGM->Stop();
 
 	//エフェクト
-	const auto& bounds = FindGOs<Bound>("bound");
-	int buondSize = bounds.size();
-	for (int i = 0; i < buondSize; i++)
-	{
-		DeleteGO(bounds[i]);
-	}
 	const auto& powerChages = FindGOs<PowerCharge>("powerCharge");
 	int powerChargeSize = powerChages.size();
 	for (int i = 0; i < powerChargeSize; i++)
@@ -73,8 +66,6 @@ bool Game::Start()
 	m_backGroundBGM->Init(12);
 	m_backGroundBGM->SetVolume(0.1f);
 	m_backGroundBGM->Play(true);
-
-	
 
 	return true;
 }

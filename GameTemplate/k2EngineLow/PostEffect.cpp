@@ -7,8 +7,6 @@ namespace nsK2EngineLow {
 
 	void PostEffect::Init()
 	{
-		
-		
 		//解像度、ミップマップレベル
 		luminanceRenderTarget.Create(
 			1600,		//解像度はメインレンダリングターゲットと同じ。

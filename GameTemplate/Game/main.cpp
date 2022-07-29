@@ -24,7 +24,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_postEffect.Init();
 	g_bloom.Init();
 	
-	
 	NewGO<First>(0, "first");
 	
 	// ここからゲームループ。

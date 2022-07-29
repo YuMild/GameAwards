@@ -72,6 +72,7 @@ namespace nsK2EngineLow
 		ModelRenderCB m_modelRenderCB;
 		RenderTarget m_mainRenderTarget;
 		RenderTarget m_depthRenderTarget;
+		RenderTarget m_normalRenderTarget;
 	};
 	
 	extern RenderingEngine g_renderingEngine;

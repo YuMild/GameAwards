@@ -18,15 +18,12 @@ namespace nsK2EngineLow
 	{
 		Vector3 dir = { g_sceneLight.GetDirectionLightDirection().x,g_sceneLight.GetDirectionLightDirection().y,g_sceneLight.GetDirectionLightDirection().z };
 		m_shadowMapRender.Render(rc, dir, m_renderobject);
-
-
 	}
 	void RenderingEngine::Execute(RenderContext& rc)
 	{
 		m_modelRenderCB.m_light = g_sceneLight.GetLight();
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
-		
 		ShadowMapDraw(rc);
 		
 		DrawModelAndDepth(rc);
@@ -38,22 +35,22 @@ namespace nsK2EngineLow
 	}
 	void RenderingEngine::DrawModelAndDepth(RenderContext& rc)
 	{
-		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
-		RenderTarget* rts[] = {
-			&g_renderingEngine.GetmainRenderTarget(),
-			&g_renderingEngine.GetDepthRenderTarget()
-		};
+		// 1. レンダリングターゲットをm_mainRenderTargetに変更。
+		RenderTarget* renderTarget[] = { 
+			&m_mainRenderTarget,
+			&m_depthRenderTarget,
+			&m_normalRenderTarget};
 
-		//レンダリングターゲットとして利用できるまで待つ
-		rc.WaitUntilToPossibleSetRenderTargets(2, rts);
-		//レンダリングターゲットを設定。
-		rc.SetRenderTargetsAndViewport(2, rts);
-		// レンダリングターゲットをクリア
-		rc.ClearRenderTargetViews(2, rts);
-		//モデルをドロー。
+		rc.WaitUntilToPossibleSetRenderTargets(3, renderTarget);
+
+		rc.SetRenderTargets(3, renderTarget);
+
+		rc.ClearRenderTargetViews(3, renderTarget);
+
+		// 2. モデルのドローはg_engine->ExecuteRender();
 		g_engine->ExecuteRender();
-		// レンダリングターゲットへの書き込み終了待ち
-		rc.WaitUntilFinishDrawingToRenderTargets(2, rts);
+
+		rc.WaitUntilFinishDrawingToRenderTargets(3, renderTarget);
 	}
 	void RenderingEngine::Init()
 	{
@@ -68,7 +65,7 @@ namespace nsK2EngineLow
 			1,													//Mipmapレベル。
 			1,													//テクスチャ配列のサイズ。
 			DXGI_FORMAT_R32G32B32A32_FLOAT,
-			DXGI_FORMAT_D32_FLOAT				//デプスステンシルバッファのフォーマット。
+			DXGI_FORMAT_D32_FLOAT								//デプスステンシルバッファのフォーマット。
 		);
 		m_depthRenderTarget.Create(
 			1600,
@@ -76,6 +73,14 @@ namespace nsK2EngineLow
 			1,
 			1,
 			DXGI_FORMAT_R32_FLOAT,
+			DXGI_FORMAT_UNKNOWN
+		);
+		m_normalRenderTarget.Create(
+			1600,
+			900,
+			1,
+			1,
+			DXGI_FORMAT_R32G32B32_FLOAT,
 			DXGI_FORMAT_UNKNOWN
 		);
 	}

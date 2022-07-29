@@ -1,5 +1,8 @@
 #pragma once
 namespace nsK2EngineLow {
+	/// <summary>
+	/// ê[ìx
+	/// </summary>
 	class DepthOfField
 	{
 	public:
@@ -7,5 +10,5 @@ namespace nsK2EngineLow {
 
 		void Render(RenderContext& rc);
 	};
-	extern DepthOfField g_depthOfField;
+	//extern DepthOfField g_depthOfField;
 }

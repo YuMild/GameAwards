@@ -39,9 +39,6 @@
     <ClCompile Include="ChargeShot.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Bound.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="RockOn.cpp">
       <Filter>Effect</Filter>
     </ClCompile>
@@ -150,9 +147,6 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="ChargeShot.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Bound.h">
-      <Filter>Effect</Filter>
     </ClInclude>
     <ClInclude Include="RockOn.h">
       <Filter>Effect</Filter>
