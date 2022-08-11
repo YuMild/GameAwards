@@ -24,7 +24,6 @@ namespace nsK2EngineLow
 
 		void Render2DDraw(RenderContext& rc);
 
-
 		void SetPlayerPosition(Vector3 pos)
 		{
 			m_modelRenderCB.PlayerPosition = pos;

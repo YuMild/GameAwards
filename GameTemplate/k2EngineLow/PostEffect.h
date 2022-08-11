@@ -8,6 +8,7 @@ namespace nsK2EngineLow {
 		void Render(RenderContext& rc);
 		
 		RenderTarget luminanceRenderTarget;
+		RenderTarget m_monochromeRenderTarget;
 	};
 
 	extern PostEffect g_postEffect;

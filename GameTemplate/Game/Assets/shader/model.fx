@@ -496,6 +496,8 @@ SPSOut PSMain(SPSIn psIn)
     
     psOut.depth = psIn.depthInView;
     
+    psOut.normal = psIn.normal;
+    
     return psOut;
 }
 
@@ -506,6 +508,8 @@ SPSOut PSMainShadowReciever(SPSIn psIn)
     psOut.color = PSMainCore(psIn, true);
     
     psOut.depth = psIn.depthInView;
+    
+    psOut.normal = psIn.normal;
     
     return psOut;
 }

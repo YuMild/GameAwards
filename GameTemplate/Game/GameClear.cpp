@@ -15,7 +15,7 @@ GameClear::~GameClear()
 
 bool GameClear::Start()
 {
-
+	return true;
 }
 
 void GameClear::Update()
