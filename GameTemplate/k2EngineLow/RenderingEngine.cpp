@@ -23,10 +23,10 @@ namespace nsK2EngineLow
 	{
 		m_modelRenderCB.m_light = g_sceneLight.GetLight();
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
-		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
+		//ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		
-		DrawModelAndDepth(rc);
 		ShadowMapDraw(rc);
+		DrawModelAndDepth(rc);
 
 		m_postEffect->Render(rc);
 
@@ -35,23 +35,23 @@ namespace nsK2EngineLow
 	}
 	void RenderingEngine::DrawModelAndDepth(RenderContext& rc)
 	{
-		// 1. レンダリングターゲットをm_mainRenderTargetに変更。
-		RenderTarget* renderTarget[] = { 
+		//レンダリングターゲットをm_mainRenderTargetに変更。
+		RenderTarget* renderTargets[] = { 
 			&m_mainRenderTarget,
 			&m_depthRenderTarget,
 			&m_normalRenderTarget
 		};
 
-		rc.WaitUntilToPossibleSetRenderTargets(3, renderTarget);
+		rc.WaitUntilToPossibleSetRenderTargets(3, renderTargets);
 
-		rc.SetRenderTargets(3, renderTarget);
+		rc.SetRenderTargets(3, renderTargets);
 
-		rc.ClearRenderTargetViews(3, renderTarget);
+		rc.ClearRenderTargetViews(3, renderTargets);
 
-		// 2. モデルのドローはg_engine->ExecuteRender();
+		//モデルのドローはg_engine->ExecuteRender();
 		g_engine->ExecuteRender();
 
-		rc.WaitUntilFinishDrawingToRenderTargets(3, renderTarget);
+		rc.WaitUntilFinishDrawingToRenderTargets(3, renderTargets);
 	}
 	void RenderingEngine::Init()
 	{
@@ -59,7 +59,7 @@ namespace nsK2EngineLow
 		m_shadowMapRender.Init();
 		m_modelRenderCB.m_light = g_sceneLight.GetLight();
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
-		//RenderTarget::Create()を利用して、レンダリングターゲットを作成する。
+		//レンダリングターゲットを作成する。
 		m_mainRenderTarget.Create(
 			1600,												//テクスチャの幅。
 			900,												//テクスチャの高さ。

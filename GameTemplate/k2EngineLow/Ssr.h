@@ -6,12 +6,6 @@ namespace nsK2EngineLow {
 	class Ssr
 	{
 	public:
-		/// <summary>
-		/// 初期化
-		/// </summary>
-		/// <param name="mainRenderTarget"></param>
-		/// <param name="depthRenderTarget"></param>
-		/// <param name="normalRenderTarget"></param>
 		void OnInit
 		(
 			RenderTarget& mainRenderTarget,
@@ -37,14 +31,15 @@ namespace nsK2EngineLow {
 		{
 			m_isEnable = false;
 		}
+
 	private:
 		struct SsrCb {
 			Matrix mViewProjInv;				// ビュープロジェクション行列の逆行列。
 			Matrix mViewProj;					// ビュープロジェクション行列。
 			Vector3 cameraPosInWorld;			// ワールド座標系でのカメラの視点。
 		};
-		RenderTarget m_reflectionRt;			// 映り込みをを書きこむためのレンダリングターゲット。
-		RenderTarget m_finalRt;					// 最終合成スプライト
+		RenderTarget m_reflectionRenderTarget;	// 映り込みをを書きこむためのレンダリングターゲット。
+		RenderTarget m_finalRenderTarget;		// 最終合成スプライト
 		GaussianBlur m_blur;					// ブラー
 		SsrCb m_ssrCb;							// GPUに転送するデータ。
 		Sprite m_reflectionSprite;				// 映り込み画像を作成するためのスプライト

@@ -254,6 +254,7 @@
       <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="DepthOfFirld.cpp" />
+    <ClCompile Include="Bloom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -558,6 +559,7 @@
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="DepthOfFirld.h" />
+    <ClInclude Include="Bloom.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">

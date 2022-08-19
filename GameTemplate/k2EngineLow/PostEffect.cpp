@@ -13,7 +13,6 @@ namespace nsK2EngineLow {
 			900,		//解像度はメインレンダリングターゲットと同じ。
 			1,
 			1,
-			//【注目】カラーバッファのフォーマットを32bit浮動小数点にしている。
 			DXGI_FORMAT_R32G32B32A32_FLOAT,
 			DXGI_FORMAT_D32_FLOAT
 		);
@@ -30,32 +29,41 @@ namespace nsK2EngineLow {
 
 	void PostEffect::Render(RenderContext& rc)
 	{
-		RenderTarget* renderTarget[] = {
+		RenderTarget* renderTargets[] = {
 			&luminanceRenderTarget,
 			&m_monochromeRenderTarget
 		};
 
-		rc.WaitUntilToPossibleSetRenderTargets(2,renderTarget);
-		rc.SetRenderTargets(2,renderTarget);
-		rc.ClearRenderTargetViews(2, renderTarget);
-		rc.WaitUntilFinishDrawingToRenderTargets(2, renderTarget);
+		rc.WaitUntilToPossibleSetRenderTargets(2, renderTargets);
+		rc.SetRenderTargets(2, renderTargets);
+		rc.ClearRenderTargetViews(2, renderTargets);
+
+		g_bloom.LuminanceSpriteDraw(rc);
+
+		rc.WaitUntilFinishDrawingToRenderTargets(2, renderTargets);
+
+		g_bloom.Blur(rc);
+		g_bloom.Render(rc, g_renderingEngine.GetmainRenderTarget());
+
 		rc.SetRenderTarget(
 			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
 			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
 		);
 
-		SpriteInitData spriteInitData;
-		spriteInitData.m_textures[0] = &g_renderingEngine.GetDepthRenderTarget().GetRenderTargetTexture();
-		spriteInitData.m_width = 1000;
-		spriteInitData.m_height = 600;
-		spriteInitData.m_fxFilePath = "Assets/shader/sprite.fx";
+		g_bloom.Draw(rc);
 
-		Sprite spsp;
-		spsp.Init(spriteInitData);
-		spsp.Draw(rc);
+		/*SpriteInitData depthSpriteInitData;
+		depthSpriteInitData.m_textures[0] = &g_renderingEngine.GetDepthRenderTarget().GetRenderTargetTexture();
+		depthSpriteInitData.m_width = 1000;
+		depthSpriteInitData.m_height = 600;
+		depthSpriteInitData.m_fxFilePath = "Assets/shader/sprite.fx";
+
+		Sprite depthSprite;
+		depthSprite.Init(depthSpriteInitData);
+		depthSprite.Draw(rc);*/
 
 		//モノクロスプライト
-		SpriteInitData monochromeSpriteInitData;
+		/*SpriteInitData monochromeSpriteInitData;
 		monochromeSpriteInitData.m_textures[0] = &g_renderingEngine.GetmainRenderTarget().GetRenderTargetTexture();
 		monochromeSpriteInitData.m_width = 1600;
 		monochromeSpriteInitData.m_height = 900;
@@ -63,6 +71,6 @@ namespace nsK2EngineLow {
 
 		Sprite monochromeSprite;
 		monochromeSprite.Init(monochromeSpriteInitData);
-		monochromeSprite.Draw(rc);
+		monochromeSprite.Draw(rc);*/
 	}
 }

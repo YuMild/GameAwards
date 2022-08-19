@@ -9,14 +9,16 @@ namespace nsK2EngineLow
 	{
 	public:
 		Light m_light;          // ライト
-		Matrix mlvp; // ライトビュープロジェクション行列。
+		Matrix mlvp;			// ライトビュープロジェクション行列。
 		Vector3 PlayerPosition = { 0.0f,0.0f,0.0f };
 		float red;
 	};
 	class RenderingEngine :public Noncopyable
 	{
 	public:
+
 		void Init();
+
 		void AddRenderObject(IRenderer* renderobj)
 		{
 			m_renderobject.push_back(renderobj);
@@ -33,6 +35,7 @@ namespace nsK2EngineLow
 		{
 			m_modelRenderCB.red = n;
 		}
+
 		const float GetRed()const
 		{
 			return m_modelRenderCB.red;
@@ -48,22 +51,27 @@ namespace nsK2EngineLow
 		{
 			return m_shadowMapRender.GetShadowMap();
 		}
+
 		Camera& GetLightCamera()
 		{
 			return m_shadowMapRender.GetLightCamera();
 		}
+
 		ModelRenderCB& GetModelRenderCB()
 		{
 			return m_modelRenderCB;
 		}
+
 		RenderTarget& GetDepthRenderTarget()
 		{
 			return m_depthRenderTarget;
 		}
+
 		RenderTarget& GetmainRenderTarget()
 		{
 			return m_mainRenderTarget;
 		}
+
 	private:
 		std::vector<IRenderer*> m_renderobject;
 		ShadowMapRender m_shadowMapRender;
