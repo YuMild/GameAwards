@@ -5,26 +5,26 @@
 // ディレクションライト
 struct DirectionLight
 {
-    float3  direction; // ライトの方向
-    float3  color; // ライトのカラー
+    float3  direction;      //ライトの方向
+    float3  color;          //ライトのカラー
 };
 
 // ポイントライト
 struct PointLight
 {
-    float3  position; //位置
-    float3  color; //カラー
-    float   range; //影響範囲
+    float3  position;       //位置
+    float3  color;          //カラー
+    float   range;          //影響範囲
 };
 
 //スポットライト
 struct SpotLight
 {
-    float3  position;   //位置
-    float3  color;      //カラー
-    float   range;      //影響範囲
-    float3  direction;  //方向
-    float   angle;      //角度
+    float3  position;       //位置
+    float3  color;          //カラー
+    float   range;          //影響範囲
+    float3  direction;      //方向
+    float   angle;          //角度
 };
 
 ////////////////////////////////////////////////
@@ -43,9 +43,9 @@ cbuffer LightCb : register(b1)
     PointLight pointLight;
     SpotLight spotLight;
     //アンビエントライト。
-    float3 ambientLight; //環境光。
+    float3 ambientLight;                //環境光。
     
-    float3 eyePos; //視点の位置。
+    float3 eyePos;                      //視点の位置。
     
     float4x4 mLVP;
     
@@ -65,35 +65,34 @@ struct SSkinVSIn{
 
 //頂点シェーダーへの入力。
 struct SVSIn{
-	float4 pos 		: POSITION;		//モデルの頂点座標。
-	float3 normal   : NORMAL;       //法線
+	float4 pos 		: POSITION;		    //モデルの頂点座標。
+	float3 normal   : NORMAL;           //法線
     
     //
     float3 tangent:TANGENT;
     float3 biNormal:BINORMAL;
     
-	float2 uv 		: TEXCOORD0;	//UV座標。
-	SSkinVSIn skinVert;				//スキン用のデータ。
+	float2 uv 		: TEXCOORD0;	    //UV座標。
+	SSkinVSIn skinVert;				    //スキン用のデータ。
 };
 
 //ピクセルシェーダーへの入力。
 struct SPSIn
 {
-    float4 pos : SV_POSITION; //スクリーン空間でのピクセルの座標。
+    float4 pos : SV_POSITION;           //スクリーン空間でのピクセルの座標。
     
-    float3 normal : NORMAL; //法線。
+    float3 normal : NORMAL;             //法線。
     
-    //
     float3 tangent : TANGENT;
     float3 biNormal : BINORMAL;
     
-    float2 uv : TEXCOORD0; //uv座標。
+    float2 uv : TEXCOORD0;              //uv座標。
     
     float3 worldPos : TEXCOORD1;
     
-    float3 normalInView : TEXCOORD2; //カメラ空間の法線
+    float3 normalInView : TEXCOORD2;    //カメラ空間の法線
     
-    float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
+    float4 posInLVP : TEXCOORD3;        //ライトビュースクリーン空間でのピクセルの座標
         
     float3 depthInView : TEXCOORD4;
 };
@@ -121,8 +120,8 @@ float3 CalcRimLight(SPSIn psIn,float3 lightdirection,float3 lightcolor);
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
 Texture2D<float4> g_normalMap : register(t1);           //ノーマルマップ
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
-Texture2D<float4> g_shadowMap : register(t10); // シャドウマップ
-sampler g_sampler : register(s0);	//サンプラステート。
+Texture2D<float4> g_shadowMap : register(t10);          //シャドウマップ
+sampler g_sampler : register(s0);	                    //サンプラステート
 static const int pattern[4][4] = {
     { 0, 32,  8, 40},
     { 48, 16, 56, 24},
@@ -174,7 +173,6 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	// 頂点法線をピクセルシェーダーに渡す。
 	psIn.normal = normalize(mul(m, vsIn.normal)); //法線を回転させる。
     
-    //
     psIn.tangent = normalize(mul(m, vsIn.tangent));
     psIn.biNormal = normalize(mul(m, vsIn.biNormal));
     
