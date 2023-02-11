@@ -66,7 +66,7 @@ namespace nsK2EngineLow
 		{
 			return m_depthRenderTarget;
 		}
-
+		
 		RenderTarget& GetmainRenderTarget()
 		{
 			return m_mainRenderTarget;

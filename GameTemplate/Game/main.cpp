@@ -38,8 +38,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_k2EngineLow->ExecuteUpdate();
 
 		g_renderingEngine.Execute(renderContext);
-
-		EffectEngine::GetInstance()->Draw();
 		
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();

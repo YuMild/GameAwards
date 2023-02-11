@@ -28,6 +28,8 @@ namespace nsK2EngineLow
 		ShadowMapDraw(rc);
 		DrawModelAndDepth(rc);
 
+		EffectEngine::GetInstance()->Draw();
+
 		m_postEffect->Render(rc);
 
 		Render2DDraw(rc);

@@ -159,7 +159,7 @@ bool Stage_1::Start()
             }
             if (objData.EqualObjectName(L"Stage_1_wall") == true)
             {
-                m_stage_1_Wall = NewGO<Stage_1_Wall>(0, "stage_1_Wall");         //生成する。
+                m_stage_1_Wall = NewGO<Stage_1_Wall>(0, "stage_1_Wall");            //生成する。
                 m_stage_1_Wall->SetPosition(objData.position);                     //座標を設定する。
                 m_stage_1_Wall->SetScale(objData.scale);                           //サイズを設定する。
                 m_stage_1_Wall->SetRotation(objData.rotation);                     //回転を設定する。
@@ -258,14 +258,14 @@ bool Stage_1::Start()
                 nut->SetRotation(objData.rotation);                                 //回転を設定する。
                 return true;
             }
-            else if (objData.ForwardMatchName(L"Pipe") == true)
-            {
-                auto pipe = NewGO<Pipe>(0, "pipe");                                 //生成する。
-                pipe->SetPosition(objData.position);                                //座標を設定する。
-                pipe->SetScale(objData.scale);                                      //サイズを設定する。
-                pipe->SetRotation(objData.rotation);                                //回転を設定する。
-            return true;
-            }
+            //else if (objData.ForwardMatchName(L"Pipe") == true)
+            //{
+            //    auto pipe = NewGO<Pipe>(0, "pipe");                                 //生成する。
+            //    pipe->SetPosition(objData.position);                                //座標を設定する。
+            //    pipe->SetScale(objData.scale);                                      //サイズを設定する。
+            //    pipe->SetRotation(objData.rotation);                                //回転を設定する。
+            //return true;
+            //}
             else if (objData.ForwardMatchName(L"ReSpawnPoint") == true)
             {
                 auto reSpawnPoint = NewGO<ReSpawnPoint>(0, "reSpawnPoint");         //生成する。

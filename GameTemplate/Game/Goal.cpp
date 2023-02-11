@@ -38,7 +38,7 @@ bool Goal::Start()
 	m_goalEffect->Init(100);
 	m_goalEffect->SetPosition(m_position);
 	m_goalEffect->SetRotation(m_rotation);
-	m_goalEffect->SetScale(Vector3::One *28);
+	m_goalEffect->SetScale(Vector3::One * 500.0f);
 	m_goalEffect->Play();
 	return true;
 }
